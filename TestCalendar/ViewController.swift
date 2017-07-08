@@ -10,10 +10,14 @@ import UIKit
 import JTAppleCalendar
 class ViewController: UIViewController {
     let formatter = DateFormatter()
+    var numberItem = [Int]()//
+    let spacing :CGFloat = 3
+    let itemCount :CGFloat = 2
     @IBOutlet weak var calendarView: JTAppleCalendarView!
     @IBOutlet weak var year: UILabel!
     @IBOutlet weak var month: UILabel!
-    
+    @IBOutlet weak var personCellView: UICollectionView!
+    //Calendar color setup ..
     let outsideMonthColor = UIColor(colorWithHexValue : 0xcccccc)
     let monthColor = UIColor(colorWithHexValue: 0x000000)
     let selectedMonthColor = UIColor(colorWithHexValue : 0x3a294b)
@@ -21,7 +25,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCalendarView()
-        // Do any additional setup after loading the view, typically from a nib.
+       personCellView.delegate = self
+        personCellView.dataSource = self
+        
+        for i in 0...25 {//
+           numberItem.append(i)
+        }
     }
     func setupCalendarView(){
         //Setup calendar space
@@ -77,7 +86,8 @@ extension ViewController:JTAppleCalendarViewDataSource{
         formatter.timeZone = Calendar.current.timeZone
         formatter.locale = Calendar.current.locale
         let startDate = formatter.date(from: "2017 01 01")!
-        let endDate = formatter.date(from: "2017 12 31")!
+        let endDate = formatter.date(from: "2019 12 31")!
+
         
         let parameters = ConfigurationParameters(startDate: startDate, endDate: endDate)
         return parameters
@@ -105,6 +115,12 @@ extension ViewController:JTAppleCalendarViewDelegate{
     func calendar(_ calendar: JTAppleCalendarView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
         setupViewOfCalendar(from: visibleDates)
     }
+//    func calendar(_ calendar: JTAppleCalendarView, shouldSelectDate date: Date, cell: JTAppleCell, cellState: CellState) -> Bool {
+//        let currentDate = formatter.date(from: "2017 07 08")
+//        
+//    }
+    
+    
 }
 extension UIColor{
     convenience init(colorWithHexValue value : Int , alpha : CGFloat = 1.0){
@@ -114,5 +130,30 @@ extension UIColor{
             blue : CGFloat((value & 0x0000FF)) / 255.0,
             alpha : alpha
         )
+    }
+}
+extension ViewController:UICollectionViewDelegateFlowLayout,UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let personView = (UIScreen.main.bounds.size.width)/3
+        let width = (personView-itemCount*spacing)/itemCount
+        let size = CGSize(width: width, height: width)
+        return size
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return spacing
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return spacing
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        //..
+        return numberItem.count
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        //..
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PersonCell", for: indexPath) as! PersonCell
+        cell.personName.text = String(numberItem[indexPath.item])
+        return cell
     }
 }
