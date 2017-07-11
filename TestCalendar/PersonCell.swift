@@ -10,5 +10,4 @@ import UIKit
 
 class PersonCell: UICollectionViewCell {
     @IBOutlet weak var personName: UILabel!
-    
 }
