@@ -118,6 +118,15 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="258" height="225"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
+                                                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="76j-vr-MTk">
+                                                            <rect key="frame" x="64.5" y="56.5" width="129" height="112.5"/>
+                                                            <color key="backgroundColor" red="0.6929465132" green="1" blue="0.64010953110000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                    <integer key="value" value="25"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </view>
                                                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N2C-Ab-pXW">
                                                             <rect key="frame" x="64" y="56" width="129" height="112.5"/>
                                                             <color key="backgroundColor" red="1" green="0.69557953289999996" blue="0.7048334396" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -133,21 +142,12 @@
                                                             <color key="textColor" red="1" green="0.068192504619999997" blue="0.25572164349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="76j-vr-MTk">
-                                                            <rect key="frame" x="43" y="57" width="172" height="112.5"/>
-                                                            <color key="backgroundColor" red="0.6929465132" green="1" blue="0.64010953110000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <userDefinedRuntimeAttributes>
-                                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                                    <integer key="value" value="25"/>
-                                                                </userDefinedRuntimeAttribute>
-                                                            </userDefinedRuntimeAttributes>
-                                                        </view>
                                                     </subviews>
                                                 </view>
                                                 <constraints>
                                                     <constraint firstItem="N2C-Ab-pXW" firstAttribute="centerX" secondItem="Alc-0N-PIc" secondAttribute="centerX" id="0y9-B0-W50"/>
                                                     <constraint firstItem="N2C-Ab-pXW" firstAttribute="height" secondItem="Alc-0N-PIc" secondAttribute="height" multiplier="1/2" id="DWj-cp-9Gv"/>
-                                                    <constraint firstItem="76j-vr-MTk" firstAttribute="width" secondItem="Alc-0N-PIc" secondAttribute="width" multiplier="2/3" id="PNn-BO-t8l"/>
+                                                    <constraint firstItem="76j-vr-MTk" firstAttribute="width" secondItem="Alc-0N-PIc" secondAttribute="width" multiplier="1/2" id="PNn-BO-t8l"/>
                                                     <constraint firstItem="76j-vr-MTk" firstAttribute="centerY" secondItem="Alc-0N-PIc" secondAttribute="centerY" id="Pfg-ep-wBz"/>
                                                     <constraint firstItem="76j-vr-MTk" firstAttribute="height" secondItem="Alc-0N-PIc" secondAttribute="height" multiplier="1/2" id="S0Z-Ap-Cke"/>
                                                     <constraint firstItem="7sc-vc-rVu" firstAttribute="centerX" secondItem="Alc-0N-PIc" secondAttribute="centerX" id="a7T-Hp-8ha"/>

@@ -12,9 +12,11 @@ class ViewController: UIViewController {
     let formatter = DateFormatter()
     let currentFormatter = DateFormatter()
     let currentDate = Date()
-    var numberItem = [Int]()//
+    var numberItem = [Int]() //FIXME: numberArray here
     let spacing :CGFloat = 3
     let itemCount :CGFloat = 2
+   
+   
     @IBOutlet weak var calendarView: JTAppleCalendarView!
     @IBOutlet weak var year: UILabel!
     @IBOutlet weak var month: UILabel!
@@ -37,9 +39,10 @@ class ViewController: UIViewController {
         currentFormatter.dateFormat = "yyyy MM dd"
         currentFormatter.timeZone = Calendar.current.timeZone
         currentFormatter.locale = Calendar.current.locale
-        
+      // test add longpress 
+        let longPress = UILongPressGestureRecognizer(target: self, action:#selector( longPressGestureRecognized(_:)))
+        personCellView.addGestureRecognizer(longPress)
     }
-    
     func setupCalendarView(){
         //Setup calendar space
         calendarView.minimumLineSpacing = 0
@@ -83,8 +86,6 @@ class ViewController: UIViewController {
         }
     }
     func setupViewOfCalendar(from visibleDates : DateSegmentInfo){
-       
-        
             let date = visibleDates.monthDates.first!.date
             self.formatter.dateFormat = "yyyy"
             self.year.text = self.formatter.string(from: date)
@@ -96,7 +97,105 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-}
+    
+    /// Description
+    ///
+    /// - Parameter longPress: longPress description
+    func longPressGestureRecognized(_ gestureRecognizer: UILongPressGestureRecognizer){
+        let longPress = gestureRecognizer as UILongPressGestureRecognizer
+        let state = longPress.state
+        //longPress在CellView上的位置,得到CGPoint(x,y)
+        var locationInView = longPress.location(in: personCellView)
+//        personCellView.indexPathForItem(at: CGPoint)
+        //藉由 CGPoint(x,y)的點 找到對於personCellView內的索引路徑
+        //可以得知長按的是第幾個section的第幾個item
+        var indexPath = personCellView.indexPathForItem(at: locationInView)
+        
+//        UIGraphicsBeginImageContext(personCellSize)
+        //TODO: context setup
+        
+        struct My {
+            static var cellSnapshot : UIView? = nil
+        }
+        struct Path{
+            static var initialIndexPath : IndexPath? = nil //FIXME: maybe to fix
+        }
+        //FIXME : switch something...
+        switch state {
+        case UIGestureRecognizerState.began:
+            if indexPath != nil {
+                Path.initialIndexPath = indexPath
+                let cell = personCellView.cellForItem(at: indexPath!) as  UICollectionViewCell!
+                My.cellSnapshot = snapshopOfCell(inputView: cell!)
+                var center = cell?.center
+                My.cellSnapshot?.center = center!
+                My.cellSnapshot?.alpha = 0.0
+                personCellView.addSubview(My.cellSnapshot!)
+                UIView.animate(withDuration: 0.25, animations: { 
+                    center?.y = locationInView.y
+                    My.cellSnapshot?.center = center!
+                    My.cellSnapshot?.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+                    My.cellSnapshot?.alpha = 0.98
+                    cell?.alpha = 0.0
+                }, completion: { finished in
+                    if finished{
+                        cell?.isHidden = true
+                        NSLog("Case11111111")
+                    }
+                })
+            }
+            break
+            //case 2 
+        case UIGestureRecognizerState.changed :
+            var center = My.cellSnapshot?.center
+            center?.y = locationInView.y
+            My.cellSnapshot?.center = center!
+            if (indexPath != nil) && (indexPath != Path.initialIndexPath){
+                swap(&numberItem[(indexPath?.row)!], &numberItem[(Path.initialIndexPath?.row)!])
+                personCellView.moveItem(at: Path.initialIndexPath!, to: indexPath!)
+                Path.initialIndexPath = indexPath
+                NSLog("Case2222222")
+            }
+            break
+        default:
+            let cell = personCellView.cellForItem(at: Path.initialIndexPath!) as UICollectionViewCell!
+            cell?.isHidden = false
+            cell?.alpha = 0.0
+            UIView.animate(withDuration: 0.25, animations: { 
+                My.cellSnapshot!.center = (cell?.center)!
+                My.cellSnapshot!.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                My.cellSnapshot!.alpha = 0.0
+                cell?.alpha = 1.0
+            }, completion: { finished in
+                if finished {
+                    Path.initialIndexPath = nil
+                    My.cellSnapshot!.removeFromSuperview()
+                    My.cellSnapshot = nil
+                    NSLog("Case333333333")
+                }
+            })
+            break
+        }
+        
+    }//func longPress here 
+    
+    func snapshopOfCell(inputView: UIView) -> UIView {
+        UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0.0)
+        inputView.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()! as UIImage
+        UIGraphicsEndImageContext()
+        let cellSnapshot : UIView = UIImageView(image: image)
+        cellSnapshot.layer.masksToBounds = false
+        cellSnapshot.layer.cornerRadius = 0.0
+        cellSnapshot.layer.shadowOffset = CGSize(width: -5.0, height: 0.0)
+        cellSnapshot.layer.shadowRadius = 5.0
+        cellSnapshot.layer.shadowOpacity = 0.4
+        return cellSnapshot
+    }
+    
+}//class out
+
+// MARK: - JTAppleCalendarViewDataSource
 extension ViewController:JTAppleCalendarViewDataSource{
     func configureCalendar(_ calendar: JTAppleCalendarView) -> ConfigurationParameters {
        
@@ -111,6 +210,7 @@ extension ViewController:JTAppleCalendarViewDataSource{
     }
    
 }
+// MARK: - JTAppleCalendarViewDelegate
 extension ViewController:JTAppleCalendarViewDelegate{
     //Display the cell
     func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
@@ -138,9 +238,10 @@ extension ViewController:JTAppleCalendarViewDelegate{
 //        
 //        return true;
 //    }
-    
-    
+
 }
+
+// MARK: - UIColor convenience init
 extension UIColor{
     convenience init(colorWithHexValue value : Int , alpha : CGFloat = 1.0){
         self.init(
@@ -151,6 +252,7 @@ extension UIColor{
         )
     }
 }
+// MARK: - UICollectionViewDelegateFlowLayout,UICollectionViewDataSource
 extension ViewController:UICollectionViewDelegateFlowLayout,UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let personView = (UIScreen.main.bounds.size.width)/4
@@ -174,5 +276,8 @@ extension ViewController:UICollectionViewDelegateFlowLayout,UICollectionViewData
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PersonCell", for: indexPath) as! PersonCell
         cell.personName.text = String(numberItem[indexPath.item])
         return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
     }
 }
