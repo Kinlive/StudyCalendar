@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     var numberItem = [Int]() //FIXME: numberArray here
     let spacing :CGFloat = 3
     let itemCount :CGFloat = 2
+    var longPress = UILongPressGestureRecognizer()
    
    
     @IBOutlet weak var calendarView: JTAppleCalendarView!
@@ -40,7 +41,7 @@ class ViewController: UIViewController {
         currentFormatter.timeZone = Calendar.current.timeZone
         currentFormatter.locale = Calendar.current.locale
       // test add longpress 
-        let longPress = UILongPressGestureRecognizer(target: self, action:#selector( longPressGestureRecognized(_:)))
+        longPress.addTarget(self, action: #selector(longPressGestureRecognized(_:)))
         personCellView.addGestureRecognizer(longPress)
     }
     func setupCalendarView(){
@@ -102,18 +103,16 @@ class ViewController: UIViewController {
     ///
     /// - Parameter longPress: longPress description
     func longPressGestureRecognized(_ gestureRecognizer: UILongPressGestureRecognizer){
-        let longPress = gestureRecognizer as UILongPressGestureRecognizer
-        let state = longPress.state
+//        let longPress = gestureRecognizer 
+        gestureRecognizer.minimumPressDuration = 0.25
+        let state = gestureRecognizer.state
         //longPress在CellView上的位置,得到CGPoint(x,y)
-        var locationInView = longPress.location(in: personCellView)
+        let locationInView = gestureRecognizer.location(in: personCellView)
 //        personCellView.indexPathForItem(at: CGPoint)
         //藉由 CGPoint(x,y)的點 找到對於personCellView內的索引路徑
         //可以得知長按的是第幾個section的第幾個item
-        var indexPath = personCellView.indexPathForItem(at: locationInView)
-        
-//        UIGraphicsBeginImageContext(personCellSize)
-        //TODO: context setup
-        
+        guard var indexPath = personCellView.indexPathForItem(at: locationInView) else {return}
+
         struct My {
             static var cellSnapshot : UIView? = nil
         }
@@ -122,55 +121,60 @@ class ViewController: UIViewController {
         }
         //FIXME : switch something...
         switch state {
-        case UIGestureRecognizerState.began:
-            if indexPath != nil {
+        case .began:
                 Path.initialIndexPath = indexPath
-                let cell = personCellView.cellForItem(at: indexPath!) as  UICollectionViewCell!
-                My.cellSnapshot = snapshopOfCell(inputView: cell!)
-                var center = cell?.center
-                My.cellSnapshot?.center = center!
-                My.cellSnapshot?.alpha = 0.0
-                personCellView.addSubview(My.cellSnapshot!)
-                UIView.animate(withDuration: 0.25, animations: { 
-                    center?.y = locationInView.y
-                    My.cellSnapshot?.center = center!
-                    My.cellSnapshot?.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-                    My.cellSnapshot?.alpha = 0.98
-                    cell?.alpha = 0.0
+                guard let cell = personCellView.cellForItem(at: indexPath) else {return}
+                My.cellSnapshot = snapshopOfCell(inputView: cell)
+                guard let cellSnapshot = My.cellSnapshot else {return}
+                var center = cell.center
+                cellSnapshot.center = center
+                cellSnapshot.alpha = 0.0
+                personCellView.addSubview(cellSnapshot)
+                UIView.animate(withDuration: 0.1, animations: {
+                    center.y = locationInView.y
+                    cellSnapshot.center = center
+                    cellSnapshot.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+                    cellSnapshot.alpha = 0.98
+                    cell.alpha = 0.0
                 }, completion: { finished in
                     if finished{
-                        cell?.isHidden = true
+                        cell.isHidden = true
                         NSLog("Case11111111")
                     }
                 })
-            }
             break
             //case 2 
-        case UIGestureRecognizerState.changed :
-            var center = My.cellSnapshot?.center
-            center?.y = locationInView.y
-            My.cellSnapshot?.center = center!
-            if (indexPath != nil) && (indexPath != Path.initialIndexPath){
-                swap(&numberItem[(indexPath?.row)!], &numberItem[(Path.initialIndexPath?.row)!])
-                personCellView.moveItem(at: Path.initialIndexPath!, to: indexPath!)
+        case .changed :
+            guard let cellSnapshot = My.cellSnapshot else {return}
+             var center = cellSnapshot.center
+            center.y = locationInView.y
+           cellSnapshot.center = center
+            if (indexPath != Path.initialIndexPath){
+                //進行交換
+                guard let initialIndexPath = Path.initialIndexPath else {return}
+                swap(&numberItem[(indexPath.row)], &numberItem[(initialIndexPath.row)])
+                personCellView.moveItem(at: initialIndexPath, to: indexPath)
                 Path.initialIndexPath = indexPath
                 NSLog("Case2222222")
             }
             break
         default:
-            let cell = personCellView.cellForItem(at: Path.initialIndexPath!) as UICollectionViewCell!
-            cell?.isHidden = false
-            cell?.alpha = 0.0
+            guard let initialIndexPath = Path.initialIndexPath else {return}
+            guard let cell = personCellView.cellForItem(at: initialIndexPath)  else {return}
+            cell.isHidden = false
+            cell.alpha = 0.0
+            guard let cellSnapshot = My.cellSnapshot else { return}
             UIView.animate(withDuration: 0.25, animations: { 
-                My.cellSnapshot!.center = (cell?.center)!
-                My.cellSnapshot!.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                My.cellSnapshot!.alpha = 0.0
-                cell?.alpha = 1.0
+                cellSnapshot.center = (cell.center)
+                cellSnapshot.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                cellSnapshot.alpha = 0.0
+                cell.alpha = 1.0
             }, completion: { finished in
                 if finished {
                     Path.initialIndexPath = nil
-                    My.cellSnapshot!.removeFromSuperview()
+                   cellSnapshot.removeFromSuperview()
                     My.cellSnapshot = nil
+                   
                     NSLog("Case333333333")
                 }
             })
@@ -243,6 +247,7 @@ extension ViewController:JTAppleCalendarViewDelegate{
 
 // MARK: - UIColor convenience init
 extension UIColor{
+    //針對UIColor進行擴充
     convenience init(colorWithHexValue value : Int , alpha : CGFloat = 1.0){
         self.init(
             red: CGFloat((value & 0xFF0000) >> 16) / 255.0,
