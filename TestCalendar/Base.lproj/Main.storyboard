@@ -227,6 +227,7 @@
                     </view>
                     <connections>
                         <outlet property="calendarView" destination="Pcw-LE-7YR" id="WlU-Os-aKG"/>
+                        <outlet property="mainUIView" destination="8bC-Xf-vdC" id="7vy-gP-grP"/>
                         <outlet property="month" destination="CJr-lw-yfx" id="VPk-g3-Skt"/>
                         <outlet property="personCellView" destination="p3t-rP-6C0" id="ZEJ-o7-9Cn"/>
                         <outlet property="year" destination="o45-Zr-DBV" id="dDh-jh-FnV"/>

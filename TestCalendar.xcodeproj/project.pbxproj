@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11231F921F1B4AB1006D7E55 /* CalendarViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11231F911F1B4AB1006D7E55 /* CalendarViewManager.swift */; };
 		114AAA921F0E59F0009B766F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114AAA911F0E59F0009B766F /* AppDelegate.swift */; };
 		114AAA941F0E59F0009B766F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114AAA931F0E59F0009B766F /* ViewController.swift */; };
 		114AAA971F0E59F0009B766F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 114AAA951F0E59F0009B766F /* Main.storyboard */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		11231F911F1B4AB1006D7E55 /* CalendarViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewManager.swift; sourceTree = "<group>"; };
 		114AAA8E1F0E59F0009B766F /* TestCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		114AAA911F0E59F0009B766F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		114AAA931F0E59F0009B766F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 			children = (
 				114AAA911F0E59F0009B766F /* AppDelegate.swift */,
 				114AAA931F0E59F0009B766F /* ViewController.swift */,
+				11231F911F1B4AB1006D7E55 /* CalendarViewManager.swift */,
 				114AAA951F0E59F0009B766F /* Main.storyboard */,
 				116D4DAE1F111C74002CA6D1 /* PersonCell.swift */,
 				114AAA981F0E59F0009B766F /* Assets.xcassets */,
@@ -217,6 +220,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11231F921F1B4AB1006D7E55 /* CalendarViewManager.swift in Sources */,
 				114AAA941F0E59F0009B766F /* ViewController.swift in Sources */,
 				116D4DAD1F0E5BCD002CA6D1 /* CustomCell.swift in Sources */,
 				116D4DAF1F111C74002CA6D1 /* PersonCell.swift in Sources */,
