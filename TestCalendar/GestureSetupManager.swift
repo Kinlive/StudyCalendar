@@ -1,0 +1,156 @@
+//
+//  GestureSetupManager.swift
+//  TestCalendar
+//
+//  Created by Kinlive on 2017/7/18.
+//  Copyright © 2017年 Kinlive Wei. All rights reserved.
+//
+
+import UIKit
+import JTAppleCalendar
+
+class GestureSetupManager: NSObject {
+
+    
+    
+    func longPressOnView(
+                    gestureRecognizer: UILongPressGestureRecognizer,
+                    mainUIView: UIView ,
+                    calendarView:JTAppleCalendarView ,
+                    personCellView:UICollectionView) {
+        
+        let state = gestureRecognizer.state
+        //longPress在CellView上的位置,得到CGPoint(x,y)
+        let locationMainView = gestureRecognizer.location(in: mainUIView)
+        //        let locationInView = gestureRecognizer.location(in: personCellView)
+        //         NSLog(" TEST:finger \(locationMainView)  and ")
+        let calendarLocation = gestureRecognizer.location(in: calendarView)
+        let fakeLocation = CGPoint(x: locationMainView.x-834, y: locationMainView.y)
+        //藉由 CGPoint(x,y)的點 找到對於personCellView內的索引路徑
+        //indexPath可以得知長按的是第幾個section的第幾個item
+        //        guard let indexPath = personCellView.indexPathForItem(at: fakeLocation) else { return }
+        let indexPath = personCellView.indexPathForItem(at: fakeLocation)
+        let calendarIndexPath = calendarView.indexPathForItem(at: calendarLocation)
+        //        guard var mainViewIndexPath = mainUIView
+        struct My {
+            static var cellSnapshot : UIView? = nil
+        }
+        struct Path{
+            //用來存放找到personCell的索引
+            static var initialIndexPath : IndexPath? = nil
+            static var calendarCellIndexPath : IndexPath? = nil //FIXME: - never use
+        }
+        //FIXME : switch something...
+        switch state {
+        case .began:
+            guard let indexPath = indexPath else {return}
+            Path.initialIndexPath = indexPath
+            guard let cell = personCellView.cellForItem(at: indexPath) else {return}
+            
+            //將長按到的cell進行快照存入cellSnapshot內
+            My.cellSnapshot = snapshopOfCell(inputView: cell)
+            guard let cellSnapshot = My.cellSnapshot else {return}
+            
+            let center = CGPoint(x:  locationMainView.x, y:  locationMainView.y)
+            //                center.x = locationMainView.x
+            //                center.y = locationMainView.y
+            My.cellSnapshot?.center = center
+            cellSnapshot.center = center
+            cellSnapshot.alpha = 0.0
+            //                personCellView.addSubview(cellSnapshot)
+            mainUIView.addSubview(cellSnapshot)
+            UIView.animate(withDuration: 0.4, animations: {
+                //                    center.y = locationInView.y
+                cellSnapshot.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+                cellSnapshot.alpha = 0.98
+                cell.alpha = 0.0
+            }, completion: { finished in
+                if finished{
+                    cell.isHidden = true
+                    NSLog("Case11111111")
+                }
+            })
+        //case 2
+        case .changed :
+            
+            guard let cellSnapshot = My.cellSnapshot else {return}
+            cellSnapshot.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            var center = cellSnapshot.center
+            center.y = locationMainView.y
+            center.x = locationMainView.x
+            cellSnapshot.center = center
+            //滑過calendar會顯示,若滑到空白處會crash待處理
+            //            guard let calendarIndexPath = calendarIndexPath else {return}
+            //            let calendarCell = calendarView.cellForItem(at: calendarIndexPath) as! CustomCell
+            //            calendarCell.selectedView.isHidden = false
+            
+            //            guard let indexPath = indexPath else {return}
+            //            if (indexPath != Path.initialIndexPath){
+            //                //進行交換
+            //                guard let initialIndexPath = Path.initialIndexPath else {return}
+            //                swap(&numberItem[(indexPath.row)], &numberItem[(initialIndexPath.row)])
+            //                personCellView.moveItem(at: initialIndexPath, to: indexPath)
+            //                Path.initialIndexPath = indexPath
+            //                NSLog("Case2222222")
+        //            }
+        case .ended:
+            guard let cellSnapshot = My.cellSnapshot else { return}
+            //判斷落下點是在月曆還是人員
+            if cellSnapshot.center.x <= mainUIView.frame.size.width*3/4{
+                guard let calendarIndexPath = calendarIndexPath else {return}
+                let calendarCell = calendarView.cellForItem(at: calendarIndexPath) as! CustomCell
+                guard let initialIndexPath = Path.initialIndexPath else {return}
+                guard let cell = personCellView.cellForItem(at: initialIndexPath)  else {return}
+                
+                calendarCell.selectedView.isHidden = false  //控制月曆選擇顯示
+                cell.isHidden = false
+                cell.alpha = 0.0
+                
+                UIView.animate(withDuration: 0.5, animations: {
+                    //月曆cell放大
+                    calendarCell.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                    //                calendarCell.backgroundColor = UIColor(colorWithHexValue: 0xaa66aa)
+                    cellSnapshot.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+                    cellSnapshot.alpha = 0.0
+                    cell.alpha = 1.0
+                }, completion: { finished in
+                    if finished {
+                        calendarCell.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                        Path.initialIndexPath = nil
+                        cellSnapshot.removeFromSuperview()
+                        My.cellSnapshot = nil
+                        NSLog("Case333333333")
+                    }
+                })
+            }else{
+                guard let initialIndexPath = Path.initialIndexPath else {
+                    return}
+                guard let cell = personCellView.cellForItem(at: initialIndexPath)  else {return}
+                cell.isHidden = false
+                cell.alpha = 1
+                Path.initialIndexPath = nil
+                cellSnapshot.removeFromSuperview()
+                My.cellSnapshot = nil
+            }
+        default:
+            break
+        }///switch end here
+        
+    }//func longPress here
+    
+    func snapshopOfCell(inputView: UIView) -> UIView {
+        UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0.0)
+        inputView.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()! as UIImage
+        UIGraphicsEndImageContext()
+        let cellSnapshot : UIView = UIImageView(image: image)
+        cellSnapshot.layer.masksToBounds = false
+        cellSnapshot.layer.cornerRadius = 0.0
+        cellSnapshot.layer.shadowOffset = CGSize(width: -5.0, height: 0.0)
+        cellSnapshot.layer.shadowRadius = 5.0
+        cellSnapshot.layer.shadowOpacity = 0.4
+        return cellSnapshot
+    }
+    
+    
+}

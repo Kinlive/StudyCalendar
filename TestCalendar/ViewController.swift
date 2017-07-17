@@ -21,8 +21,7 @@ class ViewController: UIViewController{
     let spacing :CGFloat = 3
     let itemCount :CGFloat = 2
     var longPress = UILongPressGestureRecognizer()
-//    var userTouch = UITouch()
-//    var touchLocation :CGPoint?
+    let gsManager = GestureSetupManager()
   
     @IBOutlet var mainUIView: UIView!
    
@@ -42,21 +41,20 @@ class ViewController: UIViewController{
         personCellView.delegate = self
         personCellView.dataSource = self
         
-        for i in 0...25 {//
+        for i in 0...25 {//for how much person
            numberItem.append(i)
         }
         calendarView.scrollToDate(currentDate)
         currentFormatter.dateFormat = "yyyy MM dd"
         currentFormatter.timeZone = Calendar.current.timeZone
         currentFormatter.locale = Calendar.current.locale
-      // test add longpress 
+        
+      //  add longpress and setup
         longPress.addTarget(self, action: #selector(longPressGestureRecognized(_:)))
         longPress.minimumPressDuration = 0.25
-//        personCellView.addGestureRecognizer(longPress)
-        ///test touch
         mainUIView.addGestureRecognizer(longPress)
-//        calendarView.addGestureRecognizer(longPress)
-       
+    //        calendarView.addGestureRecognizer(longPress)
+    //        personCellView.addGestureRecognizer(longPress)
      
     }
     //MARK: - Calender setup start here
@@ -120,124 +118,12 @@ class ViewController: UIViewController{
     /// - Parameter longPress: longPress description
     func longPressGestureRecognized(_ gestureRecognizer: UILongPressGestureRecognizer){
         
-        let state = gestureRecognizer.state
-        //longPress在CellView上的位置,得到CGPoint(x,y)
-        let locationMainView = gestureRecognizer.location(in: mainUIView)
-//        let locationInView = gestureRecognizer.location(in: personCellView)
-//         NSLog(" TEST:finger \(locationMainView)  and ")
-        let calendarLocation = gestureRecognizer.location(in: calendarView)
-        let fakeLocation = CGPoint(x: locationMainView.x-834, y: locationMainView.y)
-        //藉由 CGPoint(x,y)的點 找到對於personCellView內的索引路徑
-        //indexPath可以得知長按的是第幾個section的第幾個item
-//        guard let indexPath = personCellView.indexPathForItem(at: fakeLocation) else { return }
-        let indexPath = personCellView.indexPathForItem(at: fakeLocation)
-        let calendarIndexPath = calendarView.indexPathForItem(at: calendarLocation)
-//        guard var mainViewIndexPath = mainUIView
-        struct My {
-            static var cellSnapshot : UIView? = nil
-        }
-        struct Path{
-            static var initialIndexPath : IndexPath? = nil //FIXME: maybe to fix
-            static var goalIndexPath : IndexPath? = nil
-        }
-        //FIXME : switch something...
-        switch state {
-        case .began:
-            guard let indexPath = indexPath else {return}
-                Path.initialIndexPath = indexPath
-                guard let cell = personCellView.cellForItem(at: indexPath) else {return}
-             
-//                cell.isHighlighted = true
-                //將長按到的cell進行快照存入cellSnapshot內
-                My.cellSnapshot = snapshopOfCell(inputView: cell)
-                guard let cellSnapshot = My.cellSnapshot else {return}
-                
-                //將cell的center帶入快照的center,侷限不在這
-                
-                let center = CGPoint(x:  locationMainView.x, y:  locationMainView.y)
-//                center.x = locationMainView.x
-//                center.y = locationMainView.y
-                My.cellSnapshot?.center = center
-                cellSnapshot.center = center
-                cellSnapshot.alpha = 0.0
-//                personCellView.addSubview(cellSnapshot)
-                mainUIView.addSubview(cellSnapshot)
-//                gestureRecognizer.view?.addSubview(cellSnapshot)
-                UIView.animate(withDuration: 0.1, animations: {
-//                    center.y = locationInView.y
-                    cellSnapshot.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-                    cellSnapshot.alpha = 0.98
-                    cell.alpha = 0.0
-                }, completion: { finished in
-                    if finished{
-                        cell.isHidden = true
-                        NSLog("Case11111111")
-                    }
-                })
-            //case 2 
-        case .changed :
-            
-            guard let cellSnapshot = My.cellSnapshot else {return}
-             var center = cellSnapshot.center
-
-                center.y = locationMainView.y
-                center.x = locationMainView.x
-                cellSnapshot.center = center
-//            guard let indexPath = indexPath else {return}
-//            if (indexPath != Path.initialIndexPath){
-//                //進行交換
-//                guard let initialIndexPath = Path.initialIndexPath else {return}
-//                swap(&numberItem[(indexPath.row)], &numberItem[(initialIndexPath.row)])
-//                personCellView.moveItem(at: initialIndexPath, to: indexPath)
-//                Path.initialIndexPath = indexPath
-//                NSLog("Case2222222")
-//            }
-        case .ended:
-            
-            guard let calendarIndexPath = calendarIndexPath else {return}
-             let calendarCell = calendarView.cellForItem(at: calendarIndexPath) as! CustomCell
-            
-            guard let initialIndexPath = Path.initialIndexPath else {return}
-            guard let cell = personCellView.cellForItem(at: initialIndexPath)  else {return}
-//            cell.isHighlighted = false
-            calendarCell.selectedView.isHidden = false
-            cell.isHidden = false
-            cell.alpha = 0.0
-            guard let cellSnapshot = My.cellSnapshot else { return}
-            UIView.animate(withDuration: 0.25, animations: {
-                calendarCell.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-                
-                cellSnapshot.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-                cellSnapshot.alpha = 0.0
-                cell.alpha = 1.0
-            }, completion: { finished in
-                if finished {
-                    Path.initialIndexPath = nil
-                    cellSnapshot.removeFromSuperview()
-                    My.cellSnapshot = nil
-                    
-                    NSLog("Case333333333")
-                }
-            })
-        default:
-            break
-        }///switch end here
-       
-    }//func longPress here 
-    
-    func snapshopOfCell(inputView: UIView) -> UIView {
-        UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0.0)
-        inputView.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let image = UIGraphicsGetImageFromCurrentImageContext()! as UIImage
-        UIGraphicsEndImageContext()
-        let cellSnapshot : UIView = UIImageView(image: image)
-        cellSnapshot.layer.masksToBounds = false
-        cellSnapshot.layer.cornerRadius = 0.0
-        cellSnapshot.layer.shadowOffset = CGSize(width: -5.0, height: 0.0)
-        cellSnapshot.layer.shadowRadius = 5.0
-        cellSnapshot.layer.shadowOpacity = 0.4
-        return cellSnapshot
-    }
+        gsManager.longPressOnView(
+            gestureRecognizer: gestureRecognizer,
+            mainUIView: mainUIView,
+            calendarView: calendarView,
+            personCellView: personCellView)
+    }//func longPress here
     
 }//class out
 
@@ -322,12 +208,10 @@ extension ViewController:UICollectionViewDelegateFlowLayout,UICollectionViewData
         //..
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PersonCell", for: indexPath) as! PersonCell
         cell.personName.text = String(numberItem[indexPath.item])
+         cell.layer.cornerRadius = 50
         return cell
     }
-//    func collectionView(_ collectionView: UICollectionView, deleteDataItemAtIndexPath indexPath: IndexPath) {
-//    }
+
 }
-extension UITouch{
-    
-}
+
 
