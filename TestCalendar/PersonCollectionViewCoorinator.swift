@@ -39,7 +39,18 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
         //..
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PersonCell", for: indexPath) as! PersonCell
         cell.personName.text = String(numberItem[indexPath.item])
-        cell.layer.cornerRadius = 50
+        cell.layer.cornerRadius = 25
+        cell.layer.borderWidth = 2
+        //hourBar setup
+        cell.hourBar.layer.cornerRadius = 20
+        cell.hourBar.layer.borderWidth = 3.0
+        let barWidth = cell.hourBar.frame.width
+        let barHeight = cell.hourBar.frame.height
+        let gradientview = GradientView.init(frame: CGRect(x: 0, y: 0, width: barWidth*3/5 , height: barHeight/1.45))
+        gradientview.layer.cornerRadius = 20
+        cell.hourBar.addSubview(gradientview)
+        
+        
         return cell
     }
 

@@ -18,8 +18,8 @@ class GestureSetupManager: NSObject {
     }
     struct Path{
         //用來存放找到personCell的索引
-        static var initialIndexPath : IndexPath? = nil
-        static var calendarCellIndexPath : IndexPath? = nil //FIXME: - never use
+        static var personCellIndexPath : IndexPath? = nil
+        static var calendarCellIndexPath : IndexPath? = nil
     }
     
     func longPressOnView(
@@ -47,7 +47,7 @@ class GestureSetupManager: NSObject {
         switch state {
         case .began:
             guard let indexPath = indexPath else {return}
-            Path.initialIndexPath = indexPath
+            Path.personCellIndexPath = indexPath
             guard let cell = personCellView.cellForItem(at: indexPath) else {return}
             
             //將長按到的cell進行快照存入cellSnapshot內
@@ -82,20 +82,20 @@ class GestureSetupManager: NSObject {
             center.x = locationMainView.x
             cellSnapshot.center = center
            
-            //滑過calendar會顯示,若滑到空白處會crash待處理
+            //滑過calendar會顯示,若滑到空白處會crash待處理,用if避開
             //            guard let calendarIndexPath = calendarIndexPath else {return}
             //            let calendarCell = calendarView.cellForItem(at: calendarIndexPath) as! CustomCell
             //            calendarCell.selectedView.isHidden = false
             
-            //            guard let indexPath = indexPath else {return}
-            //            if (indexPath != Path.initialIndexPath){
-            //                //進行交換
-            //                guard let initialIndexPath = Path.initialIndexPath else {return}
-            //                swap(&numberItem[(indexPath.row)], &numberItem[(initialIndexPath.row)])
-            //                personCellView.moveItem(at: initialIndexPath, to: indexPath)
-            //                Path.initialIndexPath = indexPath
-            //                NSLog("Case2222222")
-        //            }
+//                        guard let indexPath = indexPath else {return}
+//                        if (indexPath != Path.personCellIndexPath){
+//                            //進行交換
+//                            guard let personCellIndexPath = Path.personCellIndexPath else {return}
+//                            swap(&numberItem[(indexPath.row)], &numberItem[(personCellIndexPath.row)])
+//                            personCellView.moveItem(at: personCellIndexPath, to: indexPath)
+//                            Path.personCellIndexPath = indexPath
+//                            NSLog("Case2222222")
+//                    }
         case .ended:
             guard let cellSnapshot = My.cellSnapshot else { return}
             //判斷落下點是在月曆還是人員
@@ -104,8 +104,8 @@ class GestureSetupManager: NSObject {
             if personLocation.x < 0,cellSnapshot.center.y >= mainUIView.frame.size.height*1/5{
                 guard let calendarIndexPath = calendarIndexPath else {return}
                 let calendarCell = calendarView.cellForItem(at: calendarIndexPath) as! CustomCell
-                guard let initialIndexPath = Path.initialIndexPath else {return}
-                guard let cell = personCellView.cellForItem(at: initialIndexPath)  else {return}
+                guard let personCellIndexPath = Path.personCellIndexPath else {return}
+                guard let cell = personCellView.cellForItem(at: personCellIndexPath)  else {return}
                 
                 calendarCell.selectedView.isHidden = false  //控制月曆選擇顯示
                 cell.isHidden = false
@@ -121,19 +121,19 @@ class GestureSetupManager: NSObject {
                 }, completion: { finished in
                     if finished {
                         calendarCell.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                        Path.initialIndexPath = nil
+                        Path.personCellIndexPath = nil
                         cellSnapshot.removeFromSuperview()
                         My.cellSnapshot = nil
                         NSLog("Case333333333")
                     }
                 })
             }else{
-                guard let initialIndexPath = Path.initialIndexPath else {
+                guard let personCellIndexPath = Path.personCellIndexPath else {
                     return}
-                guard let cell = personCellView.cellForItem(at: initialIndexPath)  else {return}
+                guard let cell = personCellView.cellForItem(at: personCellIndexPath)  else {return}
                 cell.isHidden = false
                 cell.alpha = 1
-                Path.initialIndexPath = nil
+                Path.personCellIndexPath = nil
                 cellSnapshot.removeFromSuperview()
                 My.cellSnapshot = nil
             }

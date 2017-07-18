@@ -36,7 +36,7 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCalendarView()
-
+        
         personCellView.delegate = personCVCoorinator
         personCellView.dataSource = personCVCoorinator
       

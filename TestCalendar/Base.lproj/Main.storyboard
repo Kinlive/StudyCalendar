@@ -22,10 +22,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="YZH-ts-LPo">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="YZH-ts-LPo" userLabel="TotalCalendarStack">
                                 <rect key="frame" x="0.0" y="107" width="834" height="727"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="jbr-1T-e75">
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="jbr-1T-e75" userLabel="CalendarTitleStack">
                                         <rect key="frame" x="0.0" y="0.0" width="834" height="36"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="year" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o45-Zr-DBV">
@@ -44,7 +44,7 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="88t-3Z-hgC">
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="88t-3Z-hgC" userLabel="WeekStack">
                                         <rect key="frame" x="0.0" y="36" width="834" height="24"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sun" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tnw-gd-tZA">
@@ -172,7 +172,7 @@
                             </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="p3t-rP-6C0">
                                 <rect key="frame" x="834" y="0.0" width="278" height="834"/>
-                                <color key="backgroundColor" red="1" green="0.87843137250000003" blue="0.50196078430000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jbW-NA-3zC">
                                     <size key="itemSize" width="167" height="186"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -188,33 +188,85 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yug-rP-Dcl">
-                                                    <rect key="frame" x="44.5" y="80.5" width="79" height="26.5"/>
+                                                    <rect key="frame" x="44.5" y="50" width="79" height="26.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ezE-Pg-QTO" userLabel="PersonHour">
+                                                    <rect key="frame" x="0.0" y="92" width="167" height="62"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
                                             </subviews>
                                         </view>
                                         <color key="backgroundColor" red="0.67878132849999995" green="1" blue="0.68984306070000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstItem="Yug-rP-Dcl" firstAttribute="centerY" secondItem="1oE-ea-aay" secondAttribute="centerY" id="6tg-z9-2Dd"/>
+                                            <constraint firstItem="Yug-rP-Dcl" firstAttribute="centerY" secondItem="1oE-ea-aay" secondAttribute="centerY" constant="-30" id="6tg-z9-2Dd"/>
+                                            <constraint firstAttribute="trailing" secondItem="ezE-Pg-QTO" secondAttribute="trailing" id="7uK-U7-ptN"/>
+                                            <constraint firstItem="ezE-Pg-QTO" firstAttribute="width" secondItem="1oE-ea-aay" secondAttribute="width" id="8QI-ht-3L9"/>
+                                            <constraint firstItem="ezE-Pg-QTO" firstAttribute="centerY" secondItem="1oE-ea-aay" secondAttribute="centerY" constant="30" id="FdX-DG-JGE"/>
+                                            <constraint firstItem="ezE-Pg-QTO" firstAttribute="leading" secondItem="1oE-ea-aay" secondAttribute="leading" id="hL0-Zv-M7d"/>
+                                            <constraint firstItem="ezE-Pg-QTO" firstAttribute="height" secondItem="1oE-ea-aay" secondAttribute="height" multiplier="1/3" id="oC7-Aa-KPU"/>
                                             <constraint firstItem="Yug-rP-Dcl" firstAttribute="centerX" secondItem="1oE-ea-aay" secondAttribute="centerX" id="pBj-uo-OjD"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="hourBar" destination="ezE-Pg-QTO" id="Uxz-Zn-e5u"/>
                                             <outlet property="personName" destination="Yug-rP-Dcl" id="2Kt-bU-69d"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Hcs-Ia-DSt" userLabel="PageStack ">
+                                <rect key="frame" x="0.0" y="20" width="556" height="87"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qWb-G3-m5f" userLabel="CalendarBt">
+                                        <rect key="frame" x="0.0" y="0.0" width="185.5" height="87"/>
+                                        <color key="backgroundColor" red="1" green="0.87786609419999995" blue="0.95408744749999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <state key="normal" title="Calendar"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="35"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="18l-eo-YaJ" userLabel="ClassTypeBt">
+                                        <rect key="frame" x="185.5" y="0.0" width="185" height="87"/>
+                                        <color key="backgroundColor" red="1" green="0.87786609419999995" blue="0.95408744749999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <state key="normal" title="ClassType"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="35"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QGQ-L6-qtG" userLabel="PersonBt">
+                                        <rect key="frame" x="370.5" y="0.0" width="185.5" height="87"/>
+                                        <color key="backgroundColor" red="1" green="0.87786609419999995" blue="0.95408744749999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                        <state key="normal" title="Person"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="35"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="YZH-ts-LPo" firstAttribute="top" secondItem="Hcs-Ia-DSt" secondAttribute="bottom" id="41o-Xw-gIt"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="p3t-rP-6C0" secondAttribute="bottom" id="FF5-7c-icv"/>
                             <constraint firstItem="p3t-rP-6C0" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="1/4" id="Fuu-we-KgJ"/>
                             <constraint firstItem="YZH-ts-LPo" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="3/4" id="HVz-72-YhC"/>
                             <constraint firstItem="YZH-ts-LPo" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Jet-sB-LbD"/>
+                            <constraint firstItem="Hcs-Ia-DSt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="NYr-6D-c8F"/>
+                            <constraint firstItem="Hcs-Ia-DSt" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="O0g-kh-GTp"/>
                             <constraint firstItem="p3t-rP-6C0" firstAttribute="leading" secondItem="YZH-ts-LPo" secondAttribute="trailing" id="WIk-SM-GPb"/>
                             <constraint firstItem="Pcw-LE-7YR" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="3/4" id="dYz-2p-6wD"/>
+                            <constraint firstItem="Hcs-Ia-DSt" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="1/2" id="fgB-lU-FKw"/>
                             <constraint firstItem="p3t-rP-6C0" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="ghB-nT-QTU"/>
                             <constraint firstAttribute="trailing" secondItem="p3t-rP-6C0" secondAttribute="trailing" id="pbQ-AR-w6i"/>
                             <constraint firstItem="Pcw-LE-7YR" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="4/5" id="w1l-vv-GG4"/>
