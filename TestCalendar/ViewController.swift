@@ -17,19 +17,17 @@ class ViewController: UIViewController{
     let currentFormatter = DateFormatter()
     let currentDate = Date()
     //celander here
-    var numberItem = [Int]() //FIXME: numberArray here
-    let spacing :CGFloat = 3
-    let itemCount :CGFloat = 2
+   
     var longPress = UILongPressGestureRecognizer()
     let gsManager = GestureSetupManager()
+    let personCVCoorinator = PersonCollectionViewCoorinator()
   
     @IBOutlet var mainUIView: UIView!
-   
     @IBOutlet weak var calendarView: JTAppleCalendarView!
     @IBOutlet weak var year: UILabel!
     @IBOutlet weak var month: UILabel!
     @IBOutlet weak var personCellView: UICollectionView!
-    
+   //  personCellView: UICollectionView!
     //Calendar color setup ..
     let outsideMonthColor = UIColor(colorWithHexValue : 0xcccccc)
     let monthColor = UIColor(colorWithHexValue: 0x000000)
@@ -38,12 +36,10 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCalendarView()
-        personCellView.delegate = self
-        personCellView.dataSource = self
-        
-        for i in 0...25 {//for how much person
-           numberItem.append(i)
-        }
+
+        personCellView.delegate = personCVCoorinator
+        personCellView.dataSource = personCVCoorinator
+      
         calendarView.scrollToDate(currentDate)
         currentFormatter.dateFormat = "yyyy MM dd"
         currentFormatter.timeZone = Calendar.current.timeZone
@@ -55,8 +51,8 @@ class ViewController: UIViewController{
         mainUIView.addGestureRecognizer(longPress)
     //        calendarView.addGestureRecognizer(longPress)
     //        personCellView.addGestureRecognizer(longPress)
-     
-    }
+
+    }//viewDidLoad here
     //MARK: - Calender setup start here
     func setupCalendarView(){
         //Setup calendar space
@@ -123,7 +119,7 @@ class ViewController: UIViewController{
             mainUIView: mainUIView,
             calendarView: calendarView,
             personCellView: personCellView)
-    }//func longPress here
+    }
     
 }//class out
 
@@ -185,33 +181,4 @@ extension UIColor{
         )
     }
 }
-// MARK: - UICollectionViewDelegateFlowLayout,UICollectionViewDataSource
-extension ViewController:UICollectionViewDelegateFlowLayout,UICollectionViewDataSource{
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let personView = (UIScreen.main.bounds.size.width)/4
-        let width = (personView-itemCount*spacing)/itemCount
-        let size = CGSize(width: width, height: width)
-        return size
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return spacing
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return spacing
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //..
-        return numberItem.count
-    }
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        //..
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PersonCell", for: indexPath) as! PersonCell
-        cell.personName.text = String(numberItem[indexPath.item])
-         cell.layer.cornerRadius = 50
-        return cell
-    }
-
-}
-
 

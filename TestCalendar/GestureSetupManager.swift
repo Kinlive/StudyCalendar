@@ -13,6 +13,15 @@ class GestureSetupManager: NSObject {
 
     
     
+    struct My {
+        static var cellSnapshot : UIView? = nil
+    }
+    struct Path{
+        //用來存放找到personCell的索引
+        static var initialIndexPath : IndexPath? = nil
+        static var calendarCellIndexPath : IndexPath? = nil //FIXME: - never use
+    }
+    
     func longPressOnView(
                     gestureRecognizer: UILongPressGestureRecognizer,
                     mainUIView: UIView ,
@@ -23,24 +32,18 @@ class GestureSetupManager: NSObject {
         //longPress在CellView上的位置,得到CGPoint(x,y)
         let locationMainView = gestureRecognizer.location(in: mainUIView)
         //        let locationInView = gestureRecognizer.location(in: personCellView)
-        //         NSLog(" TEST:finger \(locationMainView)  and ")
+        
         let calendarLocation = gestureRecognizer.location(in: calendarView)
-        let fakeLocation = CGPoint(x: locationMainView.x-834, y: locationMainView.y)
+//        let fakeLocation = CGPoint(x: locationMainView.x-834, y: locationMainView.y)
+        let personLocation = gestureRecognizer.location(in: personCellView)
+//        NSLog(" TEST:finger \(locationMainView)  and calendar \(calendarLocation)")
         //藉由 CGPoint(x,y)的點 找到對於personCellView內的索引路徑
         //indexPath可以得知長按的是第幾個section的第幾個item
         //        guard let indexPath = personCellView.indexPathForItem(at: fakeLocation) else { return }
-        let indexPath = personCellView.indexPathForItem(at: fakeLocation)
+        let indexPath = personCellView.indexPathForItem(at: personLocation)//這裡要改成使用personLocation
         let calendarIndexPath = calendarView.indexPathForItem(at: calendarLocation)
         //        guard var mainViewIndexPath = mainUIView
-        struct My {
-            static var cellSnapshot : UIView? = nil
-        }
-        struct Path{
-            //用來存放找到personCell的索引
-            static var initialIndexPath : IndexPath? = nil
-            static var calendarCellIndexPath : IndexPath? = nil //FIXME: - never use
-        }
-        //FIXME : switch something...
+               //FIXME : switch something...
         switch state {
         case .began:
             guard let indexPath = indexPath else {return}
@@ -70,7 +73,6 @@ class GestureSetupManager: NSObject {
                     NSLog("Case11111111")
                 }
             })
-        //case 2
         case .changed :
             
             guard let cellSnapshot = My.cellSnapshot else {return}
@@ -79,6 +81,7 @@ class GestureSetupManager: NSObject {
             center.y = locationMainView.y
             center.x = locationMainView.x
             cellSnapshot.center = center
+           
             //滑過calendar會顯示,若滑到空白處會crash待處理
             //            guard let calendarIndexPath = calendarIndexPath else {return}
             //            let calendarCell = calendarView.cellForItem(at: calendarIndexPath) as! CustomCell
@@ -96,7 +99,9 @@ class GestureSetupManager: NSObject {
         case .ended:
             guard let cellSnapshot = My.cellSnapshot else { return}
             //判斷落下點是在月曆還是人員
-            if cellSnapshot.center.x <= mainUIView.frame.size.width*3/4{
+            //將main計算寬度換成 personLocation.x >= 0 就不進入 ex: cellSnapshot.center.x <= mainUIView.frame.size.width*3/4
+            //以及第二判斷條件可換乘 calendarLocation.y <0 就不進入  ex:cellSnapshot.center.y >= mainUIView.frame.size.height*1/5
+            if personLocation.x < 0,cellSnapshot.center.y >= mainUIView.frame.size.height*1/5{
                 guard let calendarIndexPath = calendarIndexPath else {return}
                 let calendarCell = calendarView.cellForItem(at: calendarIndexPath) as! CustomCell
                 guard let initialIndexPath = Path.initialIndexPath else {return}

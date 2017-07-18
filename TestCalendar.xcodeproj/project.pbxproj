@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		11231FBA1F1D2B82006D7E55 /* GestureSetupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11231FB91F1D2B82006D7E55 /* GestureSetupManager.swift */; };
+		11231FC21F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11231FC11F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift */; };
 		114AAA921F0E59F0009B766F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114AAA911F0E59F0009B766F /* AppDelegate.swift */; };
 		114AAA941F0E59F0009B766F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114AAA931F0E59F0009B766F /* ViewController.swift */; };
 		114AAA971F0E59F0009B766F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 114AAA951F0E59F0009B766F /* Main.storyboard */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		11231FB91F1D2B82006D7E55 /* GestureSetupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GestureSetupManager.swift; sourceTree = "<group>"; };
+		11231FC11F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCollectionViewCoorinator.swift; sourceTree = "<group>"; };
 		114AAA8E1F0E59F0009B766F /* TestCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		114AAA911F0E59F0009B766F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		114AAA931F0E59F0009B766F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				114AAA911F0E59F0009B766F /* AppDelegate.swift */,
 				114AAA931F0E59F0009B766F /* ViewController.swift */,
 				11231FB91F1D2B82006D7E55 /* GestureSetupManager.swift */,
+				11231FC11F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift */,
 				114AAA951F0E59F0009B766F /* Main.storyboard */,
 				116D4DAE1F111C74002CA6D1 /* PersonCell.swift */,
 				114AAA981F0E59F0009B766F /* Assets.xcassets */,
@@ -221,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				114AAA941F0E59F0009B766F /* ViewController.swift in Sources */,
+				11231FC21F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift in Sources */,
 				116D4DAD1F0E5BCD002CA6D1 /* CustomCell.swift in Sources */,
 				11231FBA1F1D2B82006D7E55 /* GestureSetupManager.swift in Sources */,
 				116D4DAF1F111C74002CA6D1 /* PersonCell.swift in Sources */,

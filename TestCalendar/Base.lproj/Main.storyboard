@@ -23,20 +23,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="YZH-ts-LPo">
-                                <rect key="frame" x="0.0" y="167" width="834" height="667"/>
+                                <rect key="frame" x="0.0" y="107" width="834" height="727"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="jbr-1T-e75">
-                                        <rect key="frame" x="0.0" y="0.0" width="834" height="66.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="834" height="36"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="year" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o45-Zr-DBV">
-                                                <rect key="frame" x="0.0" y="0.0" width="417" height="66.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="417" height="36"/>
                                                 <color key="backgroundColor" red="0.6994826972" green="0.83032605329999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Month" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CJr-lw-yfx">
-                                                <rect key="frame" x="417" y="0.0" width="417" height="66.5"/>
+                                                <rect key="frame" x="417" y="0.0" width="417" height="36"/>
                                                 <color key="backgroundColor" red="0.6994826972" green="0.83032605329999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                 <nil key="textColor"/>
@@ -45,7 +45,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="88t-3Z-hgC">
-                                        <rect key="frame" x="0.0" y="66.5" width="834" height="24"/>
+                                        <rect key="frame" x="0.0" y="36" width="834" height="24"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sun" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tnw-gd-tZA">
                                                 <rect key="frame" x="0.0" y="0.0" width="119" height="24"/>
@@ -102,7 +102,7 @@
                                         </constraints>
                                     </stackView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Pcw-LE-7YR" customClass="JTAppleCalendarView" customModule="JTAppleCalendar">
-                                        <rect key="frame" x="0.0" y="90.5" width="834" height="576.5"/>
+                                        <rect key="frame" x="0.0" y="60" width="834" height="667"/>
                                         <color key="backgroundColor" red="0.96023064069999997" green="1" blue="0.99798767939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="SdT-zT-9M5">
                                             <size key="itemSize" width="258" height="225"/>
@@ -169,11 +169,6 @@
                                         </connections>
                                     </collectionView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="88t-3Z-hgC" firstAttribute="top" secondItem="jbr-1T-e75" secondAttribute="bottom" id="8Ni-BO-XlR"/>
-                                    <constraint firstItem="jbr-1T-e75" firstAttribute="height" secondItem="YZH-ts-LPo" secondAttribute="height" multiplier="1/10" id="ZkO-Km-d7j"/>
-                                    <constraint firstItem="jbr-1T-e75" firstAttribute="width" secondItem="YZH-ts-LPo" secondAttribute="width" id="gOW-CU-TUo"/>
-                                </constraints>
                             </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="p3t-rP-6C0">
                                 <rect key="frame" x="834" y="0.0" width="278" height="834"/>
@@ -219,17 +214,18 @@
                             <constraint firstItem="YZH-ts-LPo" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="3/4" id="HVz-72-YhC"/>
                             <constraint firstItem="YZH-ts-LPo" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Jet-sB-LbD"/>
                             <constraint firstItem="p3t-rP-6C0" firstAttribute="leading" secondItem="YZH-ts-LPo" secondAttribute="trailing" id="WIk-SM-GPb"/>
+                            <constraint firstItem="Pcw-LE-7YR" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="3/4" id="dYz-2p-6wD"/>
                             <constraint firstItem="p3t-rP-6C0" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="ghB-nT-QTU"/>
                             <constraint firstAttribute="trailing" secondItem="p3t-rP-6C0" secondAttribute="trailing" id="pbQ-AR-w6i"/>
+                            <constraint firstItem="Pcw-LE-7YR" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="4/5" id="w1l-vv-GG4"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="YZH-ts-LPo" secondAttribute="bottom" id="z0p-Jn-YdO"/>
-                            <constraint firstItem="YZH-ts-LPo" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="4/5" id="zPU-vD-NQD"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="calendarView" destination="Pcw-LE-7YR" id="WlU-Os-aKG"/>
                         <outlet property="mainUIView" destination="8bC-Xf-vdC" id="7vy-gP-grP"/>
                         <outlet property="month" destination="CJr-lw-yfx" id="VPk-g3-Skt"/>
-                        <outlet property="personCellView" destination="p3t-rP-6C0" id="ZEJ-o7-9Cn"/>
+                        <outlet property="personCellView" destination="p3t-rP-6C0" id="rdU-QA-k70"/>
                         <outlet property="year" destination="o45-Zr-DBV" id="dDh-jh-FnV"/>
                     </connections>
                 </viewController>
