@@ -115,11 +115,24 @@ class ViewController: UIViewController{
     func longPressGestureRecognized(_ gestureRecognizer: UILongPressGestureRecognizer){
         
         gsManager.longPressOnView(
-            gestureRecognizer: gestureRecognizer,
-            mainUIView: mainUIView,
-            calendarView: calendarView,
-            personCellView: personCellView)
+                            gestureRecognizer: gestureRecognizer,
+                                      mainUIView: mainUIView,
+                                    calendarView: calendarView,
+                                personCellView: personCellView) {
+            //create popup view 
+                    self.createPopupView()
+        }
     }
+    
+        func createPopupView(){
+            let popupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PopupMenu") as! PopupMenuViewController
+            self.addChildViewController(popupVC)
+            popupVC.view.frame = self.view.frame
+            self.view.addSubview(popupVC.view)
+            popupVC.didMove(toParentViewController: self)
+        }
+        
+
     
 }//class out
 

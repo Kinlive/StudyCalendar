@@ -9,10 +9,9 @@
 import UIKit
 import JTAppleCalendar
 
+typealias GestureEnd = () -> Void
 class GestureSetupManager: NSObject {
 
-    
-    
     struct My {
         static var cellSnapshot : UIView? = nil
     }
@@ -26,7 +25,9 @@ class GestureSetupManager: NSObject {
                     gestureRecognizer: UILongPressGestureRecognizer,
                     mainUIView: UIView ,
                     calendarView:JTAppleCalendarView ,
-                    personCellView:UICollectionView) {
+                    personCellView:UICollectionView,
+                    gestureEnd : @escaping GestureEnd =  { ()  -> Void  in }
+                    ) {
         
         let state = gestureRecognizer.state
         //longPress在CellView上的位置,得到CGPoint(x,y)
@@ -110,7 +111,7 @@ class GestureSetupManager: NSObject {
                 calendarCell.selectedView.isHidden = false  //控制月曆選擇顯示
                 cell.isHidden = false
                 cell.alpha = 0.0
-                
+//                 self.createCancelView(mainUIView: mainUIView)
                 UIView.animate(withDuration: 0.5, animations: {
                     //月曆cell放大
                     calendarCell.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
@@ -125,8 +126,10 @@ class GestureSetupManager: NSObject {
                         cellSnapshot.removeFromSuperview()
                         My.cellSnapshot = nil
                         NSLog("Case333333333")
+                       
                     }
                 })
+                gestureEnd()
             }else{
                 guard let personCellIndexPath = Path.personCellIndexPath else {
                     return}
@@ -157,5 +160,8 @@ class GestureSetupManager: NSObject {
         return cellSnapshot
     }
     
-    
+    func createCancelView(mainUIView : UIView) {
+        let cancelView = UIView(frame: mainUIView.frame)
+        mainUIView.addSubview(cancelView)
+    }
 }
