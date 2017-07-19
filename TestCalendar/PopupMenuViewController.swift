@@ -10,13 +10,16 @@ import UIKit
 
 class PopupMenuViewController: UIViewController {
     @IBOutlet weak var menuView: UIView!
+    @IBOutlet weak var menuTableView: UITableView!
+//    let menuTableViewCoorinator = MenuTableViewCoorinator()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         self.menuView.layer.cornerRadius = 25
         showAnimate()
-        
+        menuTableView.delegate = self
+        menuTableView.dataSource = self
         
         // Do any additional setup after loading the view.
     }
@@ -56,4 +59,26 @@ class PopupMenuViewController: UIViewController {
     }
 
     
+}
+extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
+    //MARK: - tableView Delegate & Datasource
+    func numberOfSections(in tableView: UITableView) -> Int {
+        //..
+        return 1
+    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //..how much cells
+        return 4
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //..
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ClassTypeCell", for: indexPath)
+        cell.textLabel?.text = "5566"
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.view.removeFromSuperview()
+    }
+
 }

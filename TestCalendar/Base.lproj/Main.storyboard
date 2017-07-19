@@ -319,23 +319,21 @@
                                         <rect key="frame" x="0.5" y="66" width="267" height="269"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ClassTypeCell" rowHeight="54" id="0r0-LZ-nCp">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ClassTypeCell" textLabel="26a-jb-7fe" rowHeight="54" style="IBUITableViewCellStyleDefault" id="0r0-LZ-nCp">
                                                 <rect key="frame" x="0.0" y="28" width="267" height="54"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0r0-LZ-nCp" id="fbY-9I-9dO">
                                                     <rect key="frame" x="0.0" y="0.0" width="267" height="53.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OMv-Ll-h1c">
-                                                            <rect key="frame" x="102" y="7" width="63" height="38"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                                            <state key="normal" title="Button"/>
-                                                        </button>
+                                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="26a-jb-7fe">
+                                                            <rect key="frame" x="15" y="0.0" width="237" height="53.5"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
-                                                    <constraints>
-                                                        <constraint firstItem="OMv-Ll-h1c" firstAttribute="centerY" secondItem="fbY-9I-9dO" secondAttribute="centerY" id="O2f-G1-hXO"/>
-                                                        <constraint firstItem="OMv-Ll-h1c" firstAttribute="centerX" secondItem="fbY-9I-9dO" secondAttribute="centerX" id="Vnf-BM-ybq"/>
-                                                    </constraints>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
                                         </prototypes>
@@ -369,6 +367,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="800" height="600"/>
                     <connections>
+                        <outlet property="menuTableView" destination="U7v-24-yNV" id="uUo-gM-28t"/>
                         <outlet property="menuView" destination="zpA-7o-Fvj" id="Gzs-vu-xoj"/>
                     </connections>
                 </viewController>

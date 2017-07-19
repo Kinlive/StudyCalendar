@@ -18,6 +18,7 @@
 		116D4DAF1F111C74002CA6D1 /* PersonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D4DAE1F111C74002CA6D1 /* PersonCell.swift */; };
 		11E2D1631F1DF65900A2689C /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E2D1621F1DF65900A2689C /* GradientView.swift */; };
 		11E2D1651F1F2EEE00A2689C /* PopupMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E2D1641F1F2EEE00A2689C /* PopupMenuViewController.swift */; };
+		11E2D16B1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E2D16A1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift */; };
 		F2F62382C5F8B25C64759DAE /* Pods_TestCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0112674326C5AEE12A5CB3B /* Pods_TestCalendar.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		116D4DAE1F111C74002CA6D1 /* PersonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCell.swift; sourceTree = "<group>"; };
 		11E2D1621F1DF65900A2689C /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		11E2D1641F1F2EEE00A2689C /* PopupMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupMenuViewController.swift; sourceTree = "<group>"; };
+		11E2D16A1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuOfClassTypeTableViewCell.swift; sourceTree = "<group>"; };
 		51B0A8C58964E0FF365709E8 /* Pods-TestCalendar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestCalendar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TestCalendar/Pods-TestCalendar.debug.xcconfig"; sourceTree = "<group>"; };
 		C4F8C38323E85C6D04E4D798 /* Pods-TestCalendar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestCalendar.release.xcconfig"; path = "Pods/Target Support Files/Pods-TestCalendar/Pods-TestCalendar.release.xcconfig"; sourceTree = "<group>"; };
 		E0112674326C5AEE12A5CB3B /* Pods_TestCalendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TestCalendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,20 +75,53 @@
 		114AAA901F0E59F0009B766F /* TestCalendar */ = {
 			isa = PBXGroup;
 			children = (
-				114AAA911F0E59F0009B766F /* AppDelegate.swift */,
-				114AAA931F0E59F0009B766F /* ViewController.swift */,
-				11231FB91F1D2B82006D7E55 /* GestureSetupManager.swift */,
-				11231FC11F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift */,
-				114AAA951F0E59F0009B766F /* Main.storyboard */,
-				11E2D1641F1F2EEE00A2689C /* PopupMenuViewController.swift */,
-				116D4DAE1F111C74002CA6D1 /* PersonCell.swift */,
-				11E2D1621F1DF65900A2689C /* GradientView.swift */,
-				114AAA981F0E59F0009B766F /* Assets.xcassets */,
-				116D4DAC1F0E5BCD002CA6D1 /* CustomCell.swift */,
-				114AAA9A1F0E59F0009B766F /* LaunchScreen.storyboard */,
-				114AAA9D1F0E59F0009B766F /* Info.plist */,
+				11E2D1681F1F4C7500A2689C /* Others */,
+				11E2D1661F1F4C3700A2689C /* Control */,
+				11E2D1671F1F4C5800A2689C /* View */,
+				11E2D1691F1F4C7E00A2689C /* Model */,
 			);
 			path = TestCalendar;
+			sourceTree = "<group>";
+		};
+		11E2D1661F1F4C3700A2689C /* Control */ = {
+			isa = PBXGroup;
+			children = (
+				11231FC11F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift */,
+				114AAA931F0E59F0009B766F /* ViewController.swift */,
+				11231FB91F1D2B82006D7E55 /* GestureSetupManager.swift */,
+				11E2D1641F1F2EEE00A2689C /* PopupMenuViewController.swift */,
+			);
+			name = Control;
+			sourceTree = "<group>";
+		};
+		11E2D1671F1F4C5800A2689C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				114AAA951F0E59F0009B766F /* Main.storyboard */,
+				116D4DAE1F111C74002CA6D1 /* PersonCell.swift */,
+				11E2D1621F1DF65900A2689C /* GradientView.swift */,
+				116D4DAC1F0E5BCD002CA6D1 /* CustomCell.swift */,
+				11E2D16A1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		11E2D1681F1F4C7500A2689C /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				114AAA911F0E59F0009B766F /* AppDelegate.swift */,
+				114AAA981F0E59F0009B766F /* Assets.xcassets */,
+				114AAA9A1F0E59F0009B766F /* LaunchScreen.storyboard */,
+			);
+			name = Others;
+			sourceTree = "<group>";
+		};
+		11E2D1691F1F4C7E00A2689C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				114AAA9D1F0E59F0009B766F /* Info.plist */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		73D99F599ECB659E5C7858E8 /* Pods */ = {
@@ -237,6 +272,7 @@
 				11E2D1631F1DF65900A2689C /* GradientView.swift in Sources */,
 				116D4DAF1F111C74002CA6D1 /* PersonCell.swift in Sources */,
 				114AAA921F0E59F0009B766F /* AppDelegate.swift in Sources */,
+				11E2D16B1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
