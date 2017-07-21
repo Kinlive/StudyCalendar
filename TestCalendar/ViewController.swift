@@ -11,16 +11,20 @@ import JTAppleCalendar
 
 
 
-
 class ViewController: UIViewController{
     let formatter = DateFormatter()
     let currentFormatter = DateFormatter()
     let currentDate = Date()
     //celander here
-   
+    //test 裝值
+    var perPerson = [SetupOnStartData]()
+    let baseSetup = BaseSetup()
+   //
     var longPress = UILongPressGestureRecognizer()
     let gsManager = GestureSetupManager()
     let personCVCoorinator = PersonCollectionViewCoorinator()
+  
+    
   
     @IBOutlet var mainUIView: UIView!
     @IBOutlet weak var calendarView: JTAppleCalendarView!
@@ -51,8 +55,29 @@ class ViewController: UIViewController{
         mainUIView.addGestureRecognizer(longPress)
     //        calendarView.addGestureRecognizer(longPress)
     //        personCellView.addGestureRecognizer(longPress)
-
+        
+//        for i in 0...5 {
+//            perPerson.append(PersonDetail(hours: i, overHours: i*2))
+//            NSLog("this array is \(perPerson[i].hours) and \(perPerson[i].overHours)")
+//        }
+//        NSLog(" this is struct in \(perPerson.count)" )
+        
+        
+        for _ in baseSetup.personCount {
+            let setupOnStart = SetupOnStartData(name: nil,
+                                                hours: baseSetup.hoursOfMonth,
+                                                overHours: baseSetup.overHoursOfMonth)
+             print(setupOnStart.hours! ,setupOnStart.overHours!)
+            perPerson.append(setupOnStart)
+           
+        }
+            print("12111111")
+            print(perPerson)
+        
+        
+        
     }//viewDidLoad here
+    
     //MARK: - Calender setup start here
     func setupCalendarView(){
         //Setup calendar space
@@ -121,6 +146,7 @@ class ViewController: UIViewController{
                                 personCellView: personCellView) {
             //create popup view 
                     self.createPopupView()
+                    self.personCellView.reloadData()
         }
     }
     
@@ -131,7 +157,10 @@ class ViewController: UIViewController{
             self.view.addSubview(popupVC.view)
             popupVC.didMove(toParentViewController: self)
         }
-        
+    
+    @IBAction func personDetailButton(_ sender: UIButton) {
+        //...
+    }
 
     
 }//class out

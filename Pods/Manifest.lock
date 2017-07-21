@@ -1,12 +1,15 @@
 PODS:
   - JTAppleCalendar (7.0.4)
+  - KDCircularProgress (1.5.2)
 
 DEPENDENCIES:
   - JTAppleCalendar (~> 7.0)
+  - KDCircularProgress (~> 1.5)
 
 SPEC CHECKSUMS:
   JTAppleCalendar: 6def48ecd0daae1d5baaa45e813124c2a20b184d
+  KDCircularProgress: 12f677b2deb02409ab48c6cae1898d146b8ad549
 
-PODFILE CHECKSUM: 6230b16cf1ddbc4852be8e7aab1369116831326c
+PODFILE CHECKSUM: dd136b010660dae09be72acc695c60066dd20d2d
 
 COCOAPODS: 1.2.0

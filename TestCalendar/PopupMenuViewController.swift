@@ -72,13 +72,17 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //..
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ClassTypeCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ClassTypeCell", for: indexPath) as! MenuOfClassTypeTableViewCell
+        cell.layer.cornerRadius = 15
         cell.textLabel?.text = "5566"
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.view.removeFromSuperview()
+        
+//        self.view.removeFromSuperview()
+        self.removeAnimate()
     }
 
 }

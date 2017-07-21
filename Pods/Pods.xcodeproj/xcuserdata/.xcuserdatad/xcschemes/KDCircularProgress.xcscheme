@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '5E539702F431132E397AEE9424D1B5BA'
-               BlueprintName = 'Pods-TestCalendar'
+               BlueprintIdentifier = '322428ECC8C5EC71F14C92233787C7AC'
+               BlueprintName = 'KDCircularProgress'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'Pods-TestCalendar.framework'>
+               BuildableName = 'KDCircularProgress.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

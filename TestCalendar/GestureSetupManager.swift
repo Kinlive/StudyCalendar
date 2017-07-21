@@ -13,12 +13,12 @@ typealias GestureEnd = () -> Void
 class GestureSetupManager: NSObject {
 
     struct My {
-        static var cellSnapshot : UIView? = nil
+        static var cellSnapshot : UIView?
     }
     struct Path{
         //用來存放找到personCell的索引
-        static var personCellIndexPath : IndexPath? = nil
-        static var calendarCellIndexPath : IndexPath? = nil
+        static var personCellIndexPath : IndexPath?
+        static var calendarCellIndexPath : IndexPath? 
     }
     
     func longPressOnView(
@@ -160,8 +160,10 @@ class GestureSetupManager: NSObject {
         return cellSnapshot
     }
     
+    //為了屏除背後畫面功能做的
     func createCancelView(mainUIView : UIView) {
         let cancelView = UIView(frame: mainUIView.frame)
+        
         mainUIView.addSubview(cancelView)
     }
 }

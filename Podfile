@@ -10,4 +10,6 @@ target 'TestCalendar' do
 pod 'JTAppleCalendar', '~> 7.0'
   # Pods for TestCalendar
 
+pod 'KDCircularProgress', '~> 1.5'
+
 end

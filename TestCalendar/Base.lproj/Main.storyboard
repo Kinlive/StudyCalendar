@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="ipad10_5" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
@@ -187,30 +187,29 @@
                                             <rect key="frame" x="0.0" y="0.0" width="167" height="186"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yug-rP-Dcl">
-                                                    <rect key="frame" x="44.5" y="50" width="79" height="26.5"/>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ezE-Pg-QTO" userLabel="PersonHour">
+                                                    <rect key="frame" x="-0.5" y="0.0" width="167" height="186"/>
+                                                    <color key="backgroundColor" red="0.94277737790000005" green="0.96662175559999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yug-rP-Dcl">
+                                                    <rect key="frame" x="55" y="80" width="58.5" height="27"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ezE-Pg-QTO" userLabel="PersonHour">
-                                                    <rect key="frame" x="0.0" y="92" width="167" height="62"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </view>
                                             </subviews>
                                         </view>
                                         <color key="backgroundColor" red="0.67878132849999995" green="1" blue="0.68984306070000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstItem="Yug-rP-Dcl" firstAttribute="centerY" secondItem="1oE-ea-aay" secondAttribute="centerY" constant="-30" id="6tg-z9-2Dd"/>
-                                            <constraint firstAttribute="trailing" secondItem="ezE-Pg-QTO" secondAttribute="trailing" id="7uK-U7-ptN"/>
+                                            <constraint firstItem="Yug-rP-Dcl" firstAttribute="centerY" secondItem="1oE-ea-aay" secondAttribute="centerY" id="6tg-z9-2Dd"/>
                                             <constraint firstItem="ezE-Pg-QTO" firstAttribute="width" secondItem="1oE-ea-aay" secondAttribute="width" id="8QI-ht-3L9"/>
-                                            <constraint firstItem="ezE-Pg-QTO" firstAttribute="centerY" secondItem="1oE-ea-aay" secondAttribute="centerY" constant="30" id="FdX-DG-JGE"/>
-                                            <constraint firstItem="ezE-Pg-QTO" firstAttribute="leading" secondItem="1oE-ea-aay" secondAttribute="leading" id="hL0-Zv-M7d"/>
-                                            <constraint firstItem="ezE-Pg-QTO" firstAttribute="height" secondItem="1oE-ea-aay" secondAttribute="height" multiplier="1/3" id="oC7-Aa-KPU"/>
+                                            <constraint firstItem="ezE-Pg-QTO" firstAttribute="centerX" secondItem="1oE-ea-aay" secondAttribute="centerX" id="CY1-m6-THm"/>
+                                            <constraint firstItem="ezE-Pg-QTO" firstAttribute="height" secondItem="1oE-ea-aay" secondAttribute="height" id="OP0-QJ-w47"/>
                                             <constraint firstItem="Yug-rP-Dcl" firstAttribute="centerX" secondItem="1oE-ea-aay" secondAttribute="centerX" id="pBj-uo-OjD"/>
+                                            <constraint firstItem="ezE-Pg-QTO" firstAttribute="centerY" secondItem="1oE-ea-aay" secondAttribute="centerY" id="pef-9B-XNy"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="hourBar" destination="ezE-Pg-QTO" id="Uxz-Zn-e5u"/>
+                                            <outlet property="hourBar" destination="ezE-Pg-QTO" id="mh9-CT-13J"/>
                                             <outlet property="personName" destination="Yug-rP-Dcl" id="2Kt-bU-69d"/>
                                         </connections>
                                     </collectionViewCell>
@@ -251,6 +250,10 @@
                                                 <integer key="value" value="35"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="personDetailButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bGc-QC-8l5"/>
+                                            <segue destination="hU6-Nf-ZSo" kind="show" id="BqG-bF-6HP"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -286,6 +289,82 @@
             </objects>
             <point key="canvasLocation" x="182.91366906474821" y="124.46043165467627"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="sUB-SL-m1J">
+            <objects>
+                <viewController id="wOR-f3-2Iw" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Rx0-jc-2wc"/>
+                        <viewControllerLayoutGuide type="bottom" id="7WW-iA-M1a"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="XCt-jG-RKF">
+                        <rect key="frame" x="0.0" y="0.0" width="791" height="834"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sMV-wu-XbW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="881" y="1013"/>
+        </scene>
+        <!--Person Detail-->
+        <scene sceneID="ILg-1r-U9n">
+            <objects>
+                <tableViewController clearsSelectionOnViewWillAppear="NO" id="beo-yf-Gki" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="qyg-4P-kow">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="834"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="l3G-F3-8QO">
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="l3G-F3-8QO" id="zej-98-GD8">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="beo-yf-Gki" id="W6m-la-9gZ"/>
+                            <outlet property="delegate" destination="beo-yf-Gki" id="YLa-8D-Teh"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Person Detail" id="8Bf-Zs-Zis"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KiL-HB-PIe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2226" y="154"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Y4a-Ot-Fvu">
+            <objects>
+                <navigationController id="39V-K1-9yf" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2Nq-4F-4Vn">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="beo-yf-Gki" kind="relationship" relationship="rootViewController" id="X0N-ad-i6B"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3kA-1N-w4H" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1571" y="154"/>
+        </scene>
+        <!--Split View Controller-->
+        <scene sceneID="Hm8-06-tb0">
+            <objects>
+                <splitViewController id="hU6-Nf-ZSo" sceneMemberID="viewController">
+                    <connections>
+                        <segue destination="39V-K1-9yf" kind="relationship" relationship="masterViewController" id="4lY-2g-YQ4"/>
+                        <segue destination="wOR-f3-2Iw" kind="relationship" relationship="detailViewController" id="T8R-3Y-NZ8"/>
+                    </connections>
+                </splitViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TnW-8R-bb8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="881" y="124"/>
+        </scene>
         <!--Popup Menu View Controller-->
         <scene sceneID="OyZ-Qu-TXL">
             <objects>
@@ -319,7 +398,7 @@
                                         <rect key="frame" x="0.5" y="66" width="267" height="269"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ClassTypeCell" textLabel="26a-jb-7fe" rowHeight="54" style="IBUITableViewCellStyleDefault" id="0r0-LZ-nCp">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ClassTypeCell" textLabel="26a-jb-7fe" rowHeight="54" style="IBUITableViewCellStyleDefault" id="0r0-LZ-nCp" customClass="MenuOfClassTypeTableViewCell" customModule="TestCalendar" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="267" height="54"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0r0-LZ-nCp" id="fbY-9I-9dO">

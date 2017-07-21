@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
+		<key>KDCircularProgress.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 		<key>Pods-TestCalendar.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -17,7 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>322428ECC8C5EC71F14C92233787C7AC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>3ADB9E3C1C84DFDBCF8860A30F9254EF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5E539702F431132E397AEE9424D1B5BA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
