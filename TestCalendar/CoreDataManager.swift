@@ -45,10 +45,6 @@ class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
             targetDBPathURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         }
     }
-    
-    
-    
-    
 
     func createItem() -> ItemType {
         let newItem = NSEntityDescription.insertNewObject(forEntityName: targetEntityName, into: self.managedObjectContext) as! ItemType

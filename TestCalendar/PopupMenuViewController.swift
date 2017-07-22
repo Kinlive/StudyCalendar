@@ -15,6 +15,7 @@ class PopupMenuViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 //        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         self.menuView.layer.cornerRadius = 25
         showAnimate()
@@ -37,7 +38,7 @@ class PopupMenuViewController: UIViewController {
     func showAnimate(){
         self.view.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         self.view.alpha = 0.0
-        UIView.animate(withDuration: 0.5, animations: { 
+        UIView.animate(withDuration: 0.25, animations: {
             self.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             self.view.alpha = 1.0
         }) { (finished) in

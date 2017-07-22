@@ -11,13 +11,15 @@ import UIKit
 
 class PersonCell: UICollectionViewCell {
     var hours : Int?
-    var overHours : Int?
+    var overHours  = BaseSetup().overHoursOfMonth
     var personDetail = PersonDetail()
     
     
     @IBOutlet weak var personName: UILabel!
     
-    @IBOutlet weak var hourBar: UIView! //FIXME : -  never use
+    @IBOutlet weak var hourBar: KDCircularProgress!
+//    @IBOutlet weak var hourBar: UIView! //FIXME : -  never use
 
    
+    
 }

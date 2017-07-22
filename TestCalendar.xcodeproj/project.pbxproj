@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		111701481F2338FF00AC0519 /* SetupPersonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111701471F2338FF00AC0519 /* SetupPersonTableViewCell.swift */; };
+		1117014D1F233B6E00AC0519 /* SetupPersonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1117014C1F233B6E00AC0519 /* SetupPersonViewController.swift */; };
+		1117014F1F23559D00AC0519 /* ShowPersonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1117014E1F23559D00AC0519 /* ShowPersonDetailView.swift */; };
+		111701511F23637E00AC0519 /* ClassTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111701501F23637E00AC0519 /* ClassTypeTableViewCell.swift */; };
+		111701531F2363BE00AC0519 /* SetupClassTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111701521F2363BE00AC0519 /* SetupClassTypeViewController.swift */; };
 		11231FBA1F1D2B82006D7E55 /* GestureSetupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11231FB91F1D2B82006D7E55 /* GestureSetupManager.swift */; };
 		11231FC21F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11231FC11F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift */; };
 		114AAA921F0E59F0009B766F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114AAA911F0E59F0009B766F /* AppDelegate.swift */; };
@@ -27,6 +32,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		111701471F2338FF00AC0519 /* SetupPersonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupPersonTableViewCell.swift; sourceTree = "<group>"; };
+		1117014C1F233B6E00AC0519 /* SetupPersonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupPersonViewController.swift; sourceTree = "<group>"; };
+		1117014E1F23559D00AC0519 /* ShowPersonDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowPersonDetailView.swift; sourceTree = "<group>"; };
+		111701501F23637E00AC0519 /* ClassTypeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassTypeTableViewCell.swift; sourceTree = "<group>"; };
+		111701521F2363BE00AC0519 /* SetupClassTypeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupClassTypeViewController.swift; sourceTree = "<group>"; };
 		11231FB91F1D2B82006D7E55 /* GestureSetupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GestureSetupManager.swift; sourceTree = "<group>"; };
 		11231FC11F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCollectionViewCoorinator.swift; sourceTree = "<group>"; };
 		114AAA8E1F0E59F0009B766F /* TestCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,6 +72,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		111701491F23391B00AC0519 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				116D4DAE1F111C74002CA6D1 /* PersonCell.swift */,
+				111701471F2338FF00AC0519 /* SetupPersonTableViewCell.swift */,
+				116D4DAC1F0E5BCD002CA6D1 /* CustomCell.swift */,
+				111701501F23637E00AC0519 /* ClassTypeTableViewCell.swift */,
+				11E2D16A1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
 		114AAA851F0E59F0009B766F = {
 			isa = PBXGroup;
 			children = (
@@ -96,7 +118,9 @@
 			children = (
 				11231FC11F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift */,
 				114AAA931F0E59F0009B766F /* ViewController.swift */,
+				1117014C1F233B6E00AC0519 /* SetupPersonViewController.swift */,
 				11231FB91F1D2B82006D7E55 /* GestureSetupManager.swift */,
+				111701521F2363BE00AC0519 /* SetupClassTypeViewController.swift */,
 				11E2D1641F1F2EEE00A2689C /* PopupMenuViewController.swift */,
 			);
 			name = Control;
@@ -105,12 +129,10 @@
 		11E2D1671F1F4C5800A2689C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				111701491F23391B00AC0519 /* Cells */,
 				114AAA951F0E59F0009B766F /* Main.storyboard */,
-				116D4DAE1F111C74002CA6D1 /* PersonCell.swift */,
-				11E2D1701F1FA0D200A2689C /* CreateProgressBar.swift */,
 				11E2D1621F1DF65900A2689C /* GradientView.swift */,
-				116D4DAC1F0E5BCD002CA6D1 /* CustomCell.swift */,
-				11E2D16A1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift */,
+				1117014E1F23559D00AC0519 /* ShowPersonDetailView.swift */,
 				11E2D1751F207A3A00A2689C /* KDCircularProgress.swift */,
 			);
 			name = View;
@@ -122,6 +144,7 @@
 				114AAA911F0E59F0009B766F /* AppDelegate.swift */,
 				114AAA981F0E59F0009B766F /* Assets.xcassets */,
 				114AAA9A1F0E59F0009B766F /* LaunchScreen.storyboard */,
+				11E2D1701F1FA0D200A2689C /* CreateProgressBar.swift */,
 			);
 			name = Others;
 			sourceTree = "<group>";
@@ -280,13 +303,18 @@
 				11E2D1651F1F2EEE00A2689C /* PopupMenuViewController.swift in Sources */,
 				11E2D16F1F1F5B7600A2689C /* HoursStore.swift in Sources */,
 				114AAA941F0E59F0009B766F /* ViewController.swift in Sources */,
+				111701481F2338FF00AC0519 /* SetupPersonTableViewCell.swift in Sources */,
+				1117014D1F233B6E00AC0519 /* SetupPersonViewController.swift in Sources */,
 				11231FC21F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift in Sources */,
 				116D4DAD1F0E5BCD002CA6D1 /* CustomCell.swift in Sources */,
 				11E2D1711F1FA0D200A2689C /* CreateProgressBar.swift in Sources */,
 				11EFB3EA1F22019A0024CF93 /* CoreDataManager.swift in Sources */,
 				11231FBA1F1D2B82006D7E55 /* GestureSetupManager.swift in Sources */,
+				1117014F1F23559D00AC0519 /* ShowPersonDetailView.swift in Sources */,
+				111701511F23637E00AC0519 /* ClassTypeTableViewCell.swift in Sources */,
 				11E2D1631F1DF65900A2689C /* GradientView.swift in Sources */,
 				116D4DAF1F111C74002CA6D1 /* PersonCell.swift in Sources */,
+				111701531F2363BE00AC0519 /* SetupClassTypeViewController.swift in Sources */,
 				114AAA921F0E59F0009B766F /* AppDelegate.swift in Sources */,
 				11E2D16B1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift in Sources */,
 			);

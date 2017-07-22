@@ -8,17 +8,19 @@
 
 import UIKit
 import JTAppleCalendar
-
-typealias GestureEnd = () -> Void
+//typealias HandlePersonDetail = (person
+typealias GestureEnd = ( IndexPath ) -> Void
 class GestureSetupManager: NSObject {
-
+    var perPerson = [PersonDetail]()
+    
     struct My {
         static var cellSnapshot : UIView?
     }
     struct Path{
         //用來存放找到personCell的索引
         static var personCellIndexPath : IndexPath?
-        static var calendarCellIndexPath : IndexPath? 
+        static var calendarCellIndexPath : IndexPath?
+        static var firstLongPressIndexPath : IndexPath?
     }
     
     func longPressOnView(
@@ -26,7 +28,7 @@ class GestureSetupManager: NSObject {
                     mainUIView: UIView ,
                     calendarView:JTAppleCalendarView ,
                     personCellView:UICollectionView,
-                    gestureEnd : @escaping GestureEnd =  { ()  -> Void  in }
+                    gestureEnd : @escaping GestureEnd =  { _  -> Void  in }
                     ) {
         
         let state = gestureRecognizer.state
@@ -41,7 +43,8 @@ class GestureSetupManager: NSObject {
         //藉由 CGPoint(x,y)的點 找到對於personCellView內的索引路徑
         //indexPath可以得知長按的是第幾個section的第幾個item
         //        guard let indexPath = personCellView.indexPathForItem(at: fakeLocation) else { return }
-        let indexPath = personCellView.indexPathForItem(at: personLocation)//這裡要改成使用personLocation
+         let indexPath = personCellView.indexPathForItem(at: personLocation) //這裡要改成使用personLocation
+        Path.firstLongPressIndexPath = indexPath
         let calendarIndexPath = calendarView.indexPathForItem(at: calendarLocation)
         //        guard var mainViewIndexPath = mainUIView
                //FIXME : switch something...
@@ -106,8 +109,7 @@ class GestureSetupManager: NSObject {
                 guard let calendarIndexPath = calendarIndexPath else {return}
                 let calendarCell = calendarView.cellForItem(at: calendarIndexPath) as! CustomCell
                 guard let personCellIndexPath = Path.personCellIndexPath else {return}
-                guard let cell = personCellView.cellForItem(at: personCellIndexPath)  else {return}
-                
+                let cell = personCellView.cellForItem(at: personCellIndexPath) as! PersonCell
                 calendarCell.selectedView.isHidden = false  //控制月曆選擇顯示
                 cell.isHidden = false
                 cell.alpha = 0.0
@@ -129,7 +131,9 @@ class GestureSetupManager: NSObject {
                        
                     }
                 })
-                gestureEnd()
+                //test for hours pass to 
+                gestureEnd(personCellIndexPath)
+                cell.overHours -= 8  //when drop a person
             }else{
                 guard let personCellIndexPath = Path.personCellIndexPath else {
                     return}
@@ -166,4 +170,9 @@ class GestureSetupManager: NSObject {
         
         mainUIView.addSubview(cancelView)
     }
+    
+    func getPersonDetail( perPerson : [PersonDetail]){
+        self.perPerson = perPerson
+    }
+  
 }
