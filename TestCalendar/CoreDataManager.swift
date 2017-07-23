@@ -11,13 +11,18 @@ import CoreData
 
 
 class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
-   
+    
+//   private static var noteInstance:CoreDataManager?
+//    
+//    static func newNote() -> CoreDataManager{
+//        
+//        if noteInstance == nil{
+//            noteInstance = CoreDataManager()
+//        }
+//        return noteInstance!
+//    }
     
     
-//    private var managedObjectContext:NSManagedObjectContext
-//    private var managedObjectModel:NSManagedObjectModel
-//    private var persistentStoreCoordinator:NSPersistentStoreCoordinator?
-//    private var fetchedResultsController:NSFetchedResultsController<NSFetchRequestResult>
     
     var targetModelName:String
     var targetDBfilename:String
@@ -25,14 +30,13 @@ class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
     var targetSortKey:String
     var targetEntityName:String
     var saveCompletion:SaveCompletion?
-    
+    //    (資料模型, 存成什麼檔名,存到哪裡,排序欄位,模型的名子)
     init(initWithModel modelName:String,
                 dbFileName:String,
                 dbPathURL:URL?,
                 sortKey:String,
                 entityName:String){
         
-//        super.init()
         //Keep parameters as variables
         targetModelName = modelName
         targetDBfilename = dbFileName
@@ -44,7 +48,9 @@ class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
         if(dbPathURL == nil){
             targetDBPathURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         }
+        
     }
+    
 
     func createItem() -> ItemType {
         let newItem = NSEntityDescription.insertNewObject(forEntityName: targetEntityName, into: self.managedObjectContext) as! ItemType
@@ -66,20 +72,20 @@ class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
     }
     
     
-//    func searchField(field:String,forKeyword keyword:String) -> Array<Any>{
-//        
-//        let request = NSFetchRequest<NSFetchRequestResult>(entityName: targetEntityName)
-//        var format = String(format: "%@ contains[cd] %%@", field)
-//        let predicate = NSPredicate(format: format, keyword)
-//        request.predicate = predicate
-//        var result = [NSFetchRequestResult]()
-//        do {
-//             result = try self.managedObjectContext.fetch(request)
-//        } catch  {
-//            print("erro")
-//        }
-//    return result
-//    }
+    func searchField(field:String,forKeyword keyword:String) -> Array<Any>{
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: targetEntityName)
+        let format = String(format: "%@ contains[cd] %%@", field)
+        let predicate = NSPredicate(format: format, keyword)
+        request.predicate = predicate
+        var result = [NSFetchRequestResult]()
+        do {
+             result = try self.managedObjectContext.fetch(request)
+        } catch  {
+            print("erro")
+        }
+    return result
+    }
     
    // "%@ contains[cd] %%@" ％％＠ 將％％合成％ contains[cd]不區分大小寫
     
@@ -98,7 +104,7 @@ class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
         
     
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
-        //xcddata是原始碼 XCode Compile後會變momd
+        //xcddata是原始碼 XCode Compile後會變.momd(副檔名)
         let modelURL = Bundle.main.url(forResource: self.targetModelName, withExtension: "momd")!
         
         return NSManagedObjectModel(contentsOf: modelURL)!
@@ -163,6 +169,7 @@ class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
                 print("save FAilllllll ")
                 abort()
             }
+            completion(true)
         }else{
             completion(true)
             saveCompletion = nil

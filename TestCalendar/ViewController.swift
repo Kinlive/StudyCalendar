@@ -23,7 +23,7 @@ class ViewController: UIViewController{
     var longPress = UILongPressGestureRecognizer()
     let gsManager = GestureSetupManager()
     let personCVCoorinator = PersonCollectionViewCoorinator()
-  
+    var personCDManager : CoreDataManager<PersonData>!
     
   
     @IBOutlet var mainUIView: UIView!
@@ -53,26 +53,25 @@ class ViewController: UIViewController{
         longPress.addTarget(self, action: #selector(longPressGestureRecognized(_:)))
         longPress.minimumPressDuration = 0.25
         mainUIView.addGestureRecognizer(longPress)
-    //        calendarView.addGestureRecognizer(longPress)
-    //        personCellView.addGestureRecognizer(longPress)
         
-//        for i in 0...5 {
-//            perPerson.append(PersonDetail(hours: i, overHours: i*2))
-//            NSLog("this array is \(perPerson[i].hours) and \(perPerson[i].overHours)")
+        //Init personCoreDataManager
+        personCDManager = CoreDataManager(
+                                          initWithModel: "DataBase",
+                                          dbFileName: "personData.sqlite",
+                                          dbPathURL: nil,
+                                          sortKey: "name",
+                                          entityName: "PersonData")
+        
+//        for _ in baseSetup.personCount {
+//            let setupOnStart = SetupOnStartData(name: nil,
+//                                                hours: baseSetup.hoursOfMonth,
+//                                                overHours: baseSetup.overHoursOfMonth)
+//             print(setupOnStart.hours! ,setupOnStart.overHours!)
+//            perPerson.append(setupOnStart)
+//           
 //        }
-//        NSLog(" this is struct in \(perPerson.count)" )
-        
-        
-        for _ in baseSetup.personCount {
-            let setupOnStart = SetupOnStartData(name: nil,
-                                                hours: baseSetup.hoursOfMonth,
-                                                overHours: baseSetup.overHoursOfMonth)
-             print(setupOnStart.hours! ,setupOnStart.overHours!)
-            perPerson.append(setupOnStart)
-           
-        }
-            print("12111111")
-            print(perPerson)
+//            print("12111111")
+//            print(perPerson)
         
         
         
@@ -147,10 +146,24 @@ class ViewController: UIViewController{
                                 personCellView: personCellView) { (indexPath) in
             //create popup view 
                     self.createPopupView()
-               //     let cell = self.personCellView.cellForItem(at: indexPath) as! PersonCell
-            //        cell.removeFromSuperview()
-//                    self.personCellView.reloadData()
-                self.personCellView.reloadItems(at: [indexPath])
+                let item = self.personCDManager.itemWithIndex(index: indexPath.item)
+                                    if (item.overtime - 8) < 0{
+                                        item.overtime = 0
+                                    }else{
+                                         item.overtime -= 8
+                                    }
+               
+                                    //Test Here 
+                print("Test  \(String(describing: item.name)) : overtime \(item.overtime) \n")
+                self.personCDManager.saveContexWithCompletion(completion: { (success) in
+                    if success {
+                        self.personCellView.reloadData()
+                        self.personCellView.reloadItems(at: [indexPath])
+                        
+                    }
+                })
+                                    
+                
                                     
         }
     }

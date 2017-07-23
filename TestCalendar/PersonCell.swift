@@ -10,8 +10,8 @@ import UIKit
 
 
 class PersonCell: UICollectionViewCell {
-    var hours : Int?
-    var overHours  = BaseSetup().overHoursOfMonth
+    var hours : Double?
+    var overHours = 0.0
     var personDetail = PersonDetail()
     
     

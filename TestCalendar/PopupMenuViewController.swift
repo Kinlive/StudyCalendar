@@ -11,14 +11,16 @@ import UIKit
 class PopupMenuViewController: UIViewController {
 
     @IBOutlet weak var menuTableView: UITableView!
-
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.preferredContentSize = CGSize(width: 300, height: 400)
         showAnimate()
         menuTableView.delegate = self
         menuTableView.dataSource = self
+       
+
         
         // Do any additional setup after loading the view.
     }

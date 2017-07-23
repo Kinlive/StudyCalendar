@@ -9,7 +9,6 @@
 import UIKit
 
 class MenuOfClassTypeTableViewCell: UITableViewCell {
-    let aaa = 50
 
     override func awakeFromNib() {
         super.awakeFromNib()

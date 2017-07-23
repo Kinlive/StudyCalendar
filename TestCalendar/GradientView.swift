@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+//Never  use 
 class GradientView: UIView {
 
     @IBInspectable var startColor:   UIColor = .init(colorWithHexValue: 0xFFCBB3) { didSet { updateColors() }}

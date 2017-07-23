@@ -8,7 +8,7 @@
 
 import UIKit
 
-
+//var dataManager:CoreDataManager<PersonData>!
 var numberItem : [Int]{
     var array = [Int]()
     for i in 0...25 { array.append(i) }// for how much person
@@ -16,8 +16,15 @@ var numberItem : [Int]{
 }//FIXME: numberArray here
 let spacing :CGFloat = 3
 let itemCount :CGFloat = 2
-
 let baseSetup = BaseSetup()
+
+let personCDManager = CoreDataManager<PersonData>(
+                                    initWithModel: "DataBase",
+                                    dbFileName: "personData.sqlite",
+                                    dbPathURL: nil,
+                                    sortKey: "name",
+                                    entityName: "PersonData")
+
 
 class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource {
     //MARK: - UICollectionViewDelegate & DataSource
@@ -36,20 +43,22 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //..
-        return baseSetup.personCount.count
+        return personCDManager.count()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //..
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PersonCell", for: indexPath) as! PersonCell
-        cell.personName.text = String(baseSetup.personCount[indexPath.item])
+        let item = personCDManager.itemWithIndex(index: indexPath.item)
+        cell.overHours = item.overtime
+        cell.personName.text = item.name
         cell.layer.cornerRadius = cell.frame.size.width / 2
         cell.layer.borderWidth = 2
         
         //person hours setup ,之後要將時數一開始初始化的部分丟在[name : hours],並在建立人員時加入,並能存入資料庫
-        cell.personDetail.hours = baseSetup.hoursOfMonth
+//        cell.personDetail.hours = baseSetup.hoursOfMonth
         //放這不妥, cell的資料應該要從資料庫取出才是準的
-        cell.personDetail.overHours = baseSetup.overHoursOfMonth
+//        cell.personDetail.overHours = (item.overtime)
         setupHourBar(cell: cell)
         
         
@@ -68,7 +77,7 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
         cell.hourBar.glowAmount = 0.9
         cell.hourBar.set(colors: UIColor.white, UIColor.orange )
 //        cell.hourBar.animate(fromAngle: 50.0 , toAngle: (Double(cell.overHours)/46.0)*360.0, duration: 1.5, completion: nil)
-        cell.hourBar.animate(toAngle: (Double(cell.overHours)/46.0)*360.0, duration: 1.5, completion: nil)
+        cell.hourBar.animate(toAngle: (cell.overHours/46.0)*360.0, duration: 1.5, completion: nil)
     
     }
 

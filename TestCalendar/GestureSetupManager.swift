@@ -136,7 +136,7 @@ class GestureSetupManager: NSObject {
                 //test for hours pass to 
                 gestureEnd(personCellIndexPath)
 //                print(personCellIndexPath , Path.firstLongPressIndexPath!)
-                cell.overHours -= 8  //when drop a person
+//                cell.overHours -= 8
             }else{
                 guard let personCellIndexPath = Path.personCellIndexPath else {
                     return}

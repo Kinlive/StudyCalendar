@@ -17,12 +17,12 @@
     <entity name="PersonData" representedClassName="PersonData" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="overtime" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="workingHours" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="overtime" optional="YES" attributeType="Double" minValueString="0" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="workingHours" optional="YES" attributeType="Double" minValueString="0" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="PersonData" positionX="-63" positionY="-18" width="128" height="105"/>
-        <element name="ClassTypeData" positionX="-54" positionY="18" width="128" height="150"/>
         <element name="CalendarData" positionX="-36" positionY="72" width="128" height="90"/>
+        <element name="ClassTypeData" positionX="-54" positionY="18" width="128" height="150"/>
+        <element name="PersonData" positionX="-63" positionY="-18" width="128" height="105"/>
     </elements>
 </model>

@@ -9,8 +9,8 @@
 import UIKit
 
 class SetupPersonViewController: UIViewController {
-    var personNameArray = [String]()
-    
+    var personArray = [PersonData]()
+    var personCDManager : CoreDataManager<PersonData>!
 
     
 //MARK : - IBOutlet here
@@ -32,8 +32,16 @@ class SetupPersonViewController: UIViewController {
         SetupPersonTableView.delegate = self
         SetupPersonTableView.dataSource = self
         
+        //Init personCoreData
+        personCDManager = CoreDataManager(
+            initWithModel: "DataBase",
+            dbFileName: "personData.sqlite",
+            dbPathURL: nil,
+            sortKey: "name",
+            entityName: "PersonData")
+        
     }
-
+ 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -48,14 +56,26 @@ class SetupPersonViewController: UIViewController {
         let alert = UIAlertController.init(title: nil, message: "Please key in Name", preferredStyle: .alert)
         alert.addTextField(configurationHandler: nil)
        let ok = UIAlertAction(title: "OK", style: .default) { (ok) in
-//         self.personName = alert.textFields?[0].text
-        self.personNameArray.append((alert.textFields?[0].text)!)
-        self.SetupPersonTableView.reloadData()
-        }
+     
+       let item = self.personCDManager.createItem()
+        item.name = alert.textFields?[0].text
+        item.overtime = Double(baseSetup.overHoursOfMonth)
+        self.personCDManager.saveContexWithCompletion(completion: { (success) in
+            if(success){
+                self.personArray.append(item)
+                self.SetupPersonTableView.reloadData()
+            }
+        })
+        }//ok action block here
+        
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(ok)
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func callOtherControllerUpdate(){
+        //通知中心
     }
 
     /*
@@ -74,19 +94,21 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
     return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return personNameArray.count
+        return personCDManager.count()
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SetupPersonTableViewCell", for: indexPath) as! SetupPersonTableViewCell
+        let item = personCDManager.itemWithIndex(index: indexPath.item)
         
-        cell.textLabel?.text = personNameArray[indexPath.row]
-        cell.detailTextLabel?.text = String(BaseSetup().overHoursOfMonth)
+        cell.textLabel?.text = item.name
+        cell.detailTextLabel?.text = String(item.overtime)
         
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //..
-        self.showDetailOfLabel.text = personNameArray[indexPath.row]
+        
+        self.showDetailOfLabel.text = tableView.cellForRow(at: indexPath)?.textLabel?.text
         self.showHoursOfLabel.text = tableView.cellForRow(at: indexPath)?.detailTextLabel?.text
     }
     
