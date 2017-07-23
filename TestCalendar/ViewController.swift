@@ -144,7 +144,7 @@ class ViewController: UIViewController{
                             gestureRecognizer: gestureRecognizer,
                                       mainUIView: mainUIView,
                                     calendarView: calendarView,
-                                personCellView: personCellView) { indexPath in
+                                personCellView: personCellView) { (indexPath) in
             //create popup view 
                     self.createPopupView()
                //     let cell = self.personCellView.cellForItem(at: indexPath) as! PersonCell
@@ -155,24 +155,21 @@ class ViewController: UIViewController{
         }
     }
     //MARK: - createPopupView
-        func createPopupView(){
+    func createPopupView(){
             let popupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PopupMenu") as! PopupMenuViewController
-            self.addChildViewController(popupVC)
-            popupVC.view.frame = self.view.frame
-            self.view.addSubview(popupVC.view)
-            popupVC.didMove(toParentViewController: self)
+            popupVC.modalPresentationStyle = .popover
+            let popover = popupVC.popoverPresentationController!
+            popover.delegate = self as? UIPopoverPresentationControllerDelegate
+            popover.permittedArrowDirections.remove(.any)
+            popover.sourceView = self.view
+            popover.sourceRect = CGRect(x: 500, y: 300, width: self.view.frame.width/5, height: self.view.frame.height/4)
+            present(popupVC, animated: true, completion: nil)
+//            self.addChildViewController(popupVC)
+//            popupVC.view.frame = self.calendarView.frame
+//            self.view.addSubview(popupVC.view)
+//            popupVC.didMove(toParentViewController: self)
         }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if (segue.identifier == "ShowSetupPerson") {
-//            let setupVC = segue.destination
-//            let popoverVC = setupVC.popoverPresentationController
-//            let mainViewRect = CGRect(x: 0, y: 0, width: self.view.frame.width*3/4, height: self.view.frame.height*3/4)
-//            
-//            popoverVC?.sourceRect = mainViewRect
-//        }
-//    }
-
+   
     
     @IBAction func personDetailButton(_ sender: UIButton) {
         //...

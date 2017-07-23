@@ -9,15 +9,13 @@
 import UIKit
 
 class PopupMenuViewController: UIViewController {
-    @IBOutlet weak var menuView: UIView!
+
     @IBOutlet weak var menuTableView: UITableView!
-//    let menuTableViewCoorinator = MenuTableViewCoorinator()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
-        self.menuView.layer.cornerRadius = 25
+        self.preferredContentSize = CGSize(width: 300, height: 400)
         showAnimate()
         menuTableView.delegate = self
         menuTableView.dataSource = self
@@ -30,11 +28,10 @@ class PopupMenuViewController: UIViewController {
        
     }
     
-    @IBAction func closePopup(_ sender: Any) {
-        self.removeAnimate()
-    }
+
+
     
-    //view Animate func
+    //MARK: - view Animate func
     func showAnimate(){
         self.view.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
         self.view.alpha = 0.0
@@ -43,7 +40,8 @@ class PopupMenuViewController: UIViewController {
             self.view.alpha = 1.0
         }) { (finished) in
             if finished {
-                self.view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+//                self.view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+//                self.view.backgroundColor = UIColor.clear
             }
         }
         
@@ -54,7 +52,7 @@ class PopupMenuViewController: UIViewController {
             self.view.alpha = 0.0
         }) { (finished) in
             if finished {
-                self.view.removeFromSuperview()
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }

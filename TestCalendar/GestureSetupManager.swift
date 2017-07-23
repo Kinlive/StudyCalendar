@@ -9,7 +9,7 @@
 import UIKit
 import JTAppleCalendar
 //typealias HandlePersonDetail = (person
-typealias GestureEnd = ( IndexPath ) -> Void
+typealias GestureEnd = ( IndexPath  ) -> Void
 class GestureSetupManager: NSObject {
     var perPerson = [PersonDetail]()
     
@@ -44,7 +44,9 @@ class GestureSetupManager: NSObject {
         //indexPath可以得知長按的是第幾個section的第幾個item
         //        guard let indexPath = personCellView.indexPathForItem(at: fakeLocation) else { return }
          let indexPath = personCellView.indexPathForItem(at: personLocation) //這裡要改成使用personLocation
-        Path.firstLongPressIndexPath = indexPath
+        if (Path.firstLongPressIndexPath == nil){
+            Path.firstLongPressIndexPath = indexPath
+        }
         let calendarIndexPath = calendarView.indexPathForItem(at: calendarLocation)
         //        guard var mainViewIndexPath = mainUIView
                //FIXME : switch something...
@@ -133,6 +135,7 @@ class GestureSetupManager: NSObject {
                 })
                 //test for hours pass to 
                 gestureEnd(personCellIndexPath)
+//                print(personCellIndexPath , Path.firstLongPressIndexPath!)
                 cell.overHours -= 8  //when drop a person
             }else{
                 guard let personCellIndexPath = Path.personCellIndexPath else {
