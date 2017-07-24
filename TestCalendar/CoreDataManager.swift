@@ -12,14 +12,19 @@ import CoreData
 
 class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
     
-//   private static var noteInstance:CoreDataManager?
+ 
+//  static  var personCDManager : CoreDataManager?
 //    
-//    static func newNote() -> CoreDataManager{
-//        
-//        if noteInstance == nil{
-//            noteInstance = CoreDataManager()
+//    static func getPersonCDMSingleton() -> CoreDataManager{
+//        if personCDManager == nil{
+//            personCDManager = CoreDataManager(
+//                initWithModel: "DataBase",
+//                dbFileName: "personData.sqlite",
+//                dbPathURL: nil,
+//                sortKey: "name",
+//                entityName: "PersonData")
 //        }
-//        return noteInstance!
+//        return personCDManager!
 //    }
     
     
@@ -72,7 +77,7 @@ class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
     }
     
     
-    func searchField(field:String,forKeyword keyword:String) -> Array<Any>{
+    func searchField(field:String,forKeyword keyword:String) -> [NSFetchRequestResult]{
         
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: targetEntityName)
         let format = String(format: "%@ contains[cd] %%@", field)

@@ -72,7 +72,7 @@ class ViewController: UIViewController{
 //        }
 //            print("12111111")
 //            print(perPerson)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCell(object:)), name: NSNotification.Name(rawValue: "RefreshTheCell"), object: nil)
         
         
     }//viewDidLoad here
@@ -145,28 +145,22 @@ class ViewController: UIViewController{
                                     calendarView: calendarView,
                                 personCellView: personCellView) { (indexPath) in
             //create popup view 
-                    self.createPopupView()
+                self.createPopupView()
                 let item = self.personCDManager.itemWithIndex(index: indexPath.item)
-                                    if (item.overtime - 8) < 0{
-                                        item.overtime = 0
-                                    }else{
-                                         item.overtime -= 8
-                                    }
+                                   
                
                                     //Test Here 
                 print("Test  \(String(describing: item.name)) : overtime \(item.overtime) \n")
-                self.personCDManager.saveContexWithCompletion(completion: { (success) in
-                    if success {
-                        self.personCellView.reloadData()
-                        self.personCellView.reloadItems(at: [indexPath])
-                        
-                    }
-                })
-                                    
-                
-                                    
+//                self.personCDManager.saveContexWithCompletion(completion: { (success) in
+//                    if success {
+//                        self.personCellView.reloadData()
+//                        self.personCellView.reloadItems(at: [indexPath])
+//                        
+//                    }
+//                })
         }
-    }
+    }//longpress func here
+    
     //MARK: - createPopupView
     func createPopupView(){
             let popupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PopupMenu") as! PopupMenuViewController
@@ -182,7 +176,12 @@ class ViewController: UIViewController{
 //            self.view.addSubview(popupVC.view)
 //            popupVC.didMove(toParentViewController: self)
         }
-   
+   //MARK: - refresh the cell
+    func refreshPersonCell( object : Notification){
+        let indexPath = object.object as! [IndexPath]
+        self.personCellView.reloadItems(at: indexPath )
+        print("Test refresh happen?")
+    }
     
     @IBAction func personDetailButton(_ sender: UIButton) {
         //...

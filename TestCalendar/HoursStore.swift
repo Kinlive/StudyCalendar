@@ -9,6 +9,11 @@
 import Foundation
 
 public struct BaseSetup{
+//    init(){
+//        let shared : BaseSetup? = nil
+//        
+//    }
+    
     let monthly =
         ["January","Fabruary","March","April",
         "May","June","July","August",
@@ -20,6 +25,8 @@ public struct BaseSetup{
         for i in 0...25 { array.append(i) }// for how much person
         return array
     }
+    
+   static var saveFirstIndexPath : IndexPath?
     
 }
 public struct SetupOnStartData{

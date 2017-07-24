@@ -6,13 +6,13 @@
         <attribute name="personName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="ClassTypeData" representedClassName="ClassTypeData" syncable="YES" codeGenerationType="class">
+        <attribute name="overtime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="ruleFive" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="ruleFour" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="ruleOne" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="ruleSix" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="ruleThree" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="ruleTwo" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="startTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="typeName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="workingHours" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="PersonData" representedClassName="PersonData" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>

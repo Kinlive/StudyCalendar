@@ -13,6 +13,9 @@ typealias GestureEnd = ( IndexPath  ) -> Void
 class GestureSetupManager: NSObject {
     var perPerson = [PersonDetail]()
     
+    let firstIndexPathLuck = NSLock()
+    var baseSetup = BaseSetup()
+    
     struct My {
         static var cellSnapshot : UIView?
     }
@@ -44,9 +47,12 @@ class GestureSetupManager: NSObject {
         //indexPath可以得知長按的是第幾個section的第幾個item
         //        guard let indexPath = personCellView.indexPathForItem(at: fakeLocation) else { return }
          let indexPath = personCellView.indexPathForItem(at: personLocation) //這裡要改成使用personLocation
-        if (Path.firstLongPressIndexPath == nil){
-            Path.firstLongPressIndexPath = indexPath
+        if (firstIndexPathLuck.try() != false){
+            BaseSetup.saveFirstIndexPath = indexPath
         }
+//        if (Path.firstLongPressIndexPath == nil){
+//            Path.firstLongPressIndexPath = indexPath
+//        }
         let calendarIndexPath = calendarView.indexPathForItem(at: calendarLocation)
         //        guard var mainViewIndexPath = mainUIView
                //FIXME : switch something...
@@ -76,7 +82,7 @@ class GestureSetupManager: NSObject {
             }, completion: { finished in
                 if finished{
                     cell.isHidden = true
-                    NSLog("Case11111111")
+                    NSLog("Case drap .start")
                 }
             })
         case .changed :
@@ -129,14 +135,13 @@ class GestureSetupManager: NSObject {
                         Path.personCellIndexPath = nil
                         cellSnapshot.removeFromSuperview()
                         My.cellSnapshot = nil
-                        NSLog("Case333333333")
+                        NSLog("Case:Drag. end")
                        
                     }
                 })
                 //test for hours pass to 
                 gestureEnd(personCellIndexPath)
-//                print(personCellIndexPath , Path.firstLongPressIndexPath!)
-//                cell.overHours -= 8
+                firstIndexPathLuck.unlock()
             }else{
                 guard let personCellIndexPath = Path.personCellIndexPath else {
                     return}
@@ -146,6 +151,7 @@ class GestureSetupManager: NSObject {
                 Path.personCellIndexPath = nil
                 cellSnapshot.removeFromSuperview()
                 My.cellSnapshot = nil
+              firstIndexPathLuck.unlock()   
             }
         default:
             break

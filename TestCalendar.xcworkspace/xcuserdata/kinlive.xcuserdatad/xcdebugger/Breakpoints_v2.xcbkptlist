@@ -2,4 +2,54 @@
 <Bucket
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TestCalendar/PopupMenuViewController.swift"
+            timestampString = "522558955.002973"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
+            landmarkName = "tableView(_:didSelectRowAt:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TestCalendar.PopupMenuViewController.tableView (__ObjC.UITableView, didSelectRowAt : Foundation.IndexPath) -&gt; ()"
+                  moduleName = "TestCalendar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kinlive/Desktop/App_project/TestCalendar/TestCalendar/PopupMenuViewController.swift"
+                  timestampString = "522559414.266245"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "118"
+                  endingLineNumber = "118"
+                  offsetFromSymbolStart = "2102">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TestCalendar.PopupMenuViewController.(tableView (__ObjC.UITableView, didSelectRowAt : Foundation.IndexPath) -&gt; ()).(closure #1)"
+                  moduleName = "TestCalendar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kinlive/Desktop/App_project/TestCalendar/TestCalendar/PopupMenuViewController.swift"
+                  timestampString = "522559414.269377"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "119"
+                  endingLineNumber = "119"
+                  offsetFromSymbolStart = "26">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

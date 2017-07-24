@@ -9,7 +9,10 @@
 import UIKit
 
 class PopupMenuViewController: UIViewController {
-
+    var classTypeCDManager : CoreDataManager<ClassTypeData>!
+    var personCDManager : CoreDataManager<PersonData>!
+    let baseSetup = BaseSetup()
+    
     @IBOutlet weak var menuTableView: UITableView!
     
     
@@ -20,7 +23,19 @@ class PopupMenuViewController: UIViewController {
         menuTableView.delegate = self
         menuTableView.dataSource = self
        
-
+        classTypeCDManager = CoreDataManager(
+                                                initWithModel: "DataBase",
+                                                dbFileName: "classTypeData.sqlite",
+                                                dbPathURL: nil,
+                                                sortKey: "typeName",
+                                                entityName: "ClassTypeData")
+        personCDManager = CoreDataManager(
+                                                initWithModel: "DataBase",
+                                                dbFileName: "personData.sqlite",
+                                                dbPathURL: nil,
+                                                sortKey: "name",
+                                                entityName: "PersonData")
+        
         
         // Do any additional setup after loading the view.
     }
@@ -69,19 +84,44 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //..how much cells
-        return 4
+        return classTypeCDManager.count()
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //..
         let cell = tableView.dequeueReusableCell(withIdentifier: "ClassTypeCell", for: indexPath) as! MenuOfClassTypeTableViewCell
+        let item = classTypeCDManager.itemWithIndex(index: indexPath.item)
+        
         cell.layer.cornerRadius = 15
-        cell.textLabel?.text = "5566"
+        cell.textLabel?.text = item.typeName
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let firstLongPressIndex = BaseSetup.saveFirstIndexPath else {
+             print("被firsLonPressIndex擋下了")
+            return }
+        //這裡之後要簽點選完班別後 由calendarData收集
+        let classTypeItem = classTypeCDManager.itemWithIndex(index: indexPath.item)
+        let personItem = personCDManager.itemWithIndex(index: firstLongPressIndex.item)
+        guard let classTypeOvertime = Double(classTypeItem.overtime!) else {
+            print("被classTypeOvertime擋下了")
+            return }
+        //避免時數被扣成負數
+        if (personItem.overtime - classTypeOvertime) < 0{
+            personItem.overtime = 0
+        }else{
+            personItem.overtime -= classTypeOvertime
+        }
         
+        print("Test name : \(String(describing: personItem.name)) and time: \(personItem.overtime)")
+        personCDManager.saveContexWithCompletion { (success) in
+            if success {
+                //...發通知reload
+                let arrayIndexPath = [firstLongPressIndex]
+                NotificationCenter.default.post(name:Notification.Name.init( "RefreshTheCell") , object: arrayIndexPath)
+            }
+        }
 //        self.view.removeFromSuperview()
         self.removeAnimate()
     }
