@@ -187,10 +187,10 @@ class ViewController: UIViewController{
         let width = self.calendarView.frame.width
         let height = self.calendarView.frame.height
         popover.sourceRect = CGRect(
-            x: calendarViewX-width/2,
-            y: calendarViewY-height/2,
-            width: width,
-            height: height)
+                                            x: calendarViewX-width/2,
+                                            y: calendarViewY-height/2,
+                                            width: width,
+                                            height: height)
         present( personSetupVC, animated: true, completion: nil)
     }
     //MARK : - Create SetupClassTypeView
@@ -206,11 +206,30 @@ class ViewController: UIViewController{
         let width = self.calendarView.frame.width
         let height = self.calendarView.frame.height
         popover.sourceRect = CGRect(
-            x: calendarViewX-width/2,
-            y: calendarViewY-height/2,
+                                            x: calendarViewX-width/2,
+                                            y: calendarViewY-height/2,
+                                            width: width,
+                                            height: height)
+        present( classTypeSetupVC, animated: true, completion: nil)
+    }
+    //MARK: - CreateCalendarDetailView 
+    func createCalendarDetailView(){
+        let calendarDetailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CalendarDetailView") as! CalendarDetailViewController
+        calendarDetailVC.modalPresentationStyle = .popover
+        let popover = calendarDetailVC.popoverPresentationController!
+        popover.delegate = self as? UIPopoverPresentationControllerDelegate
+        popover.permittedArrowDirections.remove(.any)
+        popover.sourceView = self.calendarView
+        let calendarViewX = self.mainUIView.center.x
+        let calendarViewY = self.mainUIView.center.y
+        let width = self.calendarView.frame.width
+        let height = self.calendarView.frame.height
+        popover.sourceRect = CGRect(
+            x: calendarViewX-width,
+            y: calendarViewY-height,
             width: width,
             height: height)
-        present( classTypeSetupVC, animated: true, completion: nil)
+        present(calendarDetailVC, animated: true, completion: nil)
     }
     
     
@@ -268,6 +287,9 @@ extension ViewController:JTAppleCalendarViewDelegate{
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
          handleCellSelected(view: cell, cellState: cellState)
          handleCellTextColor(view: cell, cellState: cellState)
+        createCalendarDetailView()
+        print("Cellstate is \n: \(cellState.row())\n and \(cellState.dateSection().range) \n and other \(cellState.date)\n and \(cellState.text)\n ")
+        
     }
     func calendar(_ calendar: JTAppleCalendarView, didDeselectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
         handleCellSelected(view: cell, cellState: cellState)

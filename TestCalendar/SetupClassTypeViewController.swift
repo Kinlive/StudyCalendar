@@ -26,7 +26,7 @@ class SetupClassTypeViewController: UIViewController {
     
         override func viewDidLoad() {
         super.viewDidLoad()
-        self.preferredContentSize = CGSize(width: 800, height: 600)
+             self.preferredContentSize = CGSize(width: 900, height: 600)
         // Do any additional setup after loading the view.
         self.classTypeTableView.delegate = self
         self.classTypeTableView.dataSource = self
