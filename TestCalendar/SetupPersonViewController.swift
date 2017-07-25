@@ -17,7 +17,7 @@ class SetupPersonViewController: UIViewController {
 //MARK : - IBOutlet here
     @IBOutlet weak var showPersonDetail: UIView!
    
-    @IBOutlet weak var showDetailOfLabel: UILabel!
+    @IBOutlet weak var showDetailOfLabel: UILabel! //person name
     
     @IBOutlet weak var showHoursOfLabel: UILabel!
     
@@ -25,6 +25,11 @@ class SetupPersonViewController: UIViewController {
     
     @IBOutlet weak var showDate: UIPickerView!
 
+    @IBOutlet weak var editStatusButton: UIBarButtonItem!
+    // test textFields?
+    @IBOutlet weak var nameTextFieldStatus: UITextField!
+    
+    
     
        override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +56,10 @@ class SetupPersonViewController: UIViewController {
             dbPathURL: nil,
             sortKey: "name",
             entityName: "PersonData")
+        //nameTextField test 
+//        nameTextFieldStatus.isHidden = true
+        showDetailOfLabel.isHidden = true
+        showHoursOfLabel.isHidden = true
         
     }
  
@@ -63,22 +72,31 @@ class SetupPersonViewController: UIViewController {
         createAlertView()
         
     }
-    
+  
+
+    @IBAction func saveButton(_ sender: UIBarButtonItem) {
+        showDetailOfLabel.isHidden = true
+        showHoursOfLabel.isHidden = true
+        nameTextFieldStatus.isHidden = false
+//        editStatusButton.isEnabled = false
+//        editStatusButton.title = "Edit"
+    }
+    //MARK : - CreatAlert method
     func createAlertView(){
         let alert = UIAlertController.init(title: nil, message: "Please key in Name", preferredStyle: .alert)
         alert.addTextField(configurationHandler: nil)
-       let ok = UIAlertAction(title: "OK", style: .default) { (ok) in
-     
-       let item = self.personCDManager.createItem()
-        item.name = alert.textFields?[0].text
-        item.overtime = Double(baseSetup.overHoursOfMonth)
-        self.personCDManager.saveContexWithCompletion(completion: { (success) in
-            if(success){
-                self.personArray.append(item)
-                self.SetupPersonTableView.reloadData()
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil)
-            }
-        })
+        let ok = UIAlertAction(title: "OK", style: .default) { (ok) in
+            
+            let item = self.personCDManager.createItem()
+            item.name = alert.textFields?[0].text
+            item.overtime = Double(baseSetup.overHoursOfMonth)
+            self.personCDManager.saveContexWithCompletion(completion: { (success) in
+                if(success){
+                    self.personArray.append(item)
+                    self.SetupPersonTableView.reloadData()
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil)
+                }
+            })
         }//ok action block here
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -90,17 +108,6 @@ class SetupPersonViewController: UIViewController {
     func callOtherControllerUpdate(){
         //通知中心
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 //MARK: - TableView Delegate & DataSource
 extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
@@ -121,11 +128,18 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //..
-        
+        self.nameTextFieldStatus.isHidden = true
+        self.showDetailOfLabel.isHidden = false
+        self.showHoursOfLabel.isHidden = false
         self.showDetailOfLabel.text = tableView.cellForRow(at: indexPath)?.textLabel?.text
         self.showHoursOfLabel.text = tableView.cellForRow(at: indexPath)?.detailTextLabel?.text
+        //Set edit button 
+        editStatusButton.isEnabled = true
+//        editStatusButton.title = "Save"
+        
     }
 }
+//MARK: - PickerView protocol method
 extension SetupPersonViewController : UIPickerViewDelegate,UIPickerViewDataSource{
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2

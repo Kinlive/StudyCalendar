@@ -174,6 +174,46 @@ class ViewController: UIViewController{
             present(popupVC, animated: true, completion: nil)
 
         }
+    //MARK : - Create PersonSetupView
+    func createPersonSetupView(){
+        let personSetupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PersonSetupView") as! SetupPersonViewController
+         personSetupVC.modalPresentationStyle = .popover
+        let popover =  personSetupVC.popoverPresentationController!
+        popover.delegate = self as? UIPopoverPresentationControllerDelegate
+        popover.permittedArrowDirections.remove(.any)
+        popover.sourceView = self.view
+        let calendarViewX = self.mainUIView.center.x
+        let calendarViewY = self.mainUIView.center.y
+        let width = self.calendarView.frame.width
+        let height = self.calendarView.frame.height
+        popover.sourceRect = CGRect(
+            x: calendarViewX-width/2,
+            y: calendarViewY-height/2,
+            width: width,
+            height: height)
+        present( personSetupVC, animated: true, completion: nil)
+    }
+    //MARK : - Create SetupClassTypeView
+    func createSetupClassTypeView(){
+        let classTypeSetupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SetupClassType") as! SetupClassTypeViewController
+        classTypeSetupVC.modalPresentationStyle = .popover
+        let popover =  classTypeSetupVC.popoverPresentationController!
+        popover.delegate = self as? UIPopoverPresentationControllerDelegate
+        popover.permittedArrowDirections.remove(.any)
+        popover.sourceView = self.view
+        let calendarViewX = self.mainUIView.center.x
+        let calendarViewY = self.mainUIView.center.y
+        let width = self.calendarView.frame.width
+        let height = self.calendarView.frame.height
+        popover.sourceRect = CGRect(
+            x: calendarViewX-width/2,
+            y: calendarViewY-height/2,
+            width: width,
+            height: height)
+        present( classTypeSetupVC, animated: true, completion: nil)
+    }
+    
+    
    //MARK: - refresh the cell
     func refreshPersonCell( object : Notification){
         let indexPath = object.object as! [IndexPath]
@@ -187,8 +227,13 @@ class ViewController: UIViewController{
     
     @IBAction func personDetailButton(_ sender: UIButton) {
         //...
-        
+        createPersonSetupView()
     }
+    @IBAction func classTypeDetail(_ sender: UIButton) {
+        createSetupClassTypeView()
+    }
+
+    
 
     
 }//class out
