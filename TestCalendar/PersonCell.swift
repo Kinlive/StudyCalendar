@@ -18,7 +18,7 @@ class PersonCell: UICollectionViewCell {
     @IBOutlet weak var personName: UILabel!
     
     @IBOutlet weak var hourBar: KDCircularProgress!
-//    @IBOutlet weak var hourBar: UIView! //FIXME : -  never use
+
 
    
     

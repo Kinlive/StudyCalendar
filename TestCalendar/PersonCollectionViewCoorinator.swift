@@ -17,13 +17,13 @@ var numberItem : [Int]{
 let spacing :CGFloat = 3
 let itemCount :CGFloat = 2
 let baseSetup = BaseSetup()
+//let personCDManager = CoreDataManager<PersonData>(
+//    initWithModel: "DataBase",
+//    dbFileName: "personData.sqlite",
+//    dbPathURL: nil,
+//    sortKey: "name",
+//    entityName: "PersonData")
 
-let personCDManager = CoreDataManager<PersonData>(
-                                    initWithModel: "DataBase",
-                                    dbFileName: "personData.sqlite",
-                                    dbPathURL: nil,
-                                    sortKey: "name",
-                                    entityName: "PersonData")
 
 
 class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource {
@@ -43,18 +43,25 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //..
-        return personCDManager.count()
+        let personCDManager = createCoreDataManager()
+        guard let results = personCDManager.fetchedResultsController.fetchedObjects else { return 0}
+        return results.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //..
+         let personCDManager = createCoreDataManager()
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PersonCell", for: indexPath) as! PersonCell
-        let item = personCDManager.itemWithIndex(index: indexPath.item)
+//        let item = personCDManager.itemWithIndex(index: indexPath.item)
+//        personCDManager.managedObjectContext.refreshAllObjects()
+        guard let item = personCDManager.fetchedResultsController.object(at: indexPath) as? PersonData else { return cell}
+        
         cell.overHours = item.overtime
-        cell.personName.text = item.name
+        cell.personName.text = String(item.overtime) //item.name
         cell.layer.cornerRadius = cell.frame.size.width / 2
         cell.layer.borderWidth = 2
         
+               
         //person hours setup ,之後要將時數一開始初始化的部分丟在[name : hours],並在建立人員時加入,並能存入資料庫
 //        cell.personDetail.hours = baseSetup.hoursOfMonth
         //放這不妥, cell的資料應該要從資料庫取出才是準的
@@ -64,6 +71,8 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
         
         return cell
     }
+    
+   
     
     func setupHourBar(cell : PersonCell) -> Void{
         cell.hourBar.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
@@ -81,6 +90,16 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
     
     }
 
+    
+    func createCoreDataManager() -> CoreDataManager<PersonData> {
+        let personCDManager = CoreDataManager<PersonData>(
+            initWithModel: "DataBase",
+            dbFileName: "personData.sqlite",
+            dbPathURL: nil,
+            sortKey: "name",
+            entityName: "PersonData")
+        return personCDManager
+    }
     
 //    func createProgressBar(cell : PersonCell) -> KDCircularProgress{
 //        let progress = KDCircularProgress(frame: CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height))

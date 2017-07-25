@@ -9,12 +9,9 @@
 import Foundation
 
 public struct BaseSetup{
-//    init(){
-//        let shared : BaseSetup? = nil
-//        
-//    }
-    
-    let monthly =
+
+     static var saveFirstIndexPath : IndexPath?
+   static let monthly =
         ["January","Fabruary","March","April",
         "May","June","July","August",
         "September","October","November","December"]
@@ -26,7 +23,7 @@ public struct BaseSetup{
         return array
     }
     
-   static var saveFirstIndexPath : IndexPath?
+  
     
 }
 public struct SetupOnStartData{

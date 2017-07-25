@@ -12,23 +12,6 @@ import CoreData
 
 class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
     
- 
-//  static  var personCDManager : CoreDataManager?
-//    
-//    static func getPersonCDMSingleton() -> CoreDataManager{
-//        if personCDManager == nil{
-//            personCDManager = CoreDataManager(
-//                initWithModel: "DataBase",
-//                dbFileName: "personData.sqlite",
-//                dbPathURL: nil,
-//                sortKey: "name",
-//                entityName: "PersonData")
-//        }
-//        return personCDManager!
-//    }
-    
-    
-    
     var targetModelName:String
     var targetDBfilename:String
     var targetDBPathURL:URL?
@@ -231,10 +214,17 @@ class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
         if saveCompletion != nil {
             saveCompletion!(true)
             saveCompletion = nil
+            
         }
         
     }
-
+//    func controller(
+//        _ controller: NSFetchedResultsController<NSFetchRequestResult>,
+//        didChange sectionInfo: NSFetchedResultsSectionInfo,
+//        atSectionIndex sectionIndex: Int,
+//        for type: NSFetchedResultsChangeType) {
+//        
+//    }
 
 }
 

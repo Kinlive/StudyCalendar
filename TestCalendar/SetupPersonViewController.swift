@@ -7,11 +7,12 @@
 //
 
 import UIKit
-
+ let years = ["2017","2018","2019","2020","2021","2022","2023","2024","2025","2026"]
 class SetupPersonViewController: UIViewController {
     var personArray = [PersonData]()
     var personCDManager : CoreDataManager<PersonData>!
-
+    let formatter = DateFormatter()
+    
     
 //MARK : - IBOutlet here
     @IBOutlet weak var showPersonDetail: UIView!
@@ -22,6 +23,8 @@ class SetupPersonViewController: UIViewController {
     
     @IBOutlet weak var SetupPersonTableView: UITableView!
     
+    @IBOutlet weak var showDate: UIPickerView!
+
     
        override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +34,16 @@ class SetupPersonViewController: UIViewController {
         // Do any additional setup after loading the view.
         SetupPersonTableView.delegate = self
         SetupPersonTableView.dataSource = self
-        
+//        showDate.delegate = self as? UIPickerViewDelegate
+//        showDate.dataSource = self as? UIPickerViewDataSource
+//        formatter.dateFormat = "yyyy"
+        formatter.timeZone = Calendar.current.timeZone
+        formatter.locale = Calendar.current.locale
+//        let month = formatter.monthSymbols 月份
+       
+    
+//        let year1 = formatter.calendar.dateComponents(year, from: date)
+//        print("Day \(String(describing: year)))")
         //Init personCoreData
         personCDManager = CoreDataManager(
             initWithModel: "DataBase",
@@ -64,6 +76,7 @@ class SetupPersonViewController: UIViewController {
             if(success){
                 self.personArray.append(item)
                 self.SetupPersonTableView.reloadData()
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil)
             }
         })
         }//ok action block here
@@ -89,6 +102,7 @@ class SetupPersonViewController: UIViewController {
     */
 
 }
+//MARK: - TableView Delegate & DataSource
 extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
     return 1
@@ -111,6 +125,31 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
         self.showDetailOfLabel.text = tableView.cellForRow(at: indexPath)?.textLabel?.text
         self.showHoursOfLabel.text = tableView.cellForRow(at: indexPath)?.detailTextLabel?.text
     }
-    
-    
+}
+extension SetupPersonViewController : UIPickerViewDelegate,UIPickerViewDataSource{
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 2
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        var count : Int?
+        if component == 0{
+            count = years.count
+        }else {
+            count =  BaseSetup.monthly.count
+        }
+        return count!
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        var title : String?
+        if component == 0 {
+            title =  years[row]
+        }else {
+            title = BaseSetup.monthly[row]
+        }
+        
+        return title!
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        //..
+    }
 }

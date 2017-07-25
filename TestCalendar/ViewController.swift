@@ -8,7 +8,7 @@
 
 import UIKit
 import JTAppleCalendar
-
+import CoreData
 
 
 class ViewController: UIViewController{
@@ -23,8 +23,14 @@ class ViewController: UIViewController{
     var longPress = UILongPressGestureRecognizer()
     let gsManager = GestureSetupManager()
     let personCVCoorinator = PersonCollectionViewCoorinator()
-    var personCDManager : CoreDataManager<PersonData>!
-    
+//    var personCDManager : CoreDataManager<PersonData>!
+    let personCDManager = CoreDataManager<PersonData>(
+                                        initWithModel: "DataBase",
+                                        dbFileName: "personData.sqlite",
+                                        dbPathURL: nil,
+                                        sortKey: "name",
+                                        entityName: "PersonData")
+    //var fetchResults : NSFetchedResultsController<NSFetchRequestResult>?
   
     @IBOutlet var mainUIView: UIView!
     @IBOutlet weak var calendarView: JTAppleCalendarView!
@@ -55,25 +61,18 @@ class ViewController: UIViewController{
         mainUIView.addGestureRecognizer(longPress)
         
         //Init personCoreDataManager
-        personCDManager = CoreDataManager(
-                                          initWithModel: "DataBase",
-                                          dbFileName: "personData.sqlite",
-                                          dbPathURL: nil,
-                                          sortKey: "name",
-                                          entityName: "PersonData")
+//        personCDManager = CoreDataManager(
+//                                          initWithModel: "DataBase",
+//                                          dbFileName: "personData.sqlite",
+//                                          dbPathURL: nil,
+//                                          sortKey: "name",
+//                                          entityName: "PersonData")
+//        
+//       fetchResults = personCDManager.fetchedResultsController
+//        personCDManager.controllerDidChangeContent(<#T##controller: NSFetchedResultsController<NSFetchRequestResult>##NSFetchedResultsController<NSFetchRequestResult>#>)
         
-//        for _ in baseSetup.personCount {
-//            let setupOnStart = SetupOnStartData(name: nil,
-//                                                hours: baseSetup.hoursOfMonth,
-//                                                overHours: baseSetup.overHoursOfMonth)
-//             print(setupOnStart.hours! ,setupOnStart.overHours!)
-//            perPerson.append(setupOnStart)
-//           
-//        }
-//            print("12111111")
-//            print(perPerson)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCell(object:)), name: NSNotification.Name(rawValue: "RefreshTheCell"), object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCellView), name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil )
         
     }//viewDidLoad here
     
@@ -141,23 +140,17 @@ class ViewController: UIViewController{
         
         gsManager.longPressOnView(
                             gestureRecognizer: gestureRecognizer,
-                                      mainUIView: mainUIView,
-                                    calendarView: calendarView,
-                                personCellView: personCellView) { (indexPath) in
+                            mainUIView: mainUIView,
+                            calendarView: calendarView,
+                            personCellView: personCellView) { (indexPath) in
             //create popup view 
                 self.createPopupView()
-                let item = self.personCDManager.itemWithIndex(index: indexPath.item)
-                                   
+//                let item = self.personCDManager.itemWithIndex(index: indexPath.item)//可拿掉 日後
+            guard let item = self.personCDManager.fetchedResultsController.object(at: indexPath) as? PersonData else { return }
                
                                     //Test Here 
                 print("Test  \(String(describing: item.name)) : overtime \(item.overtime) \n")
-//                self.personCDManager.saveContexWithCompletion(completion: { (success) in
-//                    if success {
-//                        self.personCellView.reloadData()
-//                        self.personCellView.reloadItems(at: [indexPath])
-//                        
-//                    }
-//                })
+
         }
     }//longpress func here
     
@@ -169,18 +162,27 @@ class ViewController: UIViewController{
             popover.delegate = self as? UIPopoverPresentationControllerDelegate
             popover.permittedArrowDirections.remove(.any)
             popover.sourceView = self.view
-            popover.sourceRect = CGRect(x: 500, y: 300, width: self.view.frame.width/5, height: self.view.frame.height/4)
+         let mainViewX = self.mainUIView.center.x
+        let mainViewY = self.mainUIView.center.y
+            let width = self.view.frame.width/5
+            let height = self.view.frame.height/4
+            popover.sourceRect = CGRect(
+                                                x: mainViewX-width/2,
+                                                y: mainViewY-height/2,
+                                                width: width,
+                                                height: height)
             present(popupVC, animated: true, completion: nil)
-//            self.addChildViewController(popupVC)
-//            popupVC.view.frame = self.calendarView.frame
-//            self.view.addSubview(popupVC.view)
-//            popupVC.didMove(toParentViewController: self)
+
         }
    //MARK: - refresh the cell
     func refreshPersonCell( object : Notification){
         let indexPath = object.object as! [IndexPath]
         self.personCellView.reloadItems(at: indexPath )
         print("Test refresh happen?")
+    }
+    func refreshPersonCellView(){
+        self.personCellView.reloadData()
+        
     }
     
     @IBAction func personDetailButton(_ sender: UIButton) {

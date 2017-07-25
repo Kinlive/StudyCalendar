@@ -13,7 +13,7 @@ typealias GestureEnd = ( IndexPath  ) -> Void
 class GestureSetupManager: NSObject {
     var perPerson = [PersonDetail]()
     
-    let firstIndexPathLuck = NSLock()
+    let firstIndexPathLock = NSLock()
     var baseSetup = BaseSetup()
     
     struct My {
@@ -47,14 +47,10 @@ class GestureSetupManager: NSObject {
         //indexPath可以得知長按的是第幾個section的第幾個item
         //        guard let indexPath = personCellView.indexPathForItem(at: fakeLocation) else { return }
          let indexPath = personCellView.indexPathForItem(at: personLocation) //這裡要改成使用personLocation
-        if (firstIndexPathLuck.try() != false){
+        if (firstIndexPathLock.try() != false){
             BaseSetup.saveFirstIndexPath = indexPath
         }
-//        if (Path.firstLongPressIndexPath == nil){
-//            Path.firstLongPressIndexPath = indexPath
-//        }
         let calendarIndexPath = calendarView.indexPathForItem(at: calendarLocation)
-        //        guard var mainViewIndexPath = mainUIView
                //FIXME : switch something...
         switch state {
         case .began:
@@ -67,15 +63,12 @@ class GestureSetupManager: NSObject {
             guard let cellSnapshot = My.cellSnapshot else {return}
             
             let center = CGPoint(x:  locationMainView.x, y:  locationMainView.y)
-            //                center.x = locationMainView.x
-            //                center.y = locationMainView.y
+
             My.cellSnapshot?.center = center
             cellSnapshot.center = center
             cellSnapshot.alpha = 0.0
-            //                personCellView.addSubview(cellSnapshot)
             mainUIView.addSubview(cellSnapshot)
             UIView.animate(withDuration: 0.4, animations: {
-                //                    center.y = locationInView.y
                 cellSnapshot.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
                 cellSnapshot.alpha = 0.98
                 cell.alpha = 0.0
@@ -141,7 +134,7 @@ class GestureSetupManager: NSObject {
                 })
                 //test for hours pass to 
                 gestureEnd(personCellIndexPath)
-                firstIndexPathLuck.unlock()
+                firstIndexPathLock.unlock()
             }else{
                 guard let personCellIndexPath = Path.personCellIndexPath else {
                     return}
@@ -151,7 +144,7 @@ class GestureSetupManager: NSObject {
                 Path.personCellIndexPath = nil
                 cellSnapshot.removeFromSuperview()
                 My.cellSnapshot = nil
-              firstIndexPathLuck.unlock()   
+              firstIndexPathLock.unlock()   
             }
         default:
             break
@@ -172,16 +165,8 @@ class GestureSetupManager: NSObject {
         cellSnapshot.layer.shadowOpacity = 0.4
         return cellSnapshot
     }
-    
-    //為了屏除背後畫面功能做的
-    func createCancelView(mainUIView : UIView) {
-        let cancelView = UIView(frame: mainUIView.frame)
-        
-        mainUIView.addSubview(cancelView)
-    }
-    
-    func getPersonDetail( perPerson : [PersonDetail]){
-        self.perPerson = perPerson
-    }
+//    func getPersonDetail( perPerson : [PersonDetail]){
+//        self.perPerson = perPerson
+//    }
   
 }

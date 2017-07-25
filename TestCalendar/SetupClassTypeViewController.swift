@@ -96,6 +96,7 @@ class SetupClassTypeViewController: UIViewController {
         classTypeCDManager.saveContexWithCompletion { (success) in
             if success {
                 self.indexPathOnEdit = nil
+                self.classTypeTableView.reloadData()
             }
         }
     }
