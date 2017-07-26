@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class CreateProgressBar: UIView {
     let progressView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 50))
     let progressLabel = UILabel(frame: CGRect(x: 0, y: 100, width: 50, height: 50))

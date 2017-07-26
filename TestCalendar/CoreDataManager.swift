@@ -11,7 +11,7 @@ import CoreData
 
 
 class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
-    
+
     var targetModelName:String
     var targetDBfilename:String
     var targetDBPathURL:URL?
@@ -157,7 +157,6 @@ class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
                 print("save FAilllllll ")
                 abort()
             }
-            completion(true)
         }else{
             completion(true)
             saveCompletion = nil
@@ -211,11 +210,16 @@ class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
     //掌握存檔完成時間點 使用它時存擋已完成
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         // In the simplest, most efficient, case, reload the table view.
-        if saveCompletion != nil {
-            saveCompletion!(true)
+//        if saveCompletion != nil {
+//            saveCompletion!(true)
+//            saveCompletion = nil
+//        }
+        
+        if let completion = saveCompletion {
+            completion(true)
             saveCompletion = nil
-            
         }
+        
         
     }
 //    func controller(

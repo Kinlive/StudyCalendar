@@ -10,7 +10,7 @@ import UIKit
 
 class PopupMenuViewController: UIViewController {
     var classTypeCDManager : CoreDataManager<ClassTypeData>!
-    var personCDManager : CoreDataManager<PersonData>!
+//    var personCDManager : CoreDataManager<PersonData>!
     let baseSetup = BaseSetup()
     
     @IBOutlet weak var menuTableView: UITableView!
@@ -29,12 +29,12 @@ class PopupMenuViewController: UIViewController {
                                                 dbPathURL: nil,
                                                 sortKey: "typeName",
                                                 entityName: "ClassTypeData")
-        personCDManager = CoreDataManager(
-                                                initWithModel: "DataBase",
-                                                dbFileName: "personData.sqlite",
-                                                dbPathURL: nil,
-                                                sortKey: "name",
-                                                entityName: "PersonData")
+//        personCDManager = CoreDataManager(
+//                                                initWithModel: "DataBase",
+//                                                dbFileName: "personData.sqlite",
+//                                                dbPathURL: nil,
+//                                                sortKey: "name",
+//                                                entityName: "PersonData")
         
         
         // Do any additional setup after loading the view.

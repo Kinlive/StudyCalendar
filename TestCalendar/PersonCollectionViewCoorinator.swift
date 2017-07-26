@@ -43,21 +43,22 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //..
-        let personCDManager = createCoreDataManager()
+//        let personCDManager = createCoreDataManager()
         guard let results = personCDManager.fetchedResultsController.fetchedObjects else { return 0}
         return results.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //..
-         let personCDManager = createCoreDataManager()
+//         let personCDManager = createCoreDataManager()
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PersonCell", for: indexPath) as! PersonCell
 //        let item = personCDManager.itemWithIndex(index: indexPath.item)
 //        personCDManager.managedObjectContext.refreshAllObjects()
         guard let item = personCDManager.fetchedResultsController.object(at: indexPath) as? PersonData else { return cell}
         
         cell.overHours = item.overtime
-        cell.personName.text = String(item.overtime) //item.name
+        cell.personName.text = item.name //item.name
+        cell.personHour.text = String(item.overtime)
         cell.layer.cornerRadius = cell.frame.size.width / 2
         cell.layer.borderWidth = 2
         
@@ -66,7 +67,7 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
 //        cell.personDetail.hours = baseSetup.hoursOfMonth
         //放這不妥, cell的資料應該要從資料庫取出才是準的
 //        cell.personDetail.overHours = (item.overtime)
-        setupHourBar(cell: cell)
+        setupHourBar(cell: cell , indexPath: indexPath)
         
         
         return cell
@@ -74,7 +75,8 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
     
    
     
-    func setupHourBar(cell : PersonCell) -> Void{
+    func setupHourBar(cell : PersonCell ,indexPath : IndexPath) -> Void{
+        guard let item = personCDManager.fetchedResultsController.object(at: indexPath) as? PersonData else { return }
         cell.hourBar.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
         cell.hourBar.startAngle = -135
         cell.hourBar.progressThickness = 1.0
@@ -86,20 +88,20 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
         cell.hourBar.glowAmount = 0.9
         cell.hourBar.set(colors: UIColor.white, UIColor.orange )
 //        cell.hourBar.animate(fromAngle: 50.0 , toAngle: (Double(cell.overHours)/46.0)*360.0, duration: 1.5, completion: nil)
-        cell.hourBar.animate(toAngle: (cell.overHours/46.0)*360.0, duration: 1.5, completion: nil)
-    
+        cell.hourBar.animate(toAngle: (item.overtime/46.0)*360.0, duration: 1.5, completion: nil)
+   
     }
 
     
-    func createCoreDataManager() -> CoreDataManager<PersonData> {
-        let personCDManager = CoreDataManager<PersonData>(
-            initWithModel: "DataBase",
-            dbFileName: "personData.sqlite",
-            dbPathURL: nil,
-            sortKey: "name",
-            entityName: "PersonData")
-        return personCDManager
-    }
+//    func createCoreDataManager() -> CoreDataManager<PersonData> {
+//        let personCDManager = CoreDataManager<PersonData>(
+//            initWithModel: "DataBase",
+//            dbFileName: "personData.sqlite",
+//            dbPathURL: nil,
+//            sortKey: "name",
+//            entityName: "PersonData")
+//        return personCDManager
+//    }
     
 //    func createProgressBar(cell : PersonCell) -> KDCircularProgress{
 //        let progress = KDCircularProgress(frame: CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height))

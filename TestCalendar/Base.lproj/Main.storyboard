@@ -189,6 +189,17 @@
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ezE-Pg-QTO" userLabel="PersonHour" customClass="KDCircularProgress" customModule="TestCalendar" customModuleProvider="target">
                                                     <rect key="frame" x="-0.5" y="0.0" width="167" height="186"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hour" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mnm-q9-jjO">
+                                                            <rect key="frame" x="65.5" y="110" width="37.5" height="19.5"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="black" pointSize="16"/>
+                                                            <color key="textColor" red="1" green="0.00033646567799999999" blue="0.13182058469999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="mnm-q9-jjO" firstAttribute="centerX" secondItem="ezE-Pg-QTO" secondAttribute="centerX" id="m18-tv-DkM"/>
+                                                    </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yug-rP-Dcl">
                                                     <rect key="frame" x="51" y="80" width="65" height="27"/>
@@ -202,12 +213,14 @@
                                             <constraint firstItem="Yug-rP-Dcl" firstAttribute="centerY" secondItem="1oE-ea-aay" secondAttribute="centerY" id="6tg-z9-2Dd"/>
                                             <constraint firstItem="ezE-Pg-QTO" firstAttribute="width" secondItem="1oE-ea-aay" secondAttribute="width" id="8QI-ht-3L9"/>
                                             <constraint firstItem="ezE-Pg-QTO" firstAttribute="centerX" secondItem="1oE-ea-aay" secondAttribute="centerX" id="CY1-m6-THm"/>
+                                            <constraint firstItem="mnm-q9-jjO" firstAttribute="top" secondItem="Yug-rP-Dcl" secondAttribute="bottom" constant="3" id="LIh-c8-g7c"/>
                                             <constraint firstItem="ezE-Pg-QTO" firstAttribute="height" secondItem="1oE-ea-aay" secondAttribute="height" id="OP0-QJ-w47"/>
                                             <constraint firstItem="Yug-rP-Dcl" firstAttribute="centerX" secondItem="1oE-ea-aay" secondAttribute="centerX" id="pBj-uo-OjD"/>
                                             <constraint firstItem="ezE-Pg-QTO" firstAttribute="centerY" secondItem="1oE-ea-aay" secondAttribute="centerY" id="pef-9B-XNy"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="hourBar" destination="ezE-Pg-QTO" id="HeM-vK-Ll8"/>
+                                            <outlet property="personHour" destination="mnm-q9-jjO" id="ibj-ne-fbR"/>
                                             <outlet property="personName" destination="Yug-rP-Dcl" id="2Kt-bU-69d"/>
                                         </connections>
                                     </collectionViewCell>
@@ -255,6 +268,11 @@
                                         <state key="normal" title="Setup">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="35"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -381,7 +399,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cpb-tl-5o1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="228" y="-507"/>
+            <point key="canvasLocation" x="173" y="-506"/>
         </scene>
         <!--Setup Class Type View Controller-->
         <scene sceneID="LZ7-cs-Ujd">

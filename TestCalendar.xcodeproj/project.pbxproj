@@ -15,6 +15,7 @@
 		111701561F2378DD00AC0519 /* DataBase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 111701541F2378DD00AC0519 /* DataBase.xcdatamodeld */; };
 		11185D111F276E5100EFE0D3 /* CalendarDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11185D101F276E5100EFE0D3 /* CalendarDetailViewController.swift */; };
 		11185D131F27705400EFE0D3 /* CalendarDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11185D121F27705400EFE0D3 /* CalendarDetailTableViewCell.swift */; };
+		11185D181F28AC2F00EFE0D3 /* KDCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11185D171F28AC2F00EFE0D3 /* KDCircularProgress.swift */; };
 		11231FBA1F1D2B82006D7E55 /* GestureSetupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11231FB91F1D2B82006D7E55 /* GestureSetupManager.swift */; };
 		11231FC21F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11231FC11F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift */; };
 		114AAA921F0E59F0009B766F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114AAA911F0E59F0009B766F /* AppDelegate.swift */; };
@@ -29,7 +30,6 @@
 		11E2D16B1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E2D16A1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift */; };
 		11E2D16F1F1F5B7600A2689C /* HoursStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E2D16E1F1F5B7600A2689C /* HoursStore.swift */; };
 		11E2D1711F1FA0D200A2689C /* CreateProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E2D1701F1FA0D200A2689C /* CreateProgressBar.swift */; };
-		11E2D1761F207A3A00A2689C /* KDCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E2D1751F207A3A00A2689C /* KDCircularProgress.swift */; };
 		11EFB3EA1F22019A0024CF93 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11EFB3E91F22019A0024CF93 /* CoreDataManager.swift */; };
 		F2F62382C5F8B25C64759DAE /* Pods_TestCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0112674326C5AEE12A5CB3B /* Pods_TestCalendar.framework */; };
 /* End PBXBuildFile section */
@@ -43,6 +43,7 @@
 		111701551F2378DD00AC0519 /* DataBase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataBase.xcdatamodel; sourceTree = "<group>"; };
 		11185D101F276E5100EFE0D3 /* CalendarDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarDetailViewController.swift; sourceTree = "<group>"; };
 		11185D121F27705400EFE0D3 /* CalendarDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarDetailTableViewCell.swift; sourceTree = "<group>"; };
+		11185D171F28AC2F00EFE0D3 /* KDCircularProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDCircularProgress.swift; sourceTree = "<group>"; };
 		11231FB91F1D2B82006D7E55 /* GestureSetupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GestureSetupManager.swift; sourceTree = "<group>"; };
 		11231FC11F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCollectionViewCoorinator.swift; sourceTree = "<group>"; };
 		114AAA8E1F0E59F0009B766F /* TestCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,7 +60,6 @@
 		11E2D16A1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuOfClassTypeTableViewCell.swift; sourceTree = "<group>"; };
 		11E2D16E1F1F5B7600A2689C /* HoursStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoursStore.swift; sourceTree = "<group>"; };
 		11E2D1701F1FA0D200A2689C /* CreateProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateProgressBar.swift; sourceTree = "<group>"; };
-		11E2D1751F207A3A00A2689C /* KDCircularProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDCircularProgress.swift; sourceTree = "<group>"; };
 		11EFB3E91F22019A0024CF93 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		51B0A8C58964E0FF365709E8 /* Pods-TestCalendar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestCalendar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TestCalendar/Pods-TestCalendar.debug.xcconfig"; sourceTree = "<group>"; };
 		C4F8C38323E85C6D04E4D798 /* Pods-TestCalendar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestCalendar.release.xcconfig"; path = "Pods/Target Support Files/Pods-TestCalendar/Pods-TestCalendar.release.xcconfig"; sourceTree = "<group>"; };
@@ -140,8 +140,8 @@
 				111701491F23391B00AC0519 /* Cells */,
 				114AAA951F0E59F0009B766F /* Main.storyboard */,
 				11E2D1621F1DF65900A2689C /* GradientView.swift */,
+				11185D171F28AC2F00EFE0D3 /* KDCircularProgress.swift */,
 				1117014E1F23559D00AC0519 /* ShowPersonDetailView.swift */,
-				11E2D1751F207A3A00A2689C /* KDCircularProgress.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -308,13 +308,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11E2D1761F207A3A00A2689C /* KDCircularProgress.swift in Sources */,
 				11E2D1651F1F2EEE00A2689C /* PopupMenuViewController.swift in Sources */,
 				11E2D16F1F1F5B7600A2689C /* HoursStore.swift in Sources */,
 				114AAA941F0E59F0009B766F /* ViewController.swift in Sources */,
 				111701481F2338FF00AC0519 /* SetupPersonTableViewCell.swift in Sources */,
 				11185D111F276E5100EFE0D3 /* CalendarDetailViewController.swift in Sources */,
 				1117014D1F233B6E00AC0519 /* SetupPersonViewController.swift in Sources */,
+				11185D181F28AC2F00EFE0D3 /* KDCircularProgress.swift in Sources */,
 				11231FC21F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift in Sources */,
 				116D4DAD1F0E5BCD002CA6D1 /* CustomCell.swift in Sources */,
 				11E2D1711F1FA0D200A2689C /* CreateProgressBar.swift in Sources */,

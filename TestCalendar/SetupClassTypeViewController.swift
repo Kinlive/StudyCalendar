@@ -10,7 +10,7 @@ import UIKit
 
 class SetupClassTypeViewController: UIViewController {
     var classTypeArray = [String]()
-    var classTypeCDManager : CoreDataManager<ClassTypeData>!
+//    var classTypeCDManager : CoreDataManager<ClassTypeData>!
     var indexPathOnEdit : IndexPath?
 
     @IBOutlet weak var editButton: UIBarButtonItem!
@@ -30,12 +30,12 @@ class SetupClassTypeViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.classTypeTableView.delegate = self
         self.classTypeTableView.dataSource = self
-        classTypeCDManager = CoreDataManager(
-                                                initWithModel: "DataBase",
-                                                dbFileName: "classTypeData.sqlite",
-                                                dbPathURL: nil,
-                                                sortKey: "startTime",
-                                                entityName: "ClassTypeData")
+//        classTypeCDManager = CoreDataManager(
+//                                                initWithModel: "DataBase",
+//                                                dbFileName: "classTypeData.sqlite",
+//                                                dbPathURL: nil,
+//                                                sortKey: "startTime",
+//                                                entityName: "ClassTypeData")
         
         
     }
@@ -61,12 +61,12 @@ class SetupClassTypeViewController: UIViewController {
         }
         let ok = UIAlertAction(title: "OK", style: .default) { (ok) in
             //SavaData to classType
-            let item = self.classTypeCDManager.createItem()
+            let item = classTypeCDManager.createItem()
             item.typeName = alert.textFields?[0].text
             item.startTime = alert.textFields?[1].text
             item.workingHours = alert.textFields?[2].text
             item.overtime = alert.textFields?[3].text
-            self.classTypeCDManager.saveContexWithCompletion(completion: { (success) in
+            classTypeCDManager.saveContexWithCompletion(completion: { (success) in
                 if(success){
                     self.classTypeArray.append((alert.textFields?[0].text)!)
                    self.classTypeTableView.reloadData()

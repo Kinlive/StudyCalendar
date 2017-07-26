@@ -10,7 +10,7 @@ import UIKit
  let years = ["2017","2018","2019","2020","2021","2022","2023","2024","2025","2026"]
 class SetupPersonViewController: UIViewController {
     var personArray = [PersonData]()
-    var personCDManager : CoreDataManager<PersonData>!
+//    var personCDManager : CoreDataManager<PersonData>!
     let formatter = DateFormatter()
     
     
@@ -50,13 +50,13 @@ class SetupPersonViewController: UIViewController {
 //        let year1 = formatter.calendar.dateComponents(year, from: date)
 //        print("Day \(String(describing: year)))")
         //Init personCoreData
-        personCDManager = CoreDataManager(
-            initWithModel: "DataBase",
-            dbFileName: "personData.sqlite",
-            dbPathURL: nil,
-            sortKey: "name",
-            entityName: "PersonData")
-        //nameTextField test 
+//        personCDManager = CoreDataManager(
+//            initWithModel: "DataBase",
+//            dbFileName: "personData.sqlite",
+//            dbPathURL: nil,
+//            sortKey: "name",
+//            entityName: "PersonData")
+        //nameTextField test
 //        nameTextFieldStatus.isHidden = true
         showDetailOfLabel.isHidden = true
         showHoursOfLabel.isHidden = true
@@ -87,14 +87,15 @@ class SetupPersonViewController: UIViewController {
         alert.addTextField(configurationHandler: nil)
         let ok = UIAlertAction(title: "OK", style: .default) { (ok) in
             
-            let item = self.personCDManager.createItem()
+            let item = personCDManager.createItem()
             item.name = alert.textFields?[0].text
             item.overtime = Double(baseSetup.overHoursOfMonth)
-            self.personCDManager.saveContexWithCompletion(completion: { (success) in
+            personCDManager.saveContexWithCompletion(completion: { (success) in
                 if(success){
                     self.personArray.append(item)
                     self.SetupPersonTableView.reloadData()
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil)
+                    
                 }
             })
         }//ok action block here

@@ -10,6 +10,18 @@ import UIKit
 import JTAppleCalendar
 import CoreData
 
+let personCDManager = CoreDataManager<PersonData>(
+                                                initWithModel: "DataBase",
+                                                dbFileName: "personData.sqlite",
+                                                dbPathURL: nil,
+                                                sortKey: "name",
+                                                entityName: "PersonData")
+let classTypeCDManager = CoreDataManager<ClassTypeData>(
+                                                initWithModel: "DataBase",
+                                                dbFileName: "classTypeData.sqlite",
+                                                dbPathURL: nil,
+                                                sortKey: "startTime",
+                                                entityName: "ClassTypeData")
 
 class ViewController: UIViewController{
     let formatter = DateFormatter()
@@ -24,12 +36,7 @@ class ViewController: UIViewController{
     let gsManager = GestureSetupManager()
     let personCVCoorinator = PersonCollectionViewCoorinator()
 //    var personCDManager : CoreDataManager<PersonData>!
-    let personCDManager = CoreDataManager<PersonData>(
-                                        initWithModel: "DataBase",
-                                        dbFileName: "personData.sqlite",
-                                        dbPathURL: nil,
-                                        sortKey: "name",
-                                        entityName: "PersonData")
+
     //var fetchResults : NSFetchedResultsController<NSFetchRequestResult>?
   
     @IBOutlet var mainUIView: UIView!
@@ -57,7 +64,7 @@ class ViewController: UIViewController{
         
       //  add longpress and setup
         longPress.addTarget(self, action: #selector(longPressGestureRecognized(_:)))
-        longPress.minimumPressDuration = 0.25
+        longPress.minimumPressDuration = 0.1
         mainUIView.addGestureRecognizer(longPress)
         
         //Init personCoreDataManager
@@ -71,6 +78,7 @@ class ViewController: UIViewController{
 //       fetchResults = personCDManager.fetchedResultsController
 //        personCDManager.controllerDidChangeContent(<#T##controller: NSFetchedResultsController<NSFetchRequestResult>##NSFetchedResultsController<NSFetchRequestResult>#>)
         
+    
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCell(object:)), name: NSNotification.Name(rawValue: "RefreshTheCell"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCellView), name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil )
         
@@ -146,7 +154,7 @@ class ViewController: UIViewController{
             //create popup view 
                 self.createPopupView()
 //                let item = self.personCDManager.itemWithIndex(index: indexPath.item)//可拿掉 日後
-            guard let item = self.personCDManager.fetchedResultsController.object(at: indexPath) as? PersonData else { return }
+            guard let item = personCDManager.fetchedResultsController.object(at: indexPath) as? PersonData else { return }
                
                                     //Test Here 
                 print("Test  \(String(describing: item.name)) : overtime \(item.overtime) \n")
@@ -162,8 +170,8 @@ class ViewController: UIViewController{
             popover.delegate = self as? UIPopoverPresentationControllerDelegate
             popover.permittedArrowDirections.remove(.any)
             popover.sourceView = self.view
-         let mainViewX = self.mainUIView.center.x
-        let mainViewY = self.mainUIView.center.y
+            let mainViewX = self.mainUIView.center.x
+            let mainViewY = self.mainUIView.center.y
             let width = self.view.frame.width/5
             let height = self.view.frame.height/4
             popover.sourceRect = CGRect(
@@ -215,6 +223,7 @@ class ViewController: UIViewController{
     //MARK: - CreateCalendarDetailView 
     func createCalendarDetailView(){
         let calendarDetailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CalendarDetailView") as! CalendarDetailViewController
+        
         calendarDetailVC.modalPresentationStyle = .popover
         let popover = calendarDetailVC.popoverPresentationController!
         popover.delegate = self as? UIPopoverPresentationControllerDelegate
