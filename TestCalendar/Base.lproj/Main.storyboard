@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -171,8 +172,8 @@
                                 </subviews>
                             </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="p3t-rP-6C0">
-                                <rect key="frame" x="834" y="20" width="278" height="814"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="834" y="107" width="278" height="727"/>
+                                <color key="backgroundColor" red="0.94277737790000005" green="0.96662175559999997" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jbW-NA-3zC">
                                     <size key="itemSize" width="167" height="186"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -276,22 +277,47 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sb6-KC-AR1">
+                                <rect key="frame" x="834" y="20" width="278" height="87"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="6Q9-9z-VqH">
+                                        <rect key="frame" x="0.0" y="59" width="278" height="29"/>
+                                        <segments>
+                                            <segment title="Year"/>
+                                            <segment title="Month"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="yearAndMonthSegment:" destination="BYZ-38-t0r" eventType="valueChanged" id="h0v-xL-CHZ"/>
+                                        </connections>
+                                    </segmentedControl>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="6Q9-9z-VqH" secondAttribute="trailing" id="3j4-Xl-HLI"/>
+                                    <constraint firstItem="6Q9-9z-VqH" firstAttribute="leading" secondItem="Sb6-KC-AR1" secondAttribute="leading" id="ArK-1d-Qmp"/>
+                                    <constraint firstAttribute="bottom" secondItem="6Q9-9z-VqH" secondAttribute="bottom" id="K2E-fG-Ek2"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Sb6-KC-AR1" firstAttribute="leading" secondItem="Hcs-Ia-DSt" secondAttribute="trailing" id="2bU-PJ-OYR"/>
                             <constraint firstItem="YZH-ts-LPo" firstAttribute="top" secondItem="Hcs-Ia-DSt" secondAttribute="bottom" id="41o-Xw-gIt"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="p3t-rP-6C0" secondAttribute="bottom" id="FF5-7c-icv"/>
+                            <constraint firstAttribute="trailing" secondItem="Sb6-KC-AR1" secondAttribute="trailing" id="Buj-Nk-LcZ"/>
                             <constraint firstItem="p3t-rP-6C0" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="1/4" id="Fuu-we-KgJ"/>
                             <constraint firstItem="YZH-ts-LPo" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="3/4" id="HVz-72-YhC"/>
                             <constraint firstItem="YZH-ts-LPo" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Jet-sB-LbD"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="p3t-rP-6C0" secondAttribute="bottom" id="LDs-IO-VFn"/>
                             <constraint firstItem="Hcs-Ia-DSt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="NYr-6D-c8F"/>
                             <constraint firstItem="Hcs-Ia-DSt" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="O0g-kh-GTp"/>
-                            <constraint firstItem="p3t-rP-6C0" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="O6e-fx-F0U"/>
+                            <constraint firstItem="Sb6-KC-AR1" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="PVC-e6-lb8"/>
+                            <constraint firstItem="Sb6-KC-AR1" firstAttribute="height" secondItem="0WL-Bx-ast" secondAttribute="height" id="TWg-LC-G7p"/>
                             <constraint firstItem="p3t-rP-6C0" firstAttribute="leading" secondItem="Hcs-Ia-DSt" secondAttribute="trailing" id="TqY-GK-oZX"/>
                             <constraint firstItem="p3t-rP-6C0" firstAttribute="leading" secondItem="YZH-ts-LPo" secondAttribute="trailing" id="WIk-SM-GPb"/>
                             <constraint firstItem="Pcw-LE-7YR" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="3/4" id="dYz-2p-6wD"/>
                             <constraint firstAttribute="trailing" secondItem="p3t-rP-6C0" secondAttribute="trailing" id="pbQ-AR-w6i"/>
                             <constraint firstItem="Pcw-LE-7YR" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="4/5" id="w1l-vv-GG4"/>
+                            <constraint firstItem="p3t-rP-6C0" firstAttribute="top" secondItem="Sb6-KC-AR1" secondAttribute="bottom" id="x1y-ey-m5T"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="YZH-ts-LPo" secondAttribute="bottom" id="z0p-Jn-YdO"/>
                         </constraints>
                     </view>
@@ -300,13 +326,14 @@
                         <outlet property="mainUIView" destination="8bC-Xf-vdC" id="7vy-gP-grP"/>
                         <outlet property="month" destination="CJr-lw-yfx" id="VPk-g3-Skt"/>
                         <outlet property="personCellView" destination="p3t-rP-6C0" id="rdU-QA-k70"/>
+                        <outlet property="showYearAndMonth" destination="6Q9-9z-VqH" id="5D4-wd-Vy1"/>
                         <outlet property="year" destination="o45-Zr-DBV" id="dDh-jh-FnV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="r2G-I7-lpa"/>
             </objects>
-            <point key="canvasLocation" x="200" y="156"/>
+            <point key="canvasLocation" x="199.64028776978418" y="154.67625899280577"/>
         </scene>
         <!--Calendar Detail View Controller-->
         <scene sceneID="xGn-4u-Hs5">
@@ -516,7 +543,7 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uJ9-mo-YhE">
                                 <rect key="frame" x="0.0" y="0.0" width="1112" height="44"/>
                                 <items>
-                                    <navigationItem title="Title" id="3ZB-YV-dYE">
+                                    <navigationItem title="Add ClassType" id="3ZB-YV-dYE">
                                         <barButtonItem key="leftBarButtonItem" style="plain" systemItem="add" id="BXr-Sm-EuZ">
                                             <connections>
                                                 <action selector="addClassType:" destination="w7u-mV-FEG" id="lXq-GS-myO"/>
@@ -644,16 +671,45 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X8G-7z-nWI">
+                                        <rect key="frame" x="589" y="580" width="39" height="30"/>
+                                        <state key="normal" title="NEXT"/>
+                                        <connections>
+                                            <action selector="nextBtn:" destination="ro9-Rb-nOK" eventType="touchUpInside" id="XLz-1H-kux"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="month" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vPC-SV-LKO">
+                                        <rect key="frame" x="349" y="529" width="100" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="xT5-OP-fYa"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sA4-Gi-eD9">
+                                        <rect key="frame" x="174" y="580" width="40" height="30"/>
+                                        <state key="normal" title="BACK"/>
+                                        <connections>
+                                            <action selector="backBtn:" destination="ro9-Rb-nOK" eventType="touchUpInside" id="z72-X4-QSj"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="0FP-Lb-BLR" firstAttribute="top" secondItem="QcA-JM-jPl" secondAttribute="bottom" constant="20" id="0uH-TP-nNn"/>
+                                    <constraint firstAttribute="bottom" secondItem="sA4-Gi-eD9" secondAttribute="bottom" constant="141" id="6ko-zX-U6u"/>
                                     <constraint firstItem="RIw-QM-7N4" firstAttribute="top" secondItem="5hQ-Vf-NXn" secondAttribute="top" id="AFP-58-XVX"/>
+                                    <constraint firstAttribute="trailing" secondItem="X8G-7z-nWI" secondAttribute="trailing" constant="113" id="CEV-Ee-vJD"/>
                                     <constraint firstItem="RIw-QM-7N4" firstAttribute="centerX" secondItem="5hQ-Vf-NXn" secondAttribute="centerX" id="EgL-5D-GEP"/>
                                     <constraint firstItem="QcA-JM-jPl" firstAttribute="width" secondItem="kh1-O5-pCA" secondAttribute="width" id="FT2-c6-1VA"/>
                                     <constraint firstItem="0FP-Lb-BLR" firstAttribute="centerX" secondItem="5hQ-Vf-NXn" secondAttribute="centerX" id="SXZ-hr-UhA"/>
                                     <constraint firstItem="QcA-JM-jPl" firstAttribute="centerX" secondItem="5hQ-Vf-NXn" secondAttribute="centerX" id="T9W-1Y-ydu"/>
+                                    <constraint firstItem="vPC-SV-LKO" firstAttribute="leading" secondItem="5hQ-Vf-NXn" secondAttribute="leading" constant="349" id="YJJ-r8-xbC"/>
                                     <constraint firstItem="QcA-JM-jPl" firstAttribute="top" secondItem="kh1-O5-pCA" secondAttribute="bottom" constant="10" id="YJe-BT-YNx"/>
+                                    <constraint firstAttribute="bottom" secondItem="vPC-SV-LKO" secondAttribute="bottom" constant="201" id="d02-ev-n3n"/>
+                                    <constraint firstItem="sA4-Gi-eD9" firstAttribute="leading" secondItem="5hQ-Vf-NXn" secondAttribute="leading" constant="174" id="ixN-UL-vCd"/>
+                                    <constraint firstAttribute="bottom" secondItem="X8G-7z-nWI" secondAttribute="bottom" constant="141" id="jLK-Hp-gYN"/>
                                     <constraint firstItem="kh1-O5-pCA" firstAttribute="top" secondItem="RIw-QM-7N4" secondAttribute="bottom" constant="30" id="yMz-5b-C0L"/>
                                     <constraint firstItem="kh1-O5-pCA" firstAttribute="centerX" secondItem="5hQ-Vf-NXn" secondAttribute="centerX" id="zT3-We-FJH"/>
                                 </constraints>
@@ -661,12 +717,24 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uXa-zV-aPf">
                                 <rect key="frame" x="0.0" y="0.0" width="1112" height="44"/>
                                 <items>
-                                    <navigationItem title="Title" id="pZp-hU-3N4">
-                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="add" id="htD-Rm-xsm">
-                                            <connections>
-                                                <action selector="addPerson:" destination="ro9-Rb-nOK" id="5i8-6J-oSK"/>
-                                            </connections>
-                                        </barButtonItem>
+                                    <navigationItem title="Add Person" id="pZp-hU-3N4">
+                                        <leftBarButtonItems>
+                                            <barButtonItem style="plain" systemItem="add" id="htD-Rm-xsm">
+                                                <connections>
+                                                    <action selector="addPerson:" destination="ro9-Rb-nOK" id="5i8-6J-oSK"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem title="Reset" style="plain" id="B5g-Oo-KUR">
+                                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="0if-b7-yba">
+                                                    <rect key="frame" x="57" y="7" width="247" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Reset"/>
+                                                    <connections>
+                                                        <action selector="resetOverTimeBtn:" destination="ro9-Rb-nOK" eventType="touchUpInside" id="trM-f6-5W1"/>
+                                                    </connections>
+                                                </button>
+                                            </barButtonItem>
+                                        </leftBarButtonItems>
                                         <barButtonItem key="rightBarButtonItem" style="plain" systemItem="edit" id="Qt8-x2-egJ">
                                             <connections>
                                                 <action selector="saveButton:" destination="ro9-Rb-nOK" id="ebQ-nu-fPO"/>
@@ -714,6 +782,7 @@
                         <outlet property="showDetailOfLabel" destination="kh1-O5-pCA" id="67h-5P-BSb"/>
                         <outlet property="showHoursOfLabel" destination="0FP-Lb-BLR" id="gDq-IX-lgx"/>
                         <outlet property="showPersonDetail" destination="5hQ-Vf-NXn" id="SeG-Hm-cAU"/>
+                        <outlet property="testShowMonth" destination="vPC-SV-LKO" id="7Hn-Og-LCe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EnB-fp-kuJ" userLabel="First Responder" sceneMemberID="firstResponder"/>

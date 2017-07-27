@@ -16,14 +16,9 @@ public struct BaseSetup{
         "May","June","July","August",
         "September","October","November","December"]
     let hoursOfMonth = 168
-    let overHoursOfMonth = 46
-    var personCount : [Int]{
-        var array = [Int]()
-        for i in 0...25 { array.append(i) }// for how much person
-        return array
-    }
-    
+    static let overHoursOfMonth = 46.0
   
+    
     
 }
 public struct SetupOnStartData{

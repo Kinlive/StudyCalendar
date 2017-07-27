@@ -15,7 +15,7 @@ var numberItem : [Int]{
     return array
 }//FIXME: numberArray here
 let spacing :CGFloat = 3
-let itemCount :CGFloat = 2
+
 let baseSetup = BaseSetup()
 //let personCDManager = CoreDataManager<PersonData>(
 //    initWithModel: "DataBase",
@@ -29,6 +29,10 @@ let baseSetup = BaseSetup()
 class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource {
     //MARK: - UICollectionViewDelegate & DataSource
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let itemCount :CGFloat = 2
+//        if personCDManager.count() <= 6{
+//            itemCount = 1
+//        }
         let personView = (UIScreen.main.bounds.size.width)/4
         let width = (personView-itemCount*spacing)/itemCount
         let size = CGSize(width: width, height: width)
@@ -86,7 +90,7 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
         cell.hourBar.roundedCorners = false
         cell.hourBar.glowMode = .forward
         cell.hourBar.glowAmount = 0.9
-        cell.hourBar.set(colors: UIColor.white, UIColor.orange )
+        cell.hourBar.set(colors: UIColor.white, UIColor.orange)
 //        cell.hourBar.animate(fromAngle: 50.0 , toAngle: (Double(cell.overHours)/46.0)*360.0, duration: 1.5, completion: nil)
         cell.hourBar.animate(toAngle: (item.overtime/46.0)*360.0, duration: 1.5, completion: nil)
    

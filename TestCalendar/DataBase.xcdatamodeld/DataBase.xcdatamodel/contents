@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CalendarData" representedClassName="CalendarData" syncable="YES" codeGenerationType="class">
-        <attribute name="dayOfMonthly" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="backup1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="day" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="month" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="personName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="typeName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="year" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="ClassTypeData" representedClassName="ClassTypeData" syncable="YES" codeGenerationType="class">
         <attribute name="overtime" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="ruleFive" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="ruleFour" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="ruleSix" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="rule4" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rule5" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rule6" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="startTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="typeName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="workingHours" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="PersonData" representedClassName="PersonData" syncable="YES" codeGenerationType="class">
-        <attribute name="date" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="month" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="overtime" optional="YES" attributeType="Double" minValueString="0" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="systemBaseName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="workingHours" optional="YES" attributeType="Double" minValueString="0" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="year" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="yearAndMonth" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="SystemPersonData" representedClassName="SystemPersonData" syncable="YES" codeGenerationType="class">
+        <attribute name="systemBaseName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CalendarData" positionX="-36" positionY="72" width="128" height="90"/>
-        <element name="ClassTypeData" positionX="-54" positionY="18" width="128" height="150"/>
-        <element name="PersonData" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="CalendarData" positionX="16" positionY="54" width="128" height="135"/>
+        <element name="ClassTypeData" positionX="-110" positionY="-108" width="128" height="150"/>
+        <element name="PersonData" positionX="-279" positionY="48" width="128" height="150"/>
+        <element name="SystemPersonData" positionX="-279" positionY="219" width="128" height="58"/>
     </elements>
 </model>

@@ -14,7 +14,7 @@ let personCDManager = CoreDataManager<PersonData>(
                                                 initWithModel: "DataBase",
                                                 dbFileName: "personData.sqlite",
                                                 dbPathURL: nil,
-                                                sortKey: "name",
+                                                sortKey: "yearAndMonth",
                                                 entityName: "PersonData")
 let classTypeCDManager = CoreDataManager<ClassTypeData>(
                                                 initWithModel: "DataBase",
@@ -22,6 +22,9 @@ let classTypeCDManager = CoreDataManager<ClassTypeData>(
                                                 dbPathURL: nil,
                                                 sortKey: "startTime",
                                                 entityName: "ClassTypeData")
+//formatter yyyy
+let years = ["2017","2018","2019","2020","2021","2022","2023","2024","2025","2026"]
+let months = ["01","02","03","04","05","06","07","08","09","10","11","12"]
 
 class ViewController: UIViewController{
     let formatter = DateFormatter()
@@ -45,6 +48,7 @@ class ViewController: UIViewController{
     @IBOutlet weak var month: UILabel!
     @IBOutlet weak var personCellView: UICollectionView!
    //  personCellView: UICollectionView!
+    @IBOutlet weak var showYearAndMonth: UISegmentedControl!
     //Calendar color setup ..
     let outsideMonthColor = UIColor(colorWithHexValue : 0xcccccc)
     let monthColor = UIColor(colorWithHexValue: 0x000000)
@@ -66,22 +70,17 @@ class ViewController: UIViewController{
         longPress.addTarget(self, action: #selector(longPressGestureRecognized(_:)))
         longPress.minimumPressDuration = 0.1
         mainUIView.addGestureRecognizer(longPress)
-        
-        //Init personCoreDataManager
-//        personCDManager = CoreDataManager(
-//                                          initWithModel: "DataBase",
-//                                          dbFileName: "personData.sqlite",
-//                                          dbPathURL: nil,
-//                                          sortKey: "name",
-//                                          entityName: "PersonData")
-//        
-//       fetchResults = personCDManager.fetchedResultsController
-//        personCDManager.controllerDidChangeContent(<#T##controller: NSFetchedResultsController<NSFetchRequestResult>##NSFetchedResultsController<NSFetchRequestResult>#>)
-        
-    
+        //NotificationCenter
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCell(object:)), name: NSNotification.Name(rawValue: "RefreshTheCell"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCellView), name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil )
-        
+        //First show current date on person's years and months
+        let segmentedFormatter = DateFormatter()
+        segmentedFormatter.dateFormat = "MM"
+        let monthString = segmentedFormatter.string(from: currentDate)
+        showYearAndMonth.setTitle(monthString , forSegmentAt: 1)
+        segmentedFormatter.dateFormat = "yyyy"
+        let yearString = segmentedFormatter.string(from: currentDate)
+        showYearAndMonth.setTitle(yearString, forSegmentAt: 0)
     }//viewDidLoad here
     
     
@@ -162,7 +161,7 @@ class ViewController: UIViewController{
         }
     }//longpress func here
     
-    //MARK: - createPopupView
+    //MARK: - createPopoverView
     func createPopupView(){
             let popupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PopupMenu") as! PopupMenuViewController
             popupVC.modalPresentationStyle = .popover
@@ -228,14 +227,14 @@ class ViewController: UIViewController{
         let popover = calendarDetailVC.popoverPresentationController!
         popover.delegate = self as? UIPopoverPresentationControllerDelegate
         popover.permittedArrowDirections.remove(.any)
-        popover.sourceView = self.calendarView
+        popover.sourceView = self.view
         let calendarViewX = self.mainUIView.center.x
         let calendarViewY = self.mainUIView.center.y
         let width = self.calendarView.frame.width
         let height = self.calendarView.frame.height
         popover.sourceRect = CGRect(
-            x: calendarViewX-width,
-            y: calendarViewY-height,
+            x: calendarViewX-width/2,
+            y: calendarViewY-height/2,
             width: width,
             height: height)
         present(calendarDetailVC, animated: true, completion: nil)
@@ -253,12 +252,26 @@ class ViewController: UIViewController{
         
     }
     
+//MARK : - IBAction here
     @IBAction func personDetailButton(_ sender: UIButton) {
         //...
         createPersonSetupView()
     }
     @IBAction func classTypeDetail(_ sender: UIButton) {
         createSetupClassTypeView()
+    }
+    @IBAction func yearAndMonthSegment(_ sender: UISegmentedControl) {
+     let index = sender.selectedSegmentIndex
+        switch index {
+        case 0:
+            //To change mode that can swape years
+            break
+        case 1:
+            //To change mode that can swape months
+            break
+        default:
+            break
+        }
     }
 
     

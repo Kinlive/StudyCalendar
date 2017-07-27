@@ -7,12 +7,15 @@
 //
 
 import UIKit
- let years = ["2017","2018","2019","2020","2021","2022","2023","2024","2025","2026"]
+
+
+
 class SetupPersonViewController: UIViewController {
     var personArray = [PersonData]()
-//    var personCDManager : CoreDataManager<PersonData>!
-    let formatter = DateFormatter()
     
+    let formatter = DateFormatter()
+    //for index pass from didSelect cell to button use
+    var personTmpIndex : IndexPath?
     
 //MARK : - IBOutlet here
     @IBOutlet weak var showPersonDetail: UIView!
@@ -29,6 +32,7 @@ class SetupPersonViewController: UIViewController {
     // test textFields?
     @IBOutlet weak var nameTextFieldStatus: UITextField!
     
+    @IBOutlet weak var testShowMonth: UILabel!
     
     
        override func viewDidLoad() {
@@ -72,6 +76,20 @@ class SetupPersonViewController: UIViewController {
         createAlertView()
         
     }
+    
+    //之後reset可考慮搬到Setting Page
+    @IBAction func resetOverTimeBtn(_ sender: UIButton) {
+        for index in 0..<personCDManager.count(){
+           let item = personCDManager.itemWithIndex(index: index)
+            item.overtime = BaseSetup.overHoursOfMonth
+        }
+        personCDManager.saveContexWithCompletion { (success) in
+            if success {
+                  self.SetupPersonTableView.reloadData()
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil)
+            }
+        }
+    }
   
 
     @IBAction func saveButton(_ sender: UIBarButtonItem) {
@@ -81,21 +99,47 @@ class SetupPersonViewController: UIViewController {
 //        editStatusButton.isEnabled = false
 //        editStatusButton.title = "Edit"
     }
+    
+    @IBAction func nextBtn(_ sender: UIButton) {
+//        let item = personCDManager.itemWithIndex(index: (personTmpIndex?.item)!)
+        
+//        testShowMonth.text = item.yearAndMonth
+        
+        for item in personArray{
+        print("year:",item.year!,"month:",item.month!,"yearAndMonth:",item.yearAndMonth!,"name:",item.name!,"overtime:",item.overtime)
+        }
+        
+    
+    }
+    
+
+    @IBAction func backBtn(_ sender: UIButton) {
+        
+    }
+    
     //MARK : - CreatAlert method
     func createAlertView(){
         let alert = UIAlertController.init(title: nil, message: "Please key in Name", preferredStyle: .alert)
         alert.addTextField(configurationHandler: nil)
         let ok = UIAlertAction(title: "OK", style: .default) { (ok) in
             
-            let item = personCDManager.createItem()
-            item.name = alert.textFields?[0].text
-            item.overtime = Double(baseSetup.overHoursOfMonth)
+//            for year in years {   //考慮是否移除
+//                for month in months{
+                    let item = personCDManager.createItem()
+                    item.systemBaseName = alert.textFields?[0].text
+                    item.name = alert.textFields?[0].text
+                    item.overtime = BaseSetup.overHoursOfMonth
+                    item.month = months[6]
+                    item.year = years[0]
+                    item.yearAndMonth = "\(years[0])\(months[6])"
+                   
+//                }
+//            }
             personCDManager.saveContexWithCompletion(completion: { (success) in
                 if(success){
-                    self.personArray.append(item)
+//                    self.personArray.append(item)
                     self.SetupPersonTableView.reloadData()
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil)
-                    
                 }
             })
         }//ok action block here
@@ -121,7 +165,7 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SetupPersonTableViewCell", for: indexPath) as! SetupPersonTableViewCell
         let item = personCDManager.itemWithIndex(index: indexPath.item)
-        
+         self.personArray.append(item)
         cell.textLabel?.text = item.name
         cell.detailTextLabel?.text = String(item.overtime)
         
@@ -132,12 +176,13 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
         self.nameTextFieldStatus.isHidden = true
         self.showDetailOfLabel.isHidden = false
         self.showHoursOfLabel.isHidden = false
+        
         self.showDetailOfLabel.text = tableView.cellForRow(at: indexPath)?.textLabel?.text
         self.showHoursOfLabel.text = tableView.cellForRow(at: indexPath)?.detailTextLabel?.text
         //Set edit button 
         editStatusButton.isEnabled = true
 //        editStatusButton.title = "Save"
-        
+        personTmpIndex = indexPath
     }
 }
 //MARK: - PickerView protocol method
@@ -150,7 +195,7 @@ extension SetupPersonViewController : UIPickerViewDelegate,UIPickerViewDataSourc
         if component == 0{
             count = years.count
         }else {
-            count =  BaseSetup.monthly.count
+            count = months.count
         }
         return count!
     }
@@ -159,12 +204,21 @@ extension SetupPersonViewController : UIPickerViewDelegate,UIPickerViewDataSourc
         if component == 0 {
             title =  years[row]
         }else {
-            title = BaseSetup.monthly[row]
+            title = months[row]
         }
         
         return title!
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         //..
+        if component == 0 {
+            
+            
+        }else{ //component == 1  means months
+            
+        }
     }
+    
+    
+    
 }
