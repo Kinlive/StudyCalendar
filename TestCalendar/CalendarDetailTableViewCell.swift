@@ -9,6 +9,9 @@
 import UIKit
 
 class CalendarDetailTableViewCell: UITableViewCell {
+    @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var subTitle: UILabel!
+    @IBOutlet weak var date: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()

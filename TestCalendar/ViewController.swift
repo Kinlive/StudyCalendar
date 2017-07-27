@@ -14,7 +14,7 @@ let personCDManager = CoreDataManager<PersonData>(
                                                 initWithModel: "DataBase",
                                                 dbFileName: "personData.sqlite",
                                                 dbPathURL: nil,
-                                                sortKey: "yearAndMonth",
+                                                sortKey: "name",
                                                 entityName: "PersonData")
 let classTypeCDManager = CoreDataManager<ClassTypeData>(
                                                 initWithModel: "DataBase",
@@ -22,6 +22,12 @@ let classTypeCDManager = CoreDataManager<ClassTypeData>(
                                                 dbPathURL: nil,
                                                 sortKey: "startTime",
                                                 entityName: "ClassTypeData")
+let calendarCDManager = CoreDataManager<CalendarData>(
+                                                initWithModel: "DataBase",
+                                                dbFileName: "calendarData.sqlite",
+                                                dbPathURL: nil,
+                                                sortKey: "date",
+                                                entityName: "CalendarData")
 //formatter yyyy
 let years = ["2017","2018","2019","2020","2021","2022","2023","2024","2025","2026"]
 let months = ["01","02","03","04","05","06","07","08","09","10","11","12"]

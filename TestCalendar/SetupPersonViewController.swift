@@ -81,6 +81,10 @@ class SetupPersonViewController: UIViewController {
     @IBAction func resetOverTimeBtn(_ sender: UIButton) {
         for index in 0..<personCDManager.count(){
            let item = personCDManager.itemWithIndex(index: index)
+            
+//            if item.month == "123"{
+//            
+//            }
             item.overtime = BaseSetup.overHoursOfMonth
         }
         personCDManager.saveContexWithCompletion { (success) in
@@ -122,7 +126,7 @@ class SetupPersonViewController: UIViewController {
         let alert = UIAlertController.init(title: nil, message: "Please key in Name", preferredStyle: .alert)
         alert.addTextField(configurationHandler: nil)
         let ok = UIAlertAction(title: "OK", style: .default) { (ok) in
-            
+             
 //            for year in years {   //考慮是否移除
 //                for month in months{
                     let item = personCDManager.createItem()

@@ -107,6 +107,19 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
         guard let classTypeOvertime = Double(classTypeItem.overtime!) else {
             print("被classTypeOvertime擋下了")
             return }
+        //New create calendarDetailItem
+        let calendarDetailItem = calendarCDManager.createItem()
+        let formatter = DateFormatter()
+        let date = Date()
+        formatter.dateFormat = "yyyy MM dd"
+        calendarDetailItem.date = formatter.string(from: date)
+        calendarDetailItem.personName = personItem.name
+        calendarDetailItem.typeName = classTypeItem.typeName
+        calendarCDManager.saveContexWithCompletion { (success) in
+            if success {
+                print("Calendar Save OK!")
+            }
+        }
         //避免時數被扣成負數
         if (personItem.overtime - classTypeOvertime) < 0{
             personItem.overtime = 0

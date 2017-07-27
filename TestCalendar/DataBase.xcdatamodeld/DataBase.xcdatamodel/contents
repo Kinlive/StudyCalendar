@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="CalendarData" representedClassName="CalendarData" syncable="YES" codeGenerationType="class">
         <attribute name="backup1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="day" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="month" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="personName" optional="YES" attributeType="String" syncable="YES"/>
@@ -30,7 +31,7 @@
         <attribute name="systemBaseName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CalendarData" positionX="16" positionY="54" width="128" height="135"/>
+        <element name="CalendarData" positionX="16" positionY="54" width="128" height="148"/>
         <element name="ClassTypeData" positionX="-110" positionY="-108" width="128" height="150"/>
         <element name="PersonData" positionX="-279" positionY="48" width="128" height="150"/>
         <element name="SystemPersonData" positionX="-279" positionY="219" width="128" height="58"/>
