@@ -26,11 +26,14 @@ let calendarCDManager = CoreDataManager<CalendarData>(
                                                 initWithModel: "DataBase",
                                                 dbFileName: "calendarData.sqlite",
                                                 dbPathURL: nil,
-                                                sortKey: "date",
+                                                sortKey: "personName",
                                                 entityName: "CalendarData")
 //formatter yyyy
 let years = ["2017","2018","2019","2020","2021","2022","2023","2024","2025","2026"]
 let months = ["01","02","03","04","05","06","07","08","09","10","11","12"]
+//For save endIndexPath 
+let endIndexPathLock = NSLock()
+
 
 class ViewController: UIViewController{
     let formatter = DateFormatter()
@@ -313,6 +316,7 @@ extension ViewController:JTAppleCalendarViewDelegate{
     }
     //Didselect
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
+        BaseSetup.selectedDate = cellState.text
          handleCellSelected(view: cell, cellState: cellState)
          handleCellTextColor(view: cell, cellState: cellState)
         createCalendarDetailView()

@@ -9,9 +9,14 @@
 import Foundation
 
 public struct BaseSetup{
+    
+     static var saveFirstIndexPath : IndexPath? //On begin drag the personCell indexPath
 
-     static var saveFirstIndexPath : IndexPath?
-   static let monthly =
+    static var dropEndCalendarDate : String? // when drop end the date
+    
+    static var selectedDate : String? // for calendar selected date
+    
+    static let monthly =
         ["January","Fabruary","March","April",
         "May","June","July","August",
         "September","October","November","December"]

@@ -101,23 +101,36 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
         guard let firstLongPressIndex = BaseSetup.saveFirstIndexPath else {
              print("被firsLonPressIndex擋下了")
             return }
+//        guard let saveEndIndexPath = BaseSetup.saveEndIndexPath else {
+//            print("被saveEndIndexPath擋下了")
+//            return
+//        }
         //這裡之後要簽點選完班別後 由calendarData收集
         let classTypeItem = classTypeCDManager.itemWithIndex(index: indexPath.item)
         let personItem = personCDManager.itemWithIndex(index: firstLongPressIndex.item)
         guard let classTypeOvertime = Double(classTypeItem.overtime!) else {
             print("被classTypeOvertime擋下了")
             return }
+        
         //New create calendarDetailItem
         let calendarDetailItem = calendarCDManager.createItem()
         let formatter = DateFormatter()
-        let date = Date()
+//        let date = Date()
         formatter.dateFormat = "yyyy MM dd"
-        calendarDetailItem.date = formatter.string(from: date)
+//        calendarDetailItem.date = formatter.string(from: date)
+        guard let dropEndCalendarDate =  BaseSetup.dropEndCalendarDate else {
+            print("被dropEndCalendarDate擋下了")
+            return }
+        print("測試是否有帶到日期.....:",dropEndCalendarDate)
+        calendarDetailItem.date = dropEndCalendarDate
         calendarDetailItem.personName = personItem.name
         calendarDetailItem.typeName = classTypeItem.typeName
+        
         calendarCDManager.saveContexWithCompletion { (success) in
             if success {
+                
                 print("Calendar Save OK!")
+                
             }
         }
         //避免時數被扣成負數

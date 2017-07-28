@@ -14,6 +14,7 @@ class GestureSetupManager: NSObject {
     var perPerson = [PersonDetail]()
     
     let firstIndexPathLock = NSLock()
+
     var baseSetup = BaseSetup()
     
     struct My {
@@ -108,9 +109,11 @@ class GestureSetupManager: NSObject {
             //以及第二判斷條件可換乘 calendarLocation.y <0 就不進入  ex:cellSnapshot.center.y >= mainUIView.frame.size.height*1/5
             if personLocation.x < 0,cellSnapshot.center.y >= mainUIView.frame.size.height*1/5{
                 guard let calendarIndexPath = calendarIndexPath else {return}
+                
                 let calendarCell = calendarView.cellForItem(at: calendarIndexPath) as! CustomCell
                 guard let personCellIndexPath = Path.personCellIndexPath else {return}
                 let cell = personCellView.cellForItem(at: personCellIndexPath) as! PersonCell
+                BaseSetup.dropEndCalendarDate = calendarCell.dateLabel.text
                 calendarCell.selectedView.isHidden = false  //控制月曆選擇顯示
                 cell.isHidden = false
                 cell.alpha = 0.0

@@ -404,8 +404,8 @@
                                 <rect key="frame" x="0.0" y="44" width="556" height="790"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UbY-F2-ayI">
-                                        <rect key="frame" x="196.5" y="377.5" width="163.5" height="36"/>
-                                        <fontDescription key="fontDescription" type="system" weight="black" pointSize="30"/>
+                                        <rect key="frame" x="65.5" y="348" width="426.5" height="95.5"/>
+                                        <fontDescription key="fontDescription" type="system" weight="black" pointSize="80"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
