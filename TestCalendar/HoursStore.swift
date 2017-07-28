@@ -14,7 +14,11 @@ public struct BaseSetup{
 
     static var dropEndCalendarDate : String? // when drop end the date
     
-    static var selectedDate : String? // for calendar selected date
+    static var selectedDay : String? // for calendar selected date
+    
+    static var currentCalendarYear : String?
+    
+    static var currentCalendarMonth : String?
     
     static let monthly =
         ["January","Fabruary","March","April",

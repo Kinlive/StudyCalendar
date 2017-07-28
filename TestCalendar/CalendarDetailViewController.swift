@@ -23,7 +23,7 @@ class CalendarDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
         showScheduleTable.delegate = self
         showScheduleTable.dataSource = self
-        guard let date = BaseSetup.selectedDate else { return }
+        guard let date = BaseSetup.selectedDay else { return }
         showDate.text = date
         
         
@@ -31,20 +31,26 @@ class CalendarDetailViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         
-        fetchCalendarDataWith(date: BaseSetup.selectedDate!)
+        fetchCalendarDataWith(date: BaseSetup.selectedDay!)
         
     }
     
     func fetchCalendarDataWith(date : String) {
-//        let results = calendarCDManager.searchField(field: "date", forKeyword: BaseSetup.selectedDate!)
-//        for item : CalendarData in results {
-//            itemArray.append(item)
-//        }
+        guard let selectedDay =  BaseSetup.selectedDay else {
+            print("被dropEndCalendarDate擋下了")
+            return }
+        guard let currentYear = BaseSetup.currentCalendarYear else {
+            print("被currentYear擋下")
+            return }
+        guard let currentMonth = BaseSetup.currentCalendarMonth else {
+            print("被currentMonth擋下")
+            return}
+        let currentDate = "\(currentYear)\(currentMonth)\(selectedDay)"
         
         
         for i in 0..<calendarCDManager.count(){
             let item = calendarCDManager.itemWithIndex(index: i)
-            if item.date == BaseSetup.selectedDate{
+            if item.date == currentDate{
                 itemArray.append(item)
             }
         }

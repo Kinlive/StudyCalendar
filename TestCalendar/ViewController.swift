@@ -82,6 +82,7 @@ class ViewController: UIViewController{
         //NotificationCenter
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCell(object:)), name: NSNotification.Name(rawValue: "RefreshTheCell"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCellView), name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil )
+        
         //First show current date on person's years and months
         let segmentedFormatter = DateFormatter()
         segmentedFormatter.dateFormat = "MM"
@@ -122,7 +123,7 @@ class ViewController: UIViewController{
         guard let validCell = view as? CustomCell else{ return }
         let stateDate = currentFormatter.string(from: cellState.date)
         let currenteDate = currentFormatter.string(from: currentDate)
-        //          print("firstShow:\(stateDate) and \(currenteDate)")
+//                  print("firstShow:\(stateDate) and \(currenteDate)")
         if(stateDate == currenteDate){
             validCell.currentView.isHidden = false
 //            validCell.dateLabel.textColor = selectedMonthColor
@@ -140,8 +141,12 @@ class ViewController: UIViewController{
             let date = visibleDates.monthDates.first!.date
             self.formatter.dateFormat = "yyyy"
             self.year.text = self.formatter.string(from: date)
+        //To save year and month 
+            BaseSetup.currentCalendarYear = self.year.text
             self.formatter.dateFormat = "MMMM"
             self.month.text = self.formatter.string(from: date)
+        self.formatter.dateFormat = "MM"
+        BaseSetup.currentCalendarMonth = self.formatter.string(from: date)
         
     }
     override func didReceiveMemoryWarning() {
@@ -316,7 +321,7 @@ extension ViewController:JTAppleCalendarViewDelegate{
     }
     //Didselect
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
-        BaseSetup.selectedDate = cellState.text
+        BaseSetup.selectedDay = cellState.text
          handleCellSelected(view: cell, cellState: cellState)
          handleCellTextColor(view: cell, cellState: cellState)
         createCalendarDetailView()

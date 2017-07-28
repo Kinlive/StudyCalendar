@@ -113,6 +113,10 @@ class GestureSetupManager: NSObject {
                 let calendarCell = calendarView.cellForItem(at: calendarIndexPath) as! CustomCell
                 guard let personCellIndexPath = Path.personCellIndexPath else {return}
                 let cell = personCellView.cellForItem(at: personCellIndexPath) as! PersonCell
+                ///////////////////////
+//                let dateFormatter = DateFormatter()
+//                dateFormatter.dateFormat = "dd"
+                
                 BaseSetup.dropEndCalendarDate = calendarCell.dateLabel.text
                 calendarCell.selectedView.isHidden = false  //控制月曆選擇顯示
                 cell.isHidden = false

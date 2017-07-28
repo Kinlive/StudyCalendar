@@ -112,8 +112,7 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
             print("被classTypeOvertime擋下了")
             return }
         
-        //New create calendarDetailItem
-        let calendarDetailItem = calendarCDManager.createItem()
+      
         let formatter = DateFormatter()
 //        let date = Date()
         formatter.dateFormat = "yyyy MM dd"
@@ -121,10 +120,24 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
         guard let dropEndCalendarDate =  BaseSetup.dropEndCalendarDate else {
             print("被dropEndCalendarDate擋下了")
             return }
-        print("測試是否有帶到日期.....:",dropEndCalendarDate)
-        calendarDetailItem.date = dropEndCalendarDate
+        guard let currentYear = BaseSetup.currentCalendarYear else {
+        print("被currentYear擋下")
+        return }
+        guard let currentMonth = BaseSetup.currentCalendarMonth else {
+        print("被currentMonth擋下")
+        return}
+        let toSaveDate = "\(currentYear)\(currentMonth)\(dropEndCalendarDate)"
+        print("Test toSaveDate ::: \(toSaveDate)")
+        
+        
+        //New create calendarDetailItem
+        let calendarDetailItem = calendarCDManager.createItem()
+        calendarDetailItem.date = toSaveDate
         calendarDetailItem.personName = personItem.name
         calendarDetailItem.typeName = classTypeItem.typeName
+        calendarDetailItem.year = currentYear
+        calendarDetailItem.month = currentMonth
+        calendarDetailItem.day = dropEndCalendarDate
         
         calendarCDManager.saveContexWithCompletion { (success) in
             if success {
