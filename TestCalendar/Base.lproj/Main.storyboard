@@ -266,7 +266,7 @@
                                         <rect key="frame" x="556" y="0.0" width="278" height="87"/>
                                         <color key="backgroundColor" red="0.51764705882352935" green="0.61568627450980395" blue="0.75294117647058822" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" weight="black" pointSize="30"/>
-                                        <state key="normal" title="Setup">
+                                        <state key="normal" title="Setting">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
@@ -343,7 +343,7 @@
                         <viewControllerLayoutGuide type="top" id="0sW-Bk-vop"/>
                         <viewControllerLayoutGuide type="bottom" id="HnR-g3-lMr"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="I1L-GC-F9b">
+                    <view key="view" alpha="0.5" contentMode="scaleToFill" id="I1L-GC-F9b">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -410,14 +410,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="UbY-F2-ayI" firstAttribute="centerX" secondItem="Vki-xA-GOM" secondAttribute="centerX" id="1Ff-in-ewx"/>
                                     <constraint firstItem="UbY-F2-ayI" firstAttribute="centerY" secondItem="Vki-xA-GOM" secondAttribute="centerY" id="baF-Kt-AQg"/>
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.6994826972" green="0.83032605329999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.59999999999999998" green="0.80000000000000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="wOm-2e-lFM" secondAttribute="trailing" id="6ZV-hj-QSf"/>
                             <constraint firstItem="HnR-g3-lMr" firstAttribute="top" secondItem="MEV-LW-1kL" secondAttribute="bottom" id="Bcm-f8-oKh"/>
@@ -734,28 +734,28 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1112" height="44"/>
                                 <items>
                                     <navigationItem title="Add Person" id="pZp-hU-3N4">
-                                        <leftBarButtonItems>
-                                            <barButtonItem style="plain" systemItem="add" id="htD-Rm-xsm">
+                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="add" id="htD-Rm-xsm">
+                                            <connections>
+                                                <action selector="addPerson:" destination="ro9-Rb-nOK" id="5i8-6J-oSK"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <rightBarButtonItems>
+                                            <barButtonItem style="plain" systemItem="edit" id="Qt8-x2-egJ">
                                                 <connections>
-                                                    <action selector="addPerson:" destination="ro9-Rb-nOK" id="5i8-6J-oSK"/>
+                                                    <action selector="saveButton:" destination="ro9-Rb-nOK" id="ebQ-nu-fPO"/>
                                                 </connections>
                                             </barButtonItem>
-                                            <barButtonItem title="Reset" style="plain" id="B5g-Oo-KUR">
-                                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="0if-b7-yba">
-                                                    <rect key="frame" x="57" y="7" width="247" height="30"/>
+                                            <barButtonItem style="plain" id="cL2-fR-KcS">
+                                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4CT-3g-adg">
+                                                    <rect key="frame" x="807" y="7" width="247" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Reset"/>
                                                     <connections>
-                                                        <action selector="resetOverTimeBtn:" destination="ro9-Rb-nOK" eventType="touchUpInside" id="trM-f6-5W1"/>
+                                                        <action selector="resetOverTimeBtn:" destination="ro9-Rb-nOK" eventType="touchUpInside" id="9gw-pg-ChN"/>
                                                     </connections>
                                                 </button>
                                             </barButtonItem>
-                                        </leftBarButtonItems>
-                                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="edit" id="Qt8-x2-egJ">
-                                            <connections>
-                                                <action selector="saveButton:" destination="ro9-Rb-nOK" id="ebQ-nu-fPO"/>
-                                            </connections>
-                                        </barButtonItem>
+                                        </rightBarButtonItems>
                                     </navigationItem>
                                 </items>
                             </navigationBar>

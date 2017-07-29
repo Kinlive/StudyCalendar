@@ -37,7 +37,7 @@ class SetupPersonViewController: UIViewController {
     
        override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationItem.leftBarButtonItem = editButtonItem
         self.preferredContentSize = CGSize(width: 900, height: 600)
 //         self.preferredContentSize = CGSizeMake(200, 200);
         // Do any additional setup after loading the view.
@@ -53,13 +53,7 @@ class SetupPersonViewController: UIViewController {
     
 //        let year1 = formatter.calendar.dateComponents(year, from: date)
 //        print("Day \(String(describing: year)))")
-        //Init personCoreData
-//        personCDManager = CoreDataManager(
-//            initWithModel: "DataBase",
-//            dbFileName: "personData.sqlite",
-//            dbPathURL: nil,
-//            sortKey: "name",
-//            entityName: "PersonData")
+ 
         //nameTextField test
 //        nameTextFieldStatus.isHidden = true
         showDetailOfLabel.isHidden = true
@@ -79,20 +73,15 @@ class SetupPersonViewController: UIViewController {
     
     //之後reset可考慮搬到Setting Page
     @IBAction func resetOverTimeBtn(_ sender: UIButton) {
-        for index in 0..<personCDManager.count(){
-           let item = personCDManager.itemWithIndex(index: index)
-            
-//            if item.month == "123"{
-//            
-//            }
-            item.overtime = BaseSetup.overHoursOfMonth
+        let alert = UIAlertController(title: "人員時數重置", message: "確認後將進行人員時數重置,請確認您當月份班別已安排完成?", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "ok", style: .default) { (isOK) in
+            self.resetPersonHours()
         }
-        personCDManager.saveContexWithCompletion { (success) in
-            if success {
-                  self.SetupPersonTableView.reloadData()
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil)
-            }
-        }
+        let cancel = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        self.present(alert, animated: true, completion: nil)
+        
     }
   
 
@@ -120,6 +109,20 @@ class SetupPersonViewController: UIViewController {
     @IBAction func backBtn(_ sender: UIButton) {
         
     }
+    //MARK : - Reset the person hours
+    func resetPersonHours(){
+        for index in 0..<personCDManager.count(){
+            let item = personCDManager.itemWithIndex(index: index)
+            item.overtime = BaseSetup.overHoursOfMonth
+        }
+        personCDManager.saveContexWithCompletion { (success) in
+            if success {
+                self.SetupPersonTableView.reloadData()
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil)
+            }
+        }
+    }
+    
     
     //MARK : - CreatAlert method
     func createAlertView(){
@@ -133,6 +136,7 @@ class SetupPersonViewController: UIViewController {
                     item.systemBaseName = alert.textFields?[0].text
                     item.name = alert.textFields?[0].text
                     item.overtime = BaseSetup.overHoursOfMonth
+            //以下三個尚未使用,日後安排移除
                     item.month = months[6]
                     item.year = years[0]
                     item.yearAndMonth = "\(years[0])\(months[6])"
@@ -188,7 +192,19 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
 //        editStatusButton.title = "Save"
         personTmpIndex = indexPath
     }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            
+        }
+        
+    }
+    
 }
+
 //MARK: - PickerView protocol method
 extension SetupPersonViewController : UIPickerViewDelegate,UIPickerViewDataSource{
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
