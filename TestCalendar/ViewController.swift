@@ -145,8 +145,8 @@ class ViewController: UIViewController{
             BaseSetup.currentCalendarYear = self.year.text
             self.formatter.dateFormat = "MMMM"
             self.month.text = self.formatter.string(from: date)
-        self.formatter.dateFormat = "MM"
-        BaseSetup.currentCalendarMonth = self.formatter.string(from: date)
+            self.formatter.dateFormat = "MM"
+            BaseSetup.currentCalendarMonth = self.formatter.string(from: date)
         
     }
     override func didReceiveMemoryWarning() {
@@ -160,18 +160,23 @@ class ViewController: UIViewController{
     func longPressGestureRecognized(_ gestureRecognizer: UILongPressGestureRecognizer){
         
         gsManager.longPressOnView(
-                            gestureRecognizer: gestureRecognizer,
-                            mainUIView: mainUIView,
-                            calendarView: calendarView,
-                            personCellView: personCellView) { (indexPath) in
+                                                            gestureRecognizer: gestureRecognizer,
+                                                            mainUIView: mainUIView,
+                                                            calendarView: calendarView,
+                                                            personCellView: personCellView) { (indexPath, isSame) in
+            if isSame == false{
             //create popup view 
                 self.createPopupView()
-//                let item = self.personCDManager.itemWithIndex(index: indexPath.item)//可拿掉 日後
-            guard let item = personCDManager.fetchedResultsController.object(at: indexPath) as? PersonData else { return }
-               
+                guard let item = personCDManager.fetchedResultsController.object(at: indexPath) as? PersonData else { return }
                                     //Test Here 
                 print("Test  \(String(describing: item.name)) : overtime \(item.overtime) \n")
-
+            }else{
+                let alert = UIAlertController(title: nil, message: "該人員這天已安排班別了!!", preferredStyle: .alert)
+                let ok = UIAlertAction(title: "ok", style: .default, handler: nil)
+                alert.addAction(ok)
+                self.present(alert, animated: true, completion: nil)
+            }
+           
         }
     }//longpress func here
     
@@ -313,15 +318,17 @@ extension ViewController:JTAppleCalendarViewDelegate{
     //Display the cell
     func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
         let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "CustomCell", for: indexPath) as! CustomCell
-      
-        cell.dateLabel.text = cellState.text
+      formatter.dateFormat = "dd"
+        
+        cell.dateLabel.text = formatter.string(from: cellState.date)
         handleCellSelected(view: cell, cellState: cellState)
         handleCellTextColor(view: cell, cellState: cellState)
         return cell
     }
     //Didselect
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
-        BaseSetup.selectedDay = cellState.text
+        formatter.dateFormat = "dd"
+        BaseSetup.selectedDay = formatter.string(from: cellState.date)
          handleCellSelected(view: cell, cellState: cellState)
          handleCellTextColor(view: cell, cellState: cellState)
         createCalendarDetailView()

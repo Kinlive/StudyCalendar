@@ -8,8 +8,6 @@
 
 import UIKit
 import JTAppleCalendar
-//typealias HandlePersonDetail = (person
-typealias GestureEnd = ( IndexPath  ) -> Void
 class GestureSetupManager: NSObject {
     var perPerson = [PersonDetail]()
     
@@ -27,6 +25,8 @@ class GestureSetupManager: NSObject {
         static var firstLongPressIndexPath : IndexPath?
     }
     
+    //typealias HandlePersonDetail = (person
+    typealias GestureEnd = ( IndexPath , Bool ) -> Void
     func longPressOnView(
                     gestureRecognizer: UILongPressGestureRecognizer,
                     mainUIView: UIView ,
@@ -113,10 +113,7 @@ class GestureSetupManager: NSObject {
                 let calendarCell = calendarView.cellForItem(at: calendarIndexPath) as! CustomCell
                 guard let personCellIndexPath = Path.personCellIndexPath else {return}
                 let cell = personCellView.cellForItem(at: personCellIndexPath) as! PersonCell
-                ///////////////////////
-//                let dateFormatter = DateFormatter()
-//                dateFormatter.dateFormat = "dd"
-                
+
                 BaseSetup.dropEndCalendarDate = calendarCell.dateLabel.text
                 calendarCell.selectedView.isHidden = false  //控制月曆選擇顯示
                 cell.isHidden = false
@@ -139,8 +136,11 @@ class GestureSetupManager: NSObject {
                        
                     }
                 })
-                //test for hours pass to 
-                gestureEnd(personCellIndexPath)
+                let checkIsSamePerson = checkIsSamePersonOnCalendar(personIndexPath: personCellIndexPath)
+                print("test checkIsSamePerson:\(checkIsSamePerson)")
+                //test for hours pass to
+                
+                gestureEnd(personCellIndexPath , checkIsSamePerson)
                 firstIndexPathLock.unlock()
             }else{
                 guard let personCellIndexPath = Path.personCellIndexPath else {
@@ -172,8 +172,35 @@ class GestureSetupManager: NSObject {
         cellSnapshot.layer.shadowOpacity = 0.4
         return cellSnapshot
     }
-//    func getPersonDetail( perPerson : [PersonDetail]){
-//        self.perPerson = perPerson
-//    }
+    
+    func checkIsSamePersonOnCalendar(personIndexPath : IndexPath ) -> Bool{
+        let personItem = personCDManager.itemWithIndex(index: personIndexPath.item)
+//        let calendarItem = calendarCDManager.itemWithIndex(index: calendarIndexPath.item)
+        //
+        guard let dropEndDay = BaseSetup.dropEndCalendarDate else { return false}
+        guard let currentYear = BaseSetup.currentCalendarYear else {
+            print("被currentYear擋下")
+            return false}
+        guard let currentMonth = BaseSetup.currentCalendarMonth else {
+            print("被currentMonth擋下")
+            return false}
+        let currentDate = "\(currentYear)\(currentMonth)\(dropEndDay)"
+        var itemArray = [CalendarData]()
+        
+        for i in 0..<calendarCDManager.count(){
+            let item = calendarCDManager.itemWithIndex(index: i)
+            if item.date == currentDate{
+                itemArray.append(item)
+            }
+        }
+            for calendarItem in itemArray{
+                if personItem.name == calendarItem.personName {
+                    return true
+                }
+            }
+        
+        return false
+        }
   
-}
+    
+}//class out here
