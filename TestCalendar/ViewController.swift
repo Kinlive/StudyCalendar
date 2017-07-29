@@ -171,7 +171,7 @@ class ViewController: UIViewController{
                                     //Test Here 
                 print("Test  \(String(describing: item.name)) : overtime \(item.overtime) \n")
             }else{
-                let alert = UIAlertController(title: nil, message: "該人員這天已安排班別了!!", preferredStyle: .alert)
+                let alert = UIAlertController(title: nil, message: "該人員這天已安排過班別囉!!", preferredStyle: .alert)
                 let ok = UIAlertAction(title: "ok", style: .default, handler: nil)
                 alert.addAction(ok)
                 self.present(alert, animated: true, completion: nil)
@@ -201,10 +201,19 @@ class ViewController: UIViewController{
 
         }
     //MARK : - Create PersonSetupView
-    func createPersonSetupView(){
-        let personSetupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PersonSetupView") as! SetupPersonViewController
-         personSetupVC.modalPresentationStyle = .popover
-        let popover =  personSetupVC.popoverPresentationController!
+    func showView( whichShow : WhichViewShow ){
+        var willShowVC : UIViewController?
+        switch whichShow {
+        case .person:
+            willShowVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PersonSetupView") as? SetupPersonViewController
+        case .classType :
+            willShowVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SetupClassType") as? SetupClassTypeViewController
+        case .calendarDetail :
+            willShowVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CalendarDetailView") as? CalendarDetailViewController
+        }
+        guard let showVC = willShowVC else { return }
+        showVC.modalPresentationStyle = .popover
+        let popover =  showVC.popoverPresentationController!
         popover.delegate = self as? UIPopoverPresentationControllerDelegate
         popover.permittedArrowDirections.remove(.any)
         popover.sourceView = self.view
@@ -213,52 +222,13 @@ class ViewController: UIViewController{
         let width = self.calendarView.frame.width
         let height = self.calendarView.frame.height
         popover.sourceRect = CGRect(
-                                            x: calendarViewX-width/2,
-                                            y: calendarViewY-height/2,
-                                            width: width,
-                                            height: height)
-        present( personSetupVC, animated: true, completion: nil)
+                                                x: calendarViewX-width/2,
+                                                y: calendarViewY-height/2,
+                                                width: width,
+                                                height: height)
+        showVC.preferredContentSize = CGSize(width: mainUIView.frame.width*3/4 , height: mainUIView.frame.height*3/4)
+        present(showVC, animated: true, completion: nil)
     }
-    //MARK : - Create SetupClassTypeView
-    func createSetupClassTypeView(){
-        let classTypeSetupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SetupClassType") as! SetupClassTypeViewController
-        classTypeSetupVC.modalPresentationStyle = .popover
-        let popover =  classTypeSetupVC.popoverPresentationController!
-        popover.delegate = self as? UIPopoverPresentationControllerDelegate
-        popover.permittedArrowDirections.remove(.any)
-        popover.sourceView = self.view
-        let calendarViewX = self.mainUIView.center.x
-        let calendarViewY = self.mainUIView.center.y
-        let width = self.calendarView.frame.width
-        let height = self.calendarView.frame.height
-        popover.sourceRect = CGRect(
-                                            x: calendarViewX-width/2,
-                                            y: calendarViewY-height/2,
-                                            width: width,
-                                            height: height)
-        present( classTypeSetupVC, animated: true, completion: nil)
-    }
-    //MARK: - CreateCalendarDetailView 
-    func createCalendarDetailView(){
-        let calendarDetailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CalendarDetailView") as! CalendarDetailViewController
-        
-        calendarDetailVC.modalPresentationStyle = .popover
-        let popover = calendarDetailVC.popoverPresentationController!
-        popover.delegate = self as? UIPopoverPresentationControllerDelegate
-        popover.permittedArrowDirections.remove(.any)
-        popover.sourceView = self.view
-        let calendarViewX = self.mainUIView.center.x
-        let calendarViewY = self.mainUIView.center.y
-        let width = self.calendarView.frame.width
-        let height = self.calendarView.frame.height
-        popover.sourceRect = CGRect(
-            x: calendarViewX-width/2,
-            y: calendarViewY-height/2,
-            width: width,
-            height: height)
-        present(calendarDetailVC, animated: true, completion: nil)
-    }
-    
     
    //MARK: - refresh the cell
     func refreshPersonCell( object : Notification){
@@ -273,11 +243,10 @@ class ViewController: UIViewController{
     
 //MARK : - IBAction here
     @IBAction func personDetailButton(_ sender: UIButton) {
-        //...
-        createPersonSetupView()
+        showView(whichShow: .person)
     }
     @IBAction func classTypeDetail(_ sender: UIButton) {
-        createSetupClassTypeView()
+        showView(whichShow: .classType)
     }
     @IBAction func yearAndMonthSegment(_ sender: UISegmentedControl) {
      let index = sender.selectedSegmentIndex
@@ -329,9 +298,9 @@ extension ViewController:JTAppleCalendarViewDelegate{
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
         formatter.dateFormat = "dd"
         BaseSetup.selectedDay = formatter.string(from: cellState.date)
-         handleCellSelected(view: cell, cellState: cellState)
-         handleCellTextColor(view: cell, cellState: cellState)
-        createCalendarDetailView()
+        handleCellSelected(view: cell, cellState: cellState)
+        handleCellTextColor(view: cell, cellState: cellState)
+        showView(whichShow: .calendarDetail)
         print("Cellstate is \n: \(cellState.row())\n and \(cellState.dateSection().range) \n and other \(cellState.date)\n and \(cellState.text)\n ")
         
     }
@@ -342,12 +311,6 @@ extension ViewController:JTAppleCalendarViewDelegate{
     func calendar(_ calendar: JTAppleCalendarView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
         setupViewOfCalendar(from: visibleDates)
     }
-//    func calendar(_ calendar: JTAppleCalendarView, shouldSelectDate date: Date, cell: JTAppleCell, cellState: CellState) -> Bool {
-////        let date1 = Date.init()
-//        
-//        return true;
-//    }
-
 }
 
 // MARK: - UIColor convenience init

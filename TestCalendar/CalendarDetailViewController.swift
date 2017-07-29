@@ -20,7 +20,6 @@ class CalendarDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.preferredContentSize = CGSize(width: 900, height: 600)
         // Do any additional setup after loading the view.
         showScheduleTable.delegate = self
         showScheduleTable.dataSource = self

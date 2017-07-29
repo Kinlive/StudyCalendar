@@ -34,9 +34,6 @@ class SetupPersonViewController: UIViewController {
     
        override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.leftBarButtonItem = editButtonItem
-        self.preferredContentSize = CGSize(width: 900, height: 600)
-//         self.preferredContentSize = CGSizeMake(200, 200);
         // Do any additional setup after loading the view.
         SetupPersonTableView.delegate = self
         SetupPersonTableView.dataSource = self

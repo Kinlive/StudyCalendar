@@ -7,6 +7,10 @@
 //
 
 import Foundation
+public enum WhichViewShow : Int{
+    case person = 0 , classType , calendarDetail
+}
+
 
 public struct BaseSetup{
     
@@ -27,8 +31,6 @@ public struct BaseSetup{
     let hoursOfMonth = 168
     static let overHoursOfMonth = 46.0
   
-    
-    
 }
 public struct SetupOnStartData{
     var name :[String]?
