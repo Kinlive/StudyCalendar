@@ -47,9 +47,8 @@ class ViewController: UIViewController{
     var longPress = UILongPressGestureRecognizer()
     let gsManager = GestureSetupManager()
     let personCVCoorinator = PersonCollectionViewCoorinator()
-//    var personCDManager : CoreDataManager<PersonData>!
-
-    //var fetchResults : NSFetchedResultsController<NSFetchRequestResult>?
+    
+    
   
     @IBOutlet var mainUIView: UIView!
     @IBOutlet weak var calendarView: JTAppleCalendarView!
@@ -168,7 +167,6 @@ class ViewController: UIViewController{
             //create popup view 
                 self.createPopupView()
                 guard let item = personCDManager.fetchedResultsController.object(at: indexPath) as? PersonData else { return }
-                                    //Test Here 
                 print("Test  \(String(describing: item.name)) : overtime \(item.overtime) \n")
             }else{
                 let alert = UIAlertController(title: nil, message: "該人員這天已安排過班別囉!!", preferredStyle: .alert)

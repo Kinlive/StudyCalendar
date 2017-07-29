@@ -84,6 +84,22 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //..how much cells
+        if classTypeCDManager.count() == 0{
+            let displayLabel = UILabel(frame:
+                CGRect( x: tableView.frame.width/4, y: 0,
+                        width: tableView.frame.width/2,
+                        height: tableView.frame.height))
+            displayLabel.text = "It's first to add ClassType"
+            displayLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+            displayLabel.textAlignment = .center
+            displayLabel.numberOfLines = 4
+            tableView.backgroundView = displayLabel
+            tableView.separatorStyle = .none
+        }else {
+            tableView.backgroundView = nil
+            tableView.separatorStyle = .singleLine
+            tableView.separatorColor = UIColor(colorWithHexValue: 0x3399ff)
+        }
         return classTypeCDManager.count()
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

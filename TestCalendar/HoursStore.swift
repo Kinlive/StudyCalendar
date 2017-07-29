@@ -15,6 +15,8 @@ public enum WhichViewShow : Int{
 public struct BaseSetup{
     
      static var saveFirstIndexPath : IndexPath? //On begin drag the personCell indexPath
+    
+    static var moveOverIndexPath : IndexPath?//To highlight cell on move over cell 
 
     static var dropEndCalendarDate : String? // when drop end the date
     

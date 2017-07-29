@@ -71,8 +71,22 @@ extension CalendarDetailViewController : UITableViewDelegate,UITableViewDataSour
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //..
-//        return calendarCDManager.count()
+        if itemArray.count == 0{
+            let displayLabel = UILabel(frame:
+                CGRect( x: tableView.frame.width/4, y: 0,
+                        width: tableView.frame.width/2,
+                        height: tableView.frame.height))
+            displayLabel.text = "Not plan person today"
+            displayLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+            displayLabel.textAlignment = .center
+            displayLabel.numberOfLines = 4
+            tableView.backgroundView = displayLabel
+            tableView.separatorStyle = .none
+        }else {
+            tableView.backgroundView = nil
+            tableView.separatorStyle = .singleLine
+            tableView.separatorColor = UIColor(colorWithHexValue: 0x3399ff)
+        }
         return itemArray.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

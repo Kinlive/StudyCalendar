@@ -27,6 +27,9 @@ let baseSetup = BaseSetup()
 
 
 class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource {
+    //when no data the table view display this
+    var noDataView : UIView?
+    
     //MARK: - UICollectionViewDelegate & DataSource
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let itemCount :CGFloat = 2
@@ -46,9 +49,22 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //..
-//        let personCDManager = createCoreDataManager()
+        
         guard let results = personCDManager.fetchedResultsController.fetchedObjects else { return 0}
+        if results.count == 0 {
+            let displayLabel = UILabel(frame:
+                                                        CGRect( x: collectionView.frame.width/4, y: 0,
+                                                                        width: collectionView.frame.width/2,
+                                                                        height: collectionView.frame.height))
+            displayLabel.text = "It's first to person page"
+            displayLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+            displayLabel.textAlignment = .center
+            displayLabel.numberOfLines = 4
+            collectionView.backgroundView = displayLabel
+        }else {
+            collectionView.backgroundView = nil
+        }
+        
         return results.count
     }
     

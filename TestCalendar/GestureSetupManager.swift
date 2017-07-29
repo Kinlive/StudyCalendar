@@ -12,7 +12,9 @@ class GestureSetupManager: NSObject {
     var perPerson = [PersonDetail]()
     
     let firstIndexPathLock = NSLock()
-
+    
+    let moveOverLock = NSLock()
+    
     var baseSetup = BaseSetup()
     
     struct My {
@@ -23,6 +25,7 @@ class GestureSetupManager: NSObject {
         static var personCellIndexPath : IndexPath?
         static var calendarCellIndexPath : IndexPath?
         static var firstLongPressIndexPath : IndexPath?
+        static var moveOverIndexPath : IndexPath?
     }
     
     //typealias HandlePersonDetail = (person
@@ -52,6 +55,7 @@ class GestureSetupManager: NSObject {
             BaseSetup.saveFirstIndexPath = indexPath
         }
         let calendarIndexPath = calendarView.indexPathForItem(at: calendarLocation)
+        
                //FIXME : switch something...
         switch state {
         case .began:
@@ -80,6 +84,10 @@ class GestureSetupManager: NSObject {
                 }
             })
         case .changed :
+//            print("去哪了1111111")
+            if calendarIndexPath != nil , moveOverLock.try() != false{
+                    BaseSetup.moveOverIndexPath = calendarIndexPath
+            }
             
             guard let cellSnapshot = My.cellSnapshot else {return}
             cellSnapshot.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
@@ -88,20 +96,35 @@ class GestureSetupManager: NSObject {
             center.x = locationMainView.x
             cellSnapshot.center = center
            
-            //滑過calendar會顯示,若滑到空白處會crash待處理,用if避開
-            //            guard let calendarIndexPath = calendarIndexPath else {return}
-            //            let calendarCell = calendarView.cellForItem(at: calendarIndexPath) as! CustomCell
-            //            calendarCell.selectedView.isHidden = false
-            
-//                        guard let indexPath = indexPath else {return}
-//                        if (indexPath != Path.personCellIndexPath){
-//                            //進行交換
-//                            guard let personCellIndexPath = Path.personCellIndexPath else {return}
-//                            swap(&numberItem[(indexPath.row)], &numberItem[(personCellIndexPath.row)])
-//                            personCellView.moveItem(at: personCellIndexPath, to: indexPath)
-//                            Path.personCellIndexPath = indexPath
-//                            NSLog("Case2222222")
-//                    }
+            if calendarIndexPath != nil{
+//                print("測試被擋住時的值\(String(describing: BaseSetup.moveOverIndexPath))")
+//                guard let calendarIndexPath = calendarIndexPath else {return}
+                guard let moveOverIndexPath = BaseSetup.moveOverIndexPath else {
+                    print("被moveOverIndexPath 擋住了")
+                    return }
+                guard let calendarCell = calendarView.cellForItem(at: moveOverIndexPath) as? CustomCell else {
+                    moveOverLock.unlock()
+                    print("被calendarCell 擋住了")
+                    return }
+                if calendarIndexPath == BaseSetup.moveOverIndexPath {
+                    calendarCell.selectedView.isHidden = false
+                    UIView.animate(withDuration: 0.1, animations: {
+                        calendarCell.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+                    })
+                }else {
+                    UIView.animate(withDuration: 0.1, animations: {
+                        calendarCell.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+                    }, completion: { (finished) in
+                        if finished {
+                            calendarCell.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                            calendarCell.selectedView.isHidden = true
+                        }
+                    })
+                    moveOverLock.unlock()
+                    Path.moveOverIndexPath = nil
+                }
+            }
+
         case .ended:
             guard let cellSnapshot = My.cellSnapshot else { return}
             //判斷落下點是在月曆還是人員
@@ -115,7 +138,6 @@ class GestureSetupManager: NSObject {
                 let cell = personCellView.cellForItem(at: personCellIndexPath) as! PersonCell
 
                 BaseSetup.dropEndCalendarDate = calendarCell.dateLabel.text
-                calendarCell.selectedView.isHidden = false  //控制月曆選擇顯示
                 cell.isHidden = false
                 cell.alpha = 0.0
 //                 self.createCancelView(mainUIView: mainUIView)
@@ -129,6 +151,7 @@ class GestureSetupManager: NSObject {
                 }, completion: { finished in
                     if finished {
                         calendarCell.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                        calendarCell.selectedView.isHidden = true  //控制月曆選擇顯示
                         Path.personCellIndexPath = nil
                         cellSnapshot.removeFromSuperview()
                         My.cellSnapshot = nil
@@ -139,7 +162,6 @@ class GestureSetupManager: NSObject {
                 let checkIsSamePerson = checkIsSamePersonOnCalendar(personIndexPath: personCellIndexPath)
                 print("test checkIsSamePerson:\(checkIsSamePerson)")
                 //test for hours pass to
-                
                 gestureEnd(personCellIndexPath , checkIsSamePerson)
                 firstIndexPathLock.unlock()
             }else{
