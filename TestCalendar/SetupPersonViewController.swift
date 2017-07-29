@@ -18,7 +18,7 @@ class SetupPersonViewController: UIViewController {
     var personTmpIndex : IndexPath?
     
 //MARK : - IBOutlet here
-    @IBOutlet weak var showPersonDetail: UIView!
+    @IBOutlet weak var showPersonDetail: UIView! //never use
    
     @IBOutlet weak var showDetailOfLabel: UILabel! //person name
     
@@ -28,16 +28,13 @@ class SetupPersonViewController: UIViewController {
     
     @IBOutlet weak var showDate: UIPickerView!
 
-    @IBOutlet weak var editStatusButton: UIBarButtonItem!
+
     // test textFields?
     @IBOutlet weak var nameTextFieldStatus: UITextField!
     
-    @IBOutlet weak var testShowMonth: UILabel!
-    
-    
        override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.leftBarButtonItem = editButtonItem
+        self.navigationItem.leftBarButtonItem = editButtonItem
         self.preferredContentSize = CGSize(width: 900, height: 600)
 //         self.preferredContentSize = CGSizeMake(200, 200);
         // Do any additional setup after loading the view.
@@ -84,14 +81,6 @@ class SetupPersonViewController: UIViewController {
         
     }
   
-
-    @IBAction func saveButton(_ sender: UIBarButtonItem) {
-        showDetailOfLabel.isHidden = true
-        showHoursOfLabel.isHidden = true
-        nameTextFieldStatus.isHidden = false
-//        editStatusButton.isEnabled = false
-//        editStatusButton.title = "Edit"
-    }
     
     @IBAction func nextBtn(_ sender: UIButton) {
 //        let item = personCDManager.itemWithIndex(index: (personTmpIndex?.item)!)
@@ -187,9 +176,7 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
         
         self.showDetailOfLabel.text = tableView.cellForRow(at: indexPath)?.textLabel?.text
         self.showHoursOfLabel.text = tableView.cellForRow(at: indexPath)?.detailTextLabel?.text
-        //Set edit button 
-        editStatusButton.isEnabled = true
-//        editStatusButton.title = "Save"
+ 
         personTmpIndex = indexPath
     }
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -197,10 +184,15 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
-            
+            let item = personCDManager.itemWithIndex(index: indexPath.item)
+            personCDManager.deleteItem(item: item)
+            personCDManager.saveContexWithCompletion(completion: { (success) in
+                if success {
+                    self.SetupPersonTableView.reloadData()
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil)
+                }
+            })
         }
-        
     }
     
 }

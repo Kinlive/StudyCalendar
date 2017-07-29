@@ -134,8 +134,19 @@ extension SetupClassTypeViewController : UITableViewDelegate,UITableViewDataSour
         startTimeKeyIn.text = item.startTime
         workingHoursKeyIn.text = item.workingHours
         overtimeKeyIn.text = item.overtime
-        
-        
-        
+    }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let item = classTypeCDManager.itemWithIndex(index: indexPath.item)
+            classTypeCDManager.deleteItem(item: item)
+            classTypeCDManager.saveContexWithCompletion(completion: { (success) in
+                if success {
+                    self.classTypeTableView.reloadData()
+                }
+            })
+        }
     }
 }

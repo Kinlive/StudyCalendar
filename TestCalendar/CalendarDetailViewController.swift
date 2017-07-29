@@ -13,6 +13,7 @@ class CalendarDetailViewController: UIViewController {
     var itemArray = [CalendarData]()
     
     @IBOutlet weak var showScheduleTable: UITableView!
+
     
     @IBOutlet weak var showDate: UILabel!
     
@@ -89,6 +90,21 @@ extension CalendarDetailViewController : UITableViewDelegate,UITableViewDataSour
         
         
         return cell
+    }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let item = itemArray[indexPath.row]
+            calendarCDManager.deleteItem(item: item)
+            calendarCDManager.saveContexWithCompletion(completion: { (success) in
+                if success {
+                    print("為什麼沒有刷新??????")
+                    self.showScheduleTable.reloadData()
+                }
+            })
+        }
     }
     
 }
