@@ -85,7 +85,7 @@ extension CalendarDetailViewController : UITableViewDelegate,UITableViewDataSour
         }else {
             tableView.backgroundView = nil
             tableView.separatorStyle = .singleLine
-            tableView.separatorColor = UIColor(colorWithHexValue: 0x3399ff)
+//            tableView.separatorColor = UIColor(colorWithHexValue: 0x3399ff)
         }
         return itemArray.count
     }
@@ -103,6 +103,9 @@ extension CalendarDetailViewController : UITableViewDelegate,UITableViewDataSour
         
         
         return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+     return tableView.frame.height/7
     }
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true

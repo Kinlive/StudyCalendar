@@ -95,10 +95,7 @@ class GestureSetupManager: NSObject {
             center.y = locationMainView.y
             center.x = locationMainView.x
             cellSnapshot.center = center
-           
             if calendarIndexPath != nil{
-//                print("測試被擋住時的值\(String(describing: BaseSetup.moveOverIndexPath))")
-//                guard let calendarIndexPath = calendarIndexPath else {return}
                 guard let moveOverIndexPath = BaseSetup.moveOverIndexPath else {
                     print("被moveOverIndexPath 擋住了")
                     return }
@@ -123,7 +120,12 @@ class GestureSetupManager: NSObject {
                     moveOverLock.unlock()
                     Path.moveOverIndexPath = nil
                 }
+            }else {
+                guard let moveOverIndexPath = BaseSetup.moveOverIndexPath else {return}
+                guard let cell = calendarView.cellForItem(at: moveOverIndexPath) as? CustomCell else { return}
+                cell.selectedView.isHidden = true
             }
+            
 
         case .ended:
             guard let cellSnapshot = My.cellSnapshot else { return}
@@ -141,7 +143,7 @@ class GestureSetupManager: NSObject {
                 cell.isHidden = false
                 cell.alpha = 0.0
 //                 self.createCancelView(mainUIView: mainUIView)
-                UIView.animate(withDuration: 0.5, animations: {
+                UIView.animate(withDuration: 0.3, animations: {
                     //月曆cell放大
                     calendarCell.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
                     //                calendarCell.backgroundColor = UIColor(colorWithHexValue: 0xaa66aa)

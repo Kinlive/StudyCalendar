@@ -168,8 +168,8 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
             tableView.separatorStyle = .none
         }else {
             tableView.backgroundView = nil
-            tableView.separatorStyle = .singleLine
-            tableView.separatorColor = UIColor(colorWithHexValue: 0x3399ff)
+            tableView.separatorStyle = .none
+//            tableView.separatorColor = UIColor(colorWithHexValue: 0x3399ff)
         }
         return personCDManager.count()
     }
@@ -179,8 +179,10 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
          self.personArray.append(item)
         cell.textLabel?.text = item.name
         cell.detailTextLabel?.text = String(item.overtime)
-        
         return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return tableView.frame.height/7
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //..

@@ -73,7 +73,12 @@ class PopupMenuViewController: UIViewController {
             }
         }
     }
-
+    func alertViewForHourUnenough() {
+        let alert = UIAlertController(title: nil, message: "The person's overtime isn't enough !!", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alert.addAction(ok)
+        present(alert, animated: true, completion: nil)
+    }
     
 }
 extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
@@ -97,8 +102,8 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
             tableView.separatorStyle = .none
         }else {
             tableView.backgroundView = nil
-            tableView.separatorStyle = .singleLine
-            tableView.separatorColor = UIColor(colorWithHexValue: 0x3399ff)
+            tableView.separatorStyle = .none
+//            tableView.separatorColor = UIColor(colorWithHexValue: 0x3399ff)
         }
         return classTypeCDManager.count()
     }
@@ -112,7 +117,9 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
         
         return cell
     }
-    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+         return tableView.frame.height/5
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let firstLongPressIndex = BaseSetup.saveFirstIndexPath else {
              print("被firsLonPressIndex擋下了")
@@ -127,8 +134,15 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
         guard let classTypeOvertime = Double(classTypeItem.overtime!) else {
             print("被classTypeOvertime擋下了")
             return }
-        
-      
+        //To check person's overtime is enough?
+        if (personItem.overtime - classTypeOvertime) < 0{
+//            personItem.overtime = 0
+            alertViewForHourUnenough()
+            return
+        }else{
+            personItem.overtime -= classTypeOvertime
+        }
+
         let formatter = DateFormatter()
 //        let date = Date()
         formatter.dateFormat = "yyyy MM dd"
@@ -161,12 +175,6 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
                 print("Calendar Save OK!")
                 
             }
-        }
-        //避免時數被扣成負數
-        if (personItem.overtime - classTypeOvertime) < 0{
-            personItem.overtime = 0
-        }else{
-            personItem.overtime -= classTypeOvertime
         }
         
         print("Test name : \(String(describing: personItem.name)) and time: \(personItem.overtime)")

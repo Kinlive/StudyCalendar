@@ -128,8 +128,8 @@ extension SetupClassTypeViewController : UITableViewDelegate,UITableViewDataSour
             tableView.separatorStyle = .none
         }else {
             tableView.backgroundView = nil
-            tableView.separatorStyle = .singleLine
-            tableView.separatorColor = UIColor(colorWithHexValue: 0x3399ff)
+            tableView.separatorStyle = .none
+//            tableView.separatorColor = UIColor(colorWithHexValue: 0x3399ff)
         }
         return classTypeCDManager.count()
     }
@@ -140,6 +140,9 @@ extension SetupClassTypeViewController : UITableViewDelegate,UITableViewDataSour
         cell.textLabel?.text = item.typeName
         
         return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+     return tableView.frame.height/7
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //..

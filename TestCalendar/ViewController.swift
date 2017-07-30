@@ -26,7 +26,7 @@ let calendarCDManager = CoreDataManager<CalendarData>(
                                                 initWithModel: "DataBase",
                                                 dbFileName: "calendarData.sqlite",
                                                 dbPathURL: nil,
-                                                sortKey: "personName",
+                                                sortKey: "typeName",
                                                 entityName: "CalendarData")
 //formatter yyyy
 let years = ["2017","2018","2019","2020","2021","2022","2023","2024","2025","2026"]
@@ -108,7 +108,7 @@ class ViewController: UIViewController{
     func handleCellTextColor(view : JTAppleCell? , cellState : CellState){
         guard let validCell = view as? CustomCell else{ return }
         if validCell.isSelected{
-            validCell.dateLabel.textColor = selectedMonthColor
+//            validCell.dateLabel.textColor = selectedMonthColor //Change date color when selected
         }else{
             if cellState.dateBelongsTo == .thisMonth{
                 validCell.dateLabel.textColor = monthColor
@@ -129,9 +129,18 @@ class ViewController: UIViewController{
         }else{
             validCell.currentView.isHidden = true
         }
-
+        
         if validCell.isSelected{
             validCell.selectedView.isHidden = false
+//            validCell.selectedView.alpha = 1.0
+            UIView.animate(withDuration: 0.3, animations: {
+                validCell.selectedView.alpha = 0.0
+            }, completion: { (finished) in
+                if finished {
+                    validCell.selectedView.isHidden = true
+                    validCell.selectedView.alpha = 0.4
+                }
+            })
         }else{
             validCell.selectedView.isHidden = true
         }
@@ -285,9 +294,10 @@ extension ViewController:JTAppleCalendarViewDelegate{
     //Display the cell
     func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
         let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "CustomCell", for: indexPath) as! CustomCell
-      formatter.dateFormat = "dd"
         
+        formatter.dateFormat = "dd"
         cell.dateLabel.text = formatter.string(from: cellState.date)
+        cell.selectedView.layer.cornerRadius = cell.selectedView.frame.size.width/2
         handleCellSelected(view: cell, cellState: cellState)
         handleCellTextColor(view: cell, cellState: cellState)
         return cell
