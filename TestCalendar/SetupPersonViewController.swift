@@ -12,12 +12,13 @@ import UIKit
 
 class SetupPersonViewController: UIViewController {
     var personArray = [PersonData]()
-    
-    let formatter = DateFormatter()
+    var calendarDataArray = [CalendarData]()
     //for index pass from didSelect cell to button use
     var personTmpIndex : IndexPath?
     
-//MARK : - IBOutlet here
+    var titleIndex : Int = 0
+    
+//MARK: - IBOutlet here
     @IBOutlet weak var showPersonDetail: UIView! //never use
    
     @IBOutlet weak var showDetailOfLabel: UILabel! //person name
@@ -26,7 +27,17 @@ class SetupPersonViewController: UIViewController {
     
     @IBOutlet weak var SetupPersonTableView: UITableView!
     
-    @IBOutlet weak var showDate: UIPickerView!
+    @IBOutlet weak var showDate: UILabel!{
+        didSet{
+            showDate.isUserInteractionEnabled = true
+            showDate.isMultipleTouchEnabled = true
+        }
+        willSet{
+            
+        }
+    }
+    @IBOutlet weak var showClassPerMonth: UITextView!
+  
 
 
     // test textFields?
@@ -37,21 +48,28 @@ class SetupPersonViewController: UIViewController {
         // Do any additional setup after loading the view.
         SetupPersonTableView.delegate = self
         SetupPersonTableView.dataSource = self
-//        showDate.delegate = self as? UIPickerViewDelegate
-//        showDate.dataSource = self as? UIPickerViewDataSource
-//        formatter.dateFormat = "yyyy"
-        formatter.timeZone = Calendar.current.timeZone
-        formatter.locale = Calendar.current.locale
-//        let month = formatter.monthSymbols 月份
-       
-    
-//        let year1 = formatter.calendar.dateComponents(year, from: date)
-//        print("Day \(String(describing: year)))")
- 
+
         //nameTextField test
 //        nameTextFieldStatus.isHidden = true
         showDetailOfLabel.isHidden = true
         showHoursOfLabel.isHidden = true
+        let leftSwipe = UISwipeGestureRecognizer(target: self,
+                                                                                action: #selector(swipeGestureRecognizer(_:)))
+        leftSwipe.direction = .left
+        showDate.addGestureRecognizer(leftSwipe)
+        let rightSwipe = UISwipeGestureRecognizer(target: self,
+                                                                                  action: #selector(swipeGestureRecognizer(_:)))
+        rightSwipe.direction = .right
+        showDate.addGestureRecognizer(rightSwipe)
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM"
+        let currentMonth = formatter.string(from: Date())
+        for i in 0..<months.count {
+            if  months[i] == currentMonth{
+               titleIndex = i
+            }
+        }
         
     }
  
@@ -95,7 +113,7 @@ class SetupPersonViewController: UIViewController {
     @IBAction func backBtn(_ sender: UIButton) {
         
     }
-    //MARK : - Reset the person hours
+    //MARK: - Reset the person hours
     func resetPersonHours(){
         for index in 0..<personCDManager.count(){
             let item = personCDManager.itemWithIndex(index: index)
@@ -110,7 +128,7 @@ class SetupPersonViewController: UIViewController {
     }
     
     
-    //MARK : - CreatAlert method
+    //MARK: - CreatAlert method
     func createAlertView(){
         let alert = UIAlertController.init(title: nil, message: "Please key in Name", preferredStyle: .alert)
         alert.addTextField(configurationHandler: nil)
@@ -143,10 +161,56 @@ class SetupPersonViewController: UIViewController {
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)
     }
-    
-    func callOtherControllerUpdate(){
-        //通知中心
+    //MARK: - GetCalendarData on Array
+    func getCalendarDetailData(){
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMM"
+        calendarDataArray.removeAll()
+        for i in 0..<calendarCDManager.count(){
+            let item = calendarCDManager.itemWithIndex(index: i)
+//            guard let year = item.year else { return }
+//            guard let month = item.month else {return}
+            guard let personName = item.personName else {return }
+//            let yearAndMonth = "\(year)\(month)"
+            //yearAndMonth == formatter.string(from: Date()),
+            if personName == showDetailOfLabel.text{ //Get All  selected person's class
+                calendarDataArray.append(item)
+            }
+        }
+        var contentAllClass = String()
+        for i in calendarDataArray {
+            guard let name = i.personName else { return}
+            guard let date = i.date else {return }
+            let oneClassShow = "name:\(name) Date: \(date )\n"
+            contentAllClass.append(oneClassShow)
+            print("Test look array name:\(name) Date: \(date )\n")
+        }
+        showClassPerMonth.text = contentAllClass
+//        formatter.dateFormat = "MM"
+        showDate.text = formatter.string(from: Date())
     }
+    //MARK: - SwipeGesture
+    func swipeGestureRecognizer(_ swipe : UISwipeGestureRecognizer){
+        switch swipe.direction {
+        case UISwipeGestureRecognizerDirection.left:
+            titleIndex += 1
+            if titleIndex > (months.count)-1 {
+                titleIndex = 0
+            }
+            print("swipe Left now")
+        case UISwipeGestureRecognizerDirection.right:
+            titleIndex -= 1
+            if titleIndex < 0  {
+                titleIndex = months.count-1
+            }
+            print("<<<<swipe right now<<<")
+        default:
+            break
+        }
+        showDate.text = "2017\(months[titleIndex])"
+        print("Date should be change")
+    }
+
 }
 //MARK: - TableView Delegate & DataSource
 extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
@@ -192,9 +256,11 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
         
         self.showDetailOfLabel.text = tableView.cellForRow(at: indexPath)?.textLabel?.text
         self.showHoursOfLabel.text = tableView.cellForRow(at: indexPath)?.detailTextLabel?.text
- 
         personTmpIndex = indexPath
-    }
+       
+       //////========
+        getCalendarDetailData()
+        }
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
@@ -210,43 +276,5 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
             })
         }
     }
-    
-}
-
-//MARK: - PickerView protocol method
-extension SetupPersonViewController : UIPickerViewDelegate,UIPickerViewDataSource{
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 2
-    }
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        var count : Int?
-        if component == 0{
-            count = years.count
-        }else {
-            count = months.count
-        }
-        return count!
-    }
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        var title : String?
-        if component == 0 {
-            title =  years[row]
-        }else {
-            title = months[row]
-        }
-        
-        return title!
-    }
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        //..
-        if component == 0 {
-            
-            
-        }else{ //component == 1  means months
-            
-        }
-    }
-    
-    
     
 }

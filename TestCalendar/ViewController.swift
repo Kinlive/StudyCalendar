@@ -207,7 +207,7 @@ class ViewController: UIViewController{
             present(popupVC, animated: true, completion: nil)
 
         }
-    //MARK : - Create PersonSetupView
+    //MARK: - Create PersonSetupView
     func showView( whichShow : WhichViewShow ){
         var willShowVC : UIViewController?
         switch whichShow {
@@ -248,7 +248,7 @@ class ViewController: UIViewController{
         
     }
     
-//MARK : - IBAction here
+//MARK: - IBAction here
     @IBAction func personDetailButton(_ sender: UIButton) {
         showView(whichShow: .person)
     }
