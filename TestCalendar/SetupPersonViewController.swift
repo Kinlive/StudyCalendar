@@ -11,8 +11,9 @@ import UIKit
 
 
 class SetupPersonViewController: UIViewController {
-    var personArray = [PersonData]()
-    var calendarDataArray = [CalendarData]()
+    var personArray : [PersonData] = [PersonData]()
+    var calendarDataArray : [CalendarData] = [CalendarData]() //Save all every person's class
+    var everyMonthDictionary : [[String : [CalendarData]]] = [[String : [CalendarData]]]()
     //for index pass from didSelect cell to button use
     var personTmpIndex : IndexPath?
     
@@ -32,25 +33,19 @@ class SetupPersonViewController: UIViewController {
             showDate.isUserInteractionEnabled = true
             showDate.isMultipleTouchEnabled = true
         }
-        willSet{
-            
+    }
+    @IBOutlet weak var showClassPerMonth: UITextView!{
+        didSet{
+            showClassPerMonth.isUserInteractionEnabled = true
         }
     }
-    @IBOutlet weak var showClassPerMonth: UITextView!
   
-
-
-    // test textFields?
-    @IBOutlet weak var nameTextFieldStatus: UITextField!
     
        override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         SetupPersonTableView.delegate = self
         SetupPersonTableView.dataSource = self
-
-        //nameTextField test
-//        nameTextFieldStatus.isHidden = true
         showDetailOfLabel.isHidden = true
         showHoursOfLabel.isHidden = true
         let leftSwipe = UISwipeGestureRecognizer(target: self,
@@ -61,17 +56,8 @@ class SetupPersonViewController: UIViewController {
                                                                                   action: #selector(swipeGestureRecognizer(_:)))
         rightSwipe.direction = .right
         showDate.addGestureRecognizer(rightSwipe)
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM"
-        let currentMonth = formatter.string(from: Date())
-        for i in 0..<months.count {
-            if  months[i] == currentMonth{
-               titleIndex = i
-            }
-        }
-        
-    }
+
+    }//viewDidLoad Here
  
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -80,7 +66,6 @@ class SetupPersonViewController: UIViewController {
     
     @IBAction func addPerson(_ sender: UIBarButtonItem) {
         createAlertView()
-        
     }
     
     //之後reset可考慮搬到Setting Page
@@ -93,24 +78,6 @@ class SetupPersonViewController: UIViewController {
         alert.addAction(ok)
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)
-        
-    }
-  
-    
-    @IBAction func nextBtn(_ sender: UIButton) {
-//        let item = personCDManager.itemWithIndex(index: (personTmpIndex?.item)!)
-        
-//        testShowMonth.text = item.yearAndMonth
-        
-        for item in personArray{
-        print("year:",item.year!,"month:",item.month!,"yearAndMonth:",item.yearAndMonth!,"name:",item.name!,"overtime:",item.overtime)
-        }
-        
-    
-    }
-    
-
-    @IBAction func backBtn(_ sender: UIButton) {
         
     }
     //MARK: - Reset the person hours
@@ -126,9 +93,7 @@ class SetupPersonViewController: UIViewController {
             }
         }
     }
-    
-    
-    //MARK: - CreatAlert method
+    //MARK: - CreateAlert method
     func createAlertView(){
         let alert = UIAlertController.init(title: nil, message: "Please key in Name", preferredStyle: .alert)
         alert.addTextField(configurationHandler: nil)
@@ -144,71 +109,109 @@ class SetupPersonViewController: UIViewController {
                     item.month = months[6]
                     item.year = years[0]
                     item.yearAndMonth = "\(years[0])\(months[6])"
-                   
-//                }
-//            }
             personCDManager.saveContexWithCompletion(completion: { (success) in
                 if(success){
-//                    self.personArray.append(item)
                     self.SetupPersonTableView.reloadData()
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil)
                 }
             })
         }//ok action block here
-        
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(ok)
         alert.addAction(cancel)
         self.present(alert, animated: true, completion: nil)
     }
+    
     //MARK: - GetCalendarData on Array
     func getCalendarDetailData(){
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyyMM"
         calendarDataArray.removeAll()
         for i in 0..<calendarCDManager.count(){
             let item = calendarCDManager.itemWithIndex(index: i)
-//            guard let year = item.year else { return }
-//            guard let month = item.month else {return}
             guard let personName = item.personName else {return }
-//            let yearAndMonth = "\(year)\(month)"
-            //yearAndMonth == formatter.string(from: Date()),
             if personName == showDetailOfLabel.text{ //Get All  selected person's class
                 calendarDataArray.append(item)
             }
         }
-        var contentAllClass = String()
-        for i in calendarDataArray {
-            guard let name = i.personName else { return}
-            guard let date = i.date else {return }
-            let oneClassShow = "name:\(name) Date: \(date )\n"
-            contentAllClass.append(oneClassShow)
-            print("Test look array name:\(name) Date: \(date )\n")
+        handleEveryPersonClass { (success) in
+            if success {
+                //FIXEDME: - 123
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyyMM"
+                let currentMonth = formatter.string(from: Date())
+                for (index,everyMonth) in everyMonthDictionary.enumerated() {
+                    for (key , _) in everyMonth {
+                        if key == currentMonth{
+                            titleIndex = index
+                        }
+                    }
+                }
+                toShowSomeoneWorkingOfMonth()
+            }
         }
-        showClassPerMonth.text = contentAllClass
-//        formatter.dateFormat = "MM"
-        showDate.text = formatter.string(from: Date())
     }
+    func toShowSomeoneWorkingOfMonth(){
+        if everyMonthDictionary.isEmpty {
+            showDate.text = "Invailid"
+            showClassPerMonth.text = ""
+            return
+        }
+        let monthOfYear = everyMonthDictionary[titleIndex]
+            for (key,value) in monthOfYear{
+                var allWorkingOfMonthStr = String()
+                for aMan in value{
+                    guard let name = aMan.personName else {return }
+                    guard let classType = aMan.typeName else {return }
+                    guard let date = aMan.date else {return }
+                    let oneDays = "\(name)\(classType)\(date)\n"
+                    allWorkingOfMonthStr.append(oneDays)
+                }
+                showDate.text = key
+                showClassPerMonth.text = allWorkingOfMonthStr
+            }
+    }
+    
+    //MARK: - Add dictionary
+    typealias HandleCompletion = (_ success : Bool ) -> Void
+    func handleEveryPersonClass( completion : HandleCompletion){
+        var howMuchDayWorkingOfMonth : [CalendarData] = [CalendarData]()
+        for perYear in years{
+            for perMonth in months{
+                let perDate : String = "\(perYear)\(perMonth)"
+                for person in calendarDataArray{
+                    guard let year = person.year else { return}
+                    guard let month = person.month else { return}
+                    let arrayYearAndMonth : String = "\(year)\(month)"
+                    if arrayYearAndMonth == perDate{
+                        howMuchDayWorkingOfMonth.append(person)//get all working of month
+                    }
+                }
+                if howMuchDayWorkingOfMonth.count > 0{
+                    everyMonthDictionary.append([perDate : howMuchDayWorkingOfMonth])
+                     howMuchDayWorkingOfMonth.removeAll()
+                }
+            }
+        }
+        completion(true)
+    }
+
+    
     //MARK: - SwipeGesture
     func swipeGestureRecognizer(_ swipe : UISwipeGestureRecognizer){
         switch swipe.direction {
         case UISwipeGestureRecognizerDirection.left:
             titleIndex += 1
-            if titleIndex > (months.count)-1 {
+            if titleIndex > (everyMonthDictionary.count)-1 {
                 titleIndex = 0
             }
-            print("swipe Left now")
         case UISwipeGestureRecognizerDirection.right:
             titleIndex -= 1
             if titleIndex < 0  {
-                titleIndex = months.count-1
+                titleIndex = everyMonthDictionary.count-1
             }
-            print("<<<<swipe right now<<<")
         default:
             break
         }
-        showDate.text = "2017\(months[titleIndex])"
-        print("Date should be change")
+        toShowSomeoneWorkingOfMonth()
     }
 
 }
@@ -222,8 +225,8 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
         if personCDManager.count() == 0{
             let displayLabel = UILabel(frame:
                                                             CGRect( x: tableView.frame.width/4, y: 0,
-                                                                    width: tableView.frame.width/2,
-                                                                    height: tableView.frame.height))
+                                                                           width: tableView.frame.width/2,
+                                                                           height: tableView.frame.height))
             displayLabel.text = "Tap plus to add person list"
             displayLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
             displayLabel.textAlignment = .center
@@ -249,8 +252,7 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
         return tableView.frame.height/7
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //..
-        self.nameTextFieldStatus.isHidden = true
+        everyMonthDictionary.removeAll() /// when change person reset all dictionary
         self.showDetailOfLabel.isHidden = false
         self.showHoursOfLabel.isHidden = false
         
