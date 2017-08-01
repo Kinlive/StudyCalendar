@@ -98,17 +98,14 @@ class SetupPersonViewController: UIViewController {
         let alert = UIAlertController.init(title: nil, message: "Please key in Name", preferredStyle: .alert)
         alert.addTextField(configurationHandler: nil)
         let ok = UIAlertAction(title: "OK", style: .default) { (ok) in
-             
-//            for year in years {   //考慮是否移除
-//                for month in months{
-                    let item = personCDManager.createItem()
-                    item.systemBaseName = alert.textFields?[0].text
-                    item.name = alert.textFields?[0].text
-                    item.overtime = BaseSetup.overHoursOfMonth
+            let item = personCDManager.createItem()
+            item.systemBaseName = alert.textFields?[0].text
+            item.name = alert.textFields?[0].text
+            item.overtime = BaseSetup.overHoursOfMonth
             //以下三個尚未使用,日後安排移除
-                    item.month = months[6]
-                    item.year = years[0]
-                    item.yearAndMonth = "\(years[0])\(months[6])"
+            item.month = months[6]
+            item.year = years[0]
+            item.yearAndMonth = "\(years[0])\(months[6])"
             personCDManager.saveContexWithCompletion(completion: { (success) in
                 if(success){
                     self.SetupPersonTableView.reloadData()
@@ -138,10 +135,12 @@ class SetupPersonViewController: UIViewController {
                 let formatter = DateFormatter()
                 formatter.dateFormat = "yyyyMM"
                 let currentMonth = formatter.string(from: Date())
+                print("EveryMonthDictionary: \(everyMonthDictionary.count)")
                 for (index,everyMonth) in everyMonthDictionary.enumerated() {
                     for (key , _) in everyMonth {
                         if key == currentMonth{
-                            titleIndex = index
+                            titleIndex = index //when first display if it have currentDate data will show else show it had
+//                            print("Print index : \(index)")
                         }
                     }
                 }
@@ -253,6 +252,7 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         everyMonthDictionary.removeAll() /// when change person reset all dictionary
+        titleIndex = 0
         self.showDetailOfLabel.isHidden = false
         self.showHoursOfLabel.isHidden = false
         

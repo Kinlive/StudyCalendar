@@ -67,19 +67,4 @@ public struct PersonDetail{
 //    }
 }
 
-public struct CalendarDetail{
-    var date : String?
-    var personCount : Int?
-    var classType : Int?
-    
-//    init(
-//        date : String?,
-//        personCount : Int?,
-//        classType : Int?
-//        ) {
-//        self.date = date
-//        self.personCount = personCount
-//        self.classType = classType
-//    }
-    
-}
+

@@ -30,12 +30,11 @@ class CalendarDetailViewController: UIViewController {
         
     }
     override func viewWillAppear(_ animated: Bool) {
-        
-        fetchCalendarDataWith(date: BaseSetup.selectedDay!)
+        fetchCalendarDataWith()
         
     }
     
-    func fetchCalendarDataWith(date : String) {
+    func fetchCalendarDataWith() {
         guard let selectedDay =  BaseSetup.selectedDay else {
             print("被dropEndCalendarDate擋下了")
             return }
