@@ -46,17 +46,16 @@ class SetupClassTypeViewController: UIViewController {
     func createAlertView(){
         let alert = UIAlertController.init(title: nil, message: "Please Key In ClassType", preferredStyle: .alert)
         alert.addTextField { (classType) in
-            classType.placeholder = "Key in ClassType..."
+            classType.placeholder = "Key in ClassType : name"
         }
         alert.addTextField { (startTime) in
-            startTime.placeholder = "Key in Start Time..."
-            
+            startTime.placeholder = "Key in Start Time : 0730"
         }
         alert.addTextField { (workingTime) in
-            workingTime.placeholder = "Key in  Working Time..."
+            workingTime.placeholder = "Key in  Working Time : 8"
         }
         alert.addTextField { (overtime) in
-            overtime.placeholder = "Key in overtime..."
+            overtime.placeholder = "Key in overtime : 2"
         }
         let ok = UIAlertAction(title: "OK", style: .default) { (ok) in
             //SavaData to classType
@@ -68,7 +67,7 @@ class SetupClassTypeViewController: UIViewController {
             classTypeCDManager.saveContexWithCompletion(completion: { (success) in
                 if(success){
                     self.classTypeArray.append((alert.textFields?[0].text)!)
-                   self.classTypeTableView.reloadData()
+                    self.classTypeTableView.reloadData()
                 }
             })
         }

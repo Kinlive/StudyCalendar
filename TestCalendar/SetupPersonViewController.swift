@@ -63,7 +63,7 @@ class SetupPersonViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    //MARK: - IBAction here
     @IBAction func addPerson(_ sender: UIBarButtonItem) {
         createAlertView()
     }
@@ -85,6 +85,7 @@ class SetupPersonViewController: UIViewController {
         for index in 0..<personCDManager.count(){
             let item = personCDManager.itemWithIndex(index: index)
             item.overtime = BaseSetup.overHoursOfMonth
+            item.workingHours = BaseSetup.hoursOfMonth
         }
         personCDManager.saveContexWithCompletion { (success) in
             if success {
@@ -93,7 +94,7 @@ class SetupPersonViewController: UIViewController {
             }
         }
     }
-    //MARK: - CreateAlert method
+    //MARK: - Add new person method
     func createAlertView(){
         let alert = UIAlertController.init(title: nil, message: "Please key in Name", preferredStyle: .alert)
         alert.addTextField(configurationHandler: nil)
@@ -102,6 +103,7 @@ class SetupPersonViewController: UIViewController {
             item.systemBaseName = alert.textFields?[0].text
             item.name = alert.textFields?[0].text
             item.overtime = BaseSetup.overHoursOfMonth
+            item.workingHours = BaseSetup.hoursOfMonth
             //以下三個尚未使用,日後安排移除
             item.month = months[6]
             item.year = years[0]

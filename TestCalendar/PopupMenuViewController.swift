@@ -75,7 +75,9 @@ class PopupMenuViewController: UIViewController {
     }
     func alertViewForHourUnenough() {
         let alert = UIAlertController(title: nil, message: "The person's overtime isn't enough !!", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        let ok = UIAlertAction(title: "Ok", style: .default) { (clicked) in
+                self.dismiss(animated: true, completion: nil)
+        }
         alert.addAction(ok)
         present(alert, animated: true, completion: nil)
     }
@@ -134,17 +136,26 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
         guard let classTypeOvertime = Double(classTypeItem.overtime!) else {
             print("被classTypeOvertime擋下了")
             return }
+        guard let classTypeWorkingTime = classTypeItem.workingHours else { return}
+        guard let doubleWorkingTime = Double(classTypeWorkingTime) else {return}
         //To check person's overtime is enough?
         if (personItem.overtime - classTypeOvertime) < 0{
 //            personItem.overtime = 0
             alertViewForHourUnenough()
             return
+            
         }else{
             personItem.overtime -= classTypeOvertime
         }
-
+        if (personItem.workingHours - doubleWorkingTime) < 0 {
+            alertViewForHourUnenough()
+            return
+        }else {
+            personItem.workingHours -= doubleWorkingTime //Let personItem get workingHours
+            
+        }
+        
         let formatter = DateFormatter()
-//        let date = Date()
         formatter.dateFormat = "yyyy MM dd"
 //        calendarDetailItem.date = formatter.string(from: date)
         guard let dropEndCalendarDate =  BaseSetup.dropEndCalendarDate else {

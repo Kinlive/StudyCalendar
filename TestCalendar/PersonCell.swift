@@ -17,8 +17,11 @@ class PersonCell: UICollectionViewCell {
     
     @IBOutlet weak var personName: UILabel!
     
+    @IBOutlet weak var personWorkingHour: UILabel!
     @IBOutlet weak var personHour: UILabel!
     @IBOutlet weak var hourBar: KDCircularProgress!
+
+    @IBOutlet weak var workingBar: KDCircularProgress!
 
 
    

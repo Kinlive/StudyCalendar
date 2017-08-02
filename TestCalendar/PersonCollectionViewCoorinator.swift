@@ -75,7 +75,7 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
 //        let item = personCDManager.itemWithIndex(index: indexPath.item)
 //        personCDManager.managedObjectContext.refreshAllObjects()
         guard let item = personCDManager.fetchedResultsController.object(at: indexPath) as? PersonData else { return cell}
-        
+        cell.personWorkingHour.text = String(item.workingHours)
         cell.overHours = item.overtime
         cell.personName.text = item.name //item.name
         cell.personHour.text = String(item.overtime)
@@ -98,18 +98,32 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
     func setupHourBar(cell : PersonCell ,indexPath : IndexPath) -> Void{
         guard let item = personCDManager.fetchedResultsController.object(at: indexPath) as? PersonData else { return }
         cell.hourBar.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
-        cell.hourBar.startAngle = -135
+        cell.hourBar.startAngle = 90
         cell.hourBar.progressThickness = 1.0
         cell.hourBar.trackThickness = 1.0
-        cell.hourBar.clockwise = true
+        cell.hourBar.clockwise = false
         cell.hourBar.gradientRotateSpeed = 2
         cell.hourBar.roundedCorners = false
         cell.hourBar.glowMode = .forward
         cell.hourBar.glowAmount = 0.9
-        cell.hourBar.set(colors: UIColor.white, UIColor.orange)
+        cell.hourBar.trackColor = .clear
+        cell.hourBar.set(colors:  UIColor.orange, UIColor.white)
 //        cell.hourBar.animate(fromAngle: 50.0 , toAngle: (Double(cell.overHours)/46.0)*360.0, duration: 1.5, completion: nil)
-        cell.hourBar.animate(toAngle: (item.overtime/46.0)*360.0, duration: 1.5, completion: nil)
-   
+        cell.hourBar.animate(toAngle: (item.overtime/BaseSetup.overHoursOfMonth)*180.0, duration: 1.5, completion: nil)
+        //Under is workingBar Setup
+        cell.workingBar.frame = CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height)
+        cell.workingBar.startAngle = 90
+        cell.workingBar.progressThickness = 1.0
+        cell.workingBar.trackThickness = 1.0
+        cell.workingBar.clockwise = true
+        cell.workingBar.gradientRotateSpeed = 2
+        cell.workingBar.roundedCorners = false
+        cell.workingBar.glowMode = .forward
+        cell.workingBar.glowAmount = 0.9
+        cell.workingBar.trackColor = .clear
+        cell.workingBar.set(colors:  UIColor.green , UIColor.white)
+        //        cell.hourBar.animate(fromAngle: 50.0 , toAngle: (Double(cell.overHours)/46.0)*360.0, duration: 1.5, completion: nil)
+        cell.workingBar.animate(toAngle: (item.workingHours/BaseSetup.hoursOfMonth*180), duration: 1.5, completion: nil)
     }
 
     

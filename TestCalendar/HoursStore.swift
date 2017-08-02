@@ -25,12 +25,12 @@ public struct BaseSetup{
     static var currentCalendarYear : String?
     
     static var currentCalendarMonth : String?
-    
-    static let monthly =
-        ["January","Fabruary","March","April",
-        "May","June","July","August",
-        "September","October","November","December"]
-    let hoursOfMonth = 168
+//    
+//    static let monthly =
+//        ["January","Fabruary","March","April",
+//        "May","June","July","August",
+//        "September","October","November","December"]
+    static let hoursOfMonth = 240.0
     static let overHoursOfMonth = 46.0
   
 }

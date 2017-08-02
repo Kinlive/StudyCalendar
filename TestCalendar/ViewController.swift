@@ -47,29 +47,42 @@ class ViewController: UIViewController{
     var longPress = UILongPressGestureRecognizer()
     let gsManager = GestureSetupManager()
     let personCVCoorinator = PersonCollectionViewCoorinator()
-    
-    
+   
   
+    @IBOutlet weak var weekBar: UIView!
     @IBOutlet var mainUIView: UIView!
     @IBOutlet weak var calendarView: JTAppleCalendarView!
     @IBOutlet weak var year: UILabel!
     @IBOutlet weak var month: UILabel!
     @IBOutlet weak var personCellView: UICollectionView!
    //  personCellView: UICollectionView!
-    @IBOutlet weak var showYearAndMonth: UISegmentedControl!
     //Calendar color setup ..
-    let outsideMonthColor = UIColor(colorWithHexValue : 0xcccccc)
-    let monthColor = UIColor(colorWithHexValue: 0x000000)
+    let outsideMonthColor = UIColor(colorWithHexValue : 0x333333)
+    let monthColor = UIColor(colorWithHexValue: 0xffffff)
     let selectedMonthColor = UIColor(colorWithHexValue : 0xffffff)
     let currentDateSelectedViewColor = UIColor(colorWithHexValue : 0x4e3f5d)
     override func viewDidLoad() {
         super.viewDidLoad()
+        //Setup all border 
+        year.layer.borderWidth = 1.0
+        year.layer.borderColor = UIColor.gray.cgColor
+        month.layer.borderWidth = 1.0
+        month.layer.borderColor = UIColor.gray.cgColor
+        weekBar.layer.borderWidth = 1.0
+        weekBar.layer.borderColor = UIColor.gray.cgColor
         setupCalendarView()
         
         personCellView.delegate = personCVCoorinator
         personCellView.dataSource = personCVCoorinator
-      
-        calendarView.scrollToDate(currentDate)
+        
+        formatter.dateFormat = "yyyy"
+        let thisYear = formatter.string(from: Date())
+        formatter.dateFormat = "MM"
+        let thisMonth = formatter.string(from: Date())
+        formatter.dateFormat = "yyyy MM dd"
+        guard let thisMonthMiddle = formatter.date(from: "\(thisYear) \(thisMonth) 15") else { return }
+        //let it always scroll to the correct month
+        calendarView.scrollToDate(thisMonthMiddle)
         currentFormatter.dateFormat = "yyyy MM dd"
         currentFormatter.timeZone = Calendar.current.timeZone
         currentFormatter.locale = Calendar.current.locale
@@ -82,15 +95,8 @@ class ViewController: UIViewController{
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCell(object:)), name: NSNotification.Name(rawValue: "RefreshTheCell"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCellView), name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil )
         
-        //First show current date on person's years and months
-        let segmentedFormatter = DateFormatter()
-        segmentedFormatter.dateFormat = "MM"
-        let monthString = segmentedFormatter.string(from: currentDate)
-        showYearAndMonth.setTitle(monthString , forSegmentAt: 1)
-        segmentedFormatter.dateFormat = "yyyy"
-        let yearString = segmentedFormatter.string(from: currentDate)
-        showYearAndMonth.setTitle(yearString, forSegmentAt: 0)
-    }//viewDidLoad here
+
+         }//viewDidLoad here
     
     
     //MARK: - Calender setup start here
@@ -256,21 +262,7 @@ class ViewController: UIViewController{
     @IBAction func classTypeDetail(_ sender: UIButton) {
         showView(whichShow: .classType)
     }
-    @IBAction func yearAndMonthSegment(_ sender: UISegmentedControl) {
-     let index = sender.selectedSegmentIndex
-        switch index {
-        case 0:
-            //To change mode that can swape years
-            break
-        case 1:
-            //To change mode that can swape months
-            break
-        default:
-            break
-        }
-    }
 
-    
 
     
 }//class out
@@ -298,9 +290,12 @@ extension ViewController:JTAppleCalendarViewDelegate{
         
         formatter.dateFormat = "dd"
         cell.dateLabel.text = formatter.string(from: cellState.date)
-        cell.selectedView.layer.cornerRadius = cell.selectedView.frame.size.width/2
+//        cell.selectedView.layer.cornerRadius = cell.selectedView.frame.size.width/2
         handleCellSelected(view: cell, cellState: cellState)
         handleCellTextColor(view: cell, cellState: cellState)
+        cell.layer.borderWidth = 1.0
+        cell.layer.borderColor = UIColor.gray.cgColor
+        
         return cell
     }
     //Didselect
