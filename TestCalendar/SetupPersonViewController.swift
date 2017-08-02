@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import JTAppleCalendar
 
 
 class SetupPersonViewController: UIViewController {
@@ -18,6 +18,15 @@ class SetupPersonViewController: UIViewController {
     var personTmpIndex : IndexPath?
     
     var titleIndex : Int = 0
+    
+    //Calendar color setup ..
+    let outsideMonthColor = UIColor(colorWithHexValue : 0x333333)
+    let monthColor = UIColor(colorWithHexValue: 0xffffff)
+    let selectedMonthColor = UIColor(colorWithHexValue : 0xffffff)
+    let currentDateSelectedViewColor = UIColor(colorWithHexValue : 0x4e3f5d)
+    let formatter = DateFormatter()
+    let currentFormatter = DateFormatter()
+    let currentDate = Date()
     
 //MARK: - IBOutlet here
     @IBOutlet weak var showPersonDetail: UIView! //never use
@@ -39,13 +48,19 @@ class SetupPersonViewController: UIViewController {
             showClassPerMonth.isUserInteractionEnabled = true
         }
     }
-  
+  //JTApple Calendar
+    
+    @IBOutlet weak var showClassOfCalendarView: JTAppleCalendarView!
     
        override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         SetupPersonTableView.delegate = self
         SetupPersonTableView.dataSource = self
+        setupCalendarView()
+        showClassPerMonth.isHidden = true
+//        showClassOfCalendarView.ibCalendarDelegate = self
+//        showClassOfCalendarView.ibCalendarDataSource = self
         showDetailOfLabel.isHidden = true
         showHoursOfLabel.isHidden = true
         let leftSwipe = UISwipeGestureRecognizer(target: self,
@@ -70,7 +85,9 @@ class SetupPersonViewController: UIViewController {
     
     //之後reset可考慮搬到Setting Page
     @IBAction func resetOverTimeBtn(_ sender: UIButton) {
-        let alert = UIAlertController(title: "人員時數重置", message: "確認後將進行人員時數重置,請確認您當月份班別已安排完成?", preferredStyle: .alert)
+        let alert = UIAlertController(title: "人員時數重置",
+                                                 message: "確認後將進行人員時數重置,請確認您當月份班別已安排完成?",
+                                                 preferredStyle: .alert)
         let ok = UIAlertAction(title: "ok", style: .default) { (isOK) in
             self.resetPersonHours()
         }
@@ -214,8 +231,75 @@ class SetupPersonViewController: UIViewController {
         }
         toShowSomeoneWorkingOfMonth()
     }
+    //MARK: - CalendarView Setup method here 
+    func setupCalendarView(){
+        //Setup calendar space
+        showClassOfCalendarView.minimumLineSpacing = 0
+        showClassOfCalendarView.minimumInteritemSpacing = 0
+        
+        showClassOfCalendarView.visibleDates { visibleDates in
+            //Setup labels
+            self.setupViewOfCalendar(from: visibleDates)
+        }
+        
+    }
+    func handleCellTextColor(view : JTAppleCell? , cellState : CellState){
+        guard let validCell = view as? ShowClassOfMonthCell else{ return }
+        if validCell.isSelected{
+            //            validCell.dateLabel.textColor = selectedMonthColor //Change date color when selected
+        }else{
+            if cellState.dateBelongsTo == .thisMonth{
+                validCell.dateLabel.textColor = monthColor
+            }else {
+                validCell.dateLabel.textColor = outsideMonthColor
+                //                validCell.isUserInteractionEnabled = false
+            }
+            validCell.selectedView.isHidden = true
+        }
+    }
+    func handleCellSelected(view : JTAppleCell? , cellState : CellState){
+        guard let validCell = view as? ShowClassOfMonthCell else{ return }
+//        let stateDate = currentFormatter.string(from: cellState.date)
+//        let currenteDate = currentFormatter.string(from: currentDate)
+        //                  print("firstShow:\(stateDate) and \(currenteDate)")
+//        if(stateDate == currenteDate){
+//            validCell.currentView.isHidden = false
+//            //            validCell.dateLabel.textColor = selectedMonthColor
+//        }else{
+//            validCell.currentView.isHidden = true
+//        }
+        
+        if validCell.isSelected{
+            validCell.selectedView.isHidden = false
+            //            validCell.selectedView.alpha = 1.0
+            UIView.animate(withDuration: 0.3, animations: {
+                validCell.selectedView.alpha = 0.0
+            }, completion: { (finished) in
+                if finished {
+                    validCell.selectedView.isHidden = true
+                    validCell.selectedView.alpha = 0.4
+                }
+            })
+        }else{
+            validCell.selectedView.isHidden = true
+        }
+    }
+    func setupViewOfCalendar(from visibleDates : DateSegmentInfo){
+        let date = visibleDates.monthDates.first!.date
+        self.formatter.dateFormat = "yyyy"
+//        self.year.text = self.formatter.string(from: date)
+        //To save year and month
+//        BaseSetup.currentCalendarYear = self.year.text
+        self.formatter.dateFormat = "MMMM"
+//        self.month.text = self.formatter.string(from: date)
+        self.formatter.dateFormat = "MM"
+//        BaseSetup.currentCalendarMonth = self.formatter.string(from: date)
+        
+    }
 
-}
+    
+}//Class out here
+
 //MARK: - TableView Delegate & DataSource
 extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -280,5 +364,59 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
             })
         }
     }
+}
+// MARK: - JTAppleCalendarViewDataSource
+extension SetupPersonViewController:JTAppleCalendarViewDataSource{
+    func configureCalendar(_ calendar: JTAppleCalendarView) -> ConfigurationParameters {
+        
+        formatter.dateFormat = "yyyy MM dd"
+        formatter.timeZone = Calendar.current.timeZone
+        formatter.locale = Calendar.current.locale
+        let startDate = formatter.date(from: "2017 01 01")!
+        let endDate = formatter.date(from: "2019 12 31")!
+        let parameters = ConfigurationParameters(startDate: startDate, endDate: endDate)
+        
+        return parameters
+    }
     
 }
+//MARK: - JTApple CalendarView protocol method
+extension SetupPersonViewController:JTAppleCalendarViewDelegate{
+    //Display the cell
+    func calendar(_ calendar: JTAppleCalendarView,
+                              cellForItemAt date: Date,
+                              cellState: CellState,
+                              indexPath: IndexPath) -> JTAppleCell {
+        let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "ShowClassOfMonthCell", for: indexPath) as! ShowClassOfMonthCell
+        
+        formatter.dateFormat = "dd"
+        cell.dateLabel.text = formatter.string(from: cellState.date)
+        //        cell.selectedView.layer.cornerRadius = cell.selectedView.frame.size.width/2
+        handleCellSelected(view: cell, cellState: cellState)
+        handleCellTextColor(view: cell, cellState: cellState)
+        cell.layer.borderWidth = 1.0
+        cell.layer.borderColor = UIColor.gray.cgColor
+        
+        return cell
+    }
+    //Didselect
+//    func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
+//        formatter.dateFormat = "dd"
+//        BaseSetup.selectedDay = formatter.string(from: cellState.date)
+//        handleCellSelected(view: cell, cellState: cellState)
+//        handleCellTextColor(view: cell, cellState: cellState)
+//        print("Cellstate is \n: \(cellState.row())\n and \(cellState.dateSection().range) \n and other \(cellState.date)\n and \(cellState.text)\n ")
+//        
+//    }
+    func calendar(_ calendar: JTAppleCalendarView,
+                              didDeselectDate date: Date,
+                              cell: JTAppleCell?,
+                              cellState: CellState) {
+        handleCellSelected(view: cell, cellState: cellState)
+        handleCellTextColor(view: cell, cellState: cellState)
+    }
+    func calendar(_ calendar: JTAppleCalendarView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
+        setupViewOfCalendar(from: visibleDates)
+    }
+}
+

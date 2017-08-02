@@ -25,6 +25,7 @@
 		114AAA9C1F0E59F0009B766F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 114AAA9A1F0E59F0009B766F /* LaunchScreen.storyboard */; };
 		116D4DAD1F0E5BCD002CA6D1 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D4DAC1F0E5BCD002CA6D1 /* CustomCell.swift */; };
 		116D4DAF1F111C74002CA6D1 /* PersonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D4DAE1F111C74002CA6D1 /* PersonCell.swift */; };
+		11DEDE2C1F31D30300D3965B /* ShowClassOfMonthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DEDE2B1F31D30300D3965B /* ShowClassOfMonthCell.swift */; };
 		11E2D1631F1DF65900A2689C /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E2D1621F1DF65900A2689C /* GradientView.swift */; };
 		11E2D1651F1F2EEE00A2689C /* PopupMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E2D1641F1F2EEE00A2689C /* PopupMenuViewController.swift */; };
 		11E2D16B1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E2D16A1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift */; };
@@ -55,6 +56,7 @@
 		114AAA9D1F0E59F0009B766F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		116D4DAC1F0E5BCD002CA6D1 /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		116D4DAE1F111C74002CA6D1 /* PersonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCell.swift; sourceTree = "<group>"; };
+		11DEDE2B1F31D30300D3965B /* ShowClassOfMonthCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowClassOfMonthCell.swift; sourceTree = "<group>"; };
 		11E2D1621F1DF65900A2689C /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		11E2D1641F1F2EEE00A2689C /* PopupMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupMenuViewController.swift; sourceTree = "<group>"; };
 		11E2D16A1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuOfClassTypeTableViewCell.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				116D4DAE1F111C74002CA6D1 /* PersonCell.swift */,
+				11DEDE2B1F31D30300D3965B /* ShowClassOfMonthCell.swift */,
 				111701471F2338FF00AC0519 /* SetupPersonTableViewCell.swift */,
 				116D4DAC1F0E5BCD002CA6D1 /* CustomCell.swift */,
 				11185D121F27705400EFE0D3 /* CalendarDetailTableViewCell.swift */,
@@ -325,6 +328,7 @@
 				1117014F1F23559D00AC0519 /* ShowPersonDetailView.swift in Sources */,
 				111701511F23637E00AC0519 /* ClassTypeTableViewCell.swift in Sources */,
 				11E2D1631F1DF65900A2689C /* GradientView.swift in Sources */,
+				11DEDE2C1F31D30300D3965B /* ShowClassOfMonthCell.swift in Sources */,
 				116D4DAF1F111C74002CA6D1 /* PersonCell.swift in Sources */,
 				111701531F2363BE00AC0519 /* SetupClassTypeViewController.swift in Sources */,
 				114AAA921F0E59F0009B766F /* AppDelegate.swift in Sources */,
