@@ -167,7 +167,7 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
         guard let currentMonth = BaseSetup.currentCalendarMonth else {
         print("被currentMonth擋下")
         return}
-        let toSaveDate = "\(currentYear)\(currentMonth)\(dropEndCalendarDate)"
+        let toSaveDate = "\(currentYear) \(currentMonth) \(dropEndCalendarDate)"
         print("Test toSaveDate ::: \(toSaveDate)")
         
         

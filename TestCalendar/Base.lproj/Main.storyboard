@@ -337,9 +337,12 @@
                     </view>
                     <connections>
                         <outlet property="calendarView" destination="Pcw-LE-7YR" id="WlU-Os-aKG"/>
+                        <outlet property="classTypeIBOut" destination="18l-eo-YaJ" id="yhB-ES-K1c"/>
                         <outlet property="mainUIView" destination="8bC-Xf-vdC" id="7vy-gP-grP"/>
                         <outlet property="month" destination="CJr-lw-yfx" id="VPk-g3-Skt"/>
                         <outlet property="personCellView" destination="p3t-rP-6C0" id="rdU-QA-k70"/>
+                        <outlet property="personIBOut" destination="QGQ-L6-qtG" id="t84-38-X3l"/>
+                        <outlet property="settingIBOut" destination="0WL-Bx-ast" id="fO4-zJ-ftf"/>
                         <outlet property="weekBar" destination="VbI-Gw-d8l" id="vdz-j6-UYF"/>
                         <outlet property="year" destination="o45-Zr-DBV" id="dDh-jh-FnV"/>
                     </connections>
@@ -801,10 +804,10 @@
                                                     <constraint firstAttribute="height" constant="24" id="uba-5y-9VK"/>
                                                 </constraints>
                                             </stackView>
-                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bVW-xz-res" customClass="JTAppleCalendarView" customModule="JTAppleCalendar">
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="bVW-xz-res" customClass="JTAppleCalendarView" customModule="JTAppleCalendar">
                                                 <rect key="frame" x="0.0" y="24" width="556" height="476.5"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rD6-Qn-neb">
+                                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rD6-Qn-neb">
                                                     <size key="itemSize" width="258" height="225"/>
                                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>

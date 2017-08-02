@@ -55,6 +55,12 @@ class ViewController: UIViewController{
     @IBOutlet weak var year: UILabel!
     @IBOutlet weak var month: UILabel!
     @IBOutlet weak var personCellView: UICollectionView!
+    
+    @IBOutlet weak var classTypeIBOut: UIButton!
+    @IBOutlet weak var personIBOut: UIButton!
+    @IBOutlet weak var settingIBOut: UIButton!
+    
+    
    //  personCellView: UICollectionView!
     //Calendar color setup ..
     let outsideMonthColor = UIColor(colorWithHexValue : 0x333333)
@@ -70,6 +76,13 @@ class ViewController: UIViewController{
         month.layer.borderColor = UIColor.gray.cgColor
         weekBar.layer.borderWidth = 1.0
         weekBar.layer.borderColor = UIColor.gray.cgColor
+        classTypeIBOut.layer.borderWidth = 1.0
+        classTypeIBOut.layer.borderColor = UIColor.gray.cgColor
+        personIBOut.layer.borderWidth = 1.0
+        personIBOut.layer.borderColor = UIColor.gray.cgColor
+        settingIBOut.layer.borderWidth = 1.0
+        settingIBOut.layer.borderColor = UIColor.gray.cgColor
+        
         setupCalendarView()
         
         personCellView.delegate = personCVCoorinator

@@ -18,9 +18,10 @@ class SetupPersonViewController: UIViewController {
     var personTmpIndex : IndexPath?
     
     var titleIndex : Int = 0
+    var classTypeArray = [String]() // for switch classType color
     
     //Calendar color setup ..
-    let outsideMonthColor = UIColor(colorWithHexValue : 0x333333)
+    let outsideMonthColor = UIColor.clear
     let monthColor = UIColor(colorWithHexValue: 0xffffff)
     let selectedMonthColor = UIColor(colorWithHexValue : 0xffffff)
     let currentDateSelectedViewColor = UIColor(colorWithHexValue : 0x4e3f5d)
@@ -58,7 +59,7 @@ class SetupPersonViewController: UIViewController {
         SetupPersonTableView.delegate = self
         SetupPersonTableView.dataSource = self
         setupCalendarView()
-        showClassPerMonth.isHidden = true
+//        showClassPerMonth.isHidden = true
 //        showClassOfCalendarView.ibCalendarDelegate = self
 //        showClassOfCalendarView.ibCalendarDataSource = self
         showDetailOfLabel.isHidden = true
@@ -72,6 +73,14 @@ class SetupPersonViewController: UIViewController {
         rightSwipe.direction = .right
         showDate.addGestureRecognizer(rightSwipe)
 
+        
+        //                    print("IS date == dateStr ========")
+        for i in 0..<classTypeCDManager.count() {
+            let item = classTypeCDManager.itemWithIndex(index: i)
+            guard let typeName = item.typeName else {return }
+            classTypeArray.append(typeName)
+        }
+        
     }//viewDidLoad Here
  
     override func didReceiveMemoryWarning() {
@@ -150,9 +159,9 @@ class SetupPersonViewController: UIViewController {
         }
         handleEveryPersonClass { (success) in
             if success {
-                //FIXEDME: - 123
+                
                 let formatter = DateFormatter()
-                formatter.dateFormat = "yyyyMM"
+                formatter.dateFormat = "yyyy MM"//FIXME: - fixed formatter
                 let currentMonth = formatter.string(from: Date())
                 print("EveryMonthDictionary: \(everyMonthDictionary.count)")
                 for (index,everyMonth) in everyMonthDictionary.enumerated() {
@@ -183,6 +192,15 @@ class SetupPersonViewController: UIViewController {
                     let oneDays = "\(name)\(classType)\(date)\n"
                     allWorkingOfMonthStr.append(oneDays)
                 }
+                
+                formatter.dateFormat = "yyyy MM dd"
+                guard let thisMonthMiddle = formatter.date(from:"\(key) 15") else {
+                    print("在這出門了")
+                    return }
+                //let it always scroll to the correct month
+                showClassOfCalendarView.reloadData()
+                showClassOfCalendarView.scrollToDate(thisMonthMiddle)
+                
                 showDate.text = key
                 showClassPerMonth.text = allWorkingOfMonthStr
             }
@@ -194,11 +212,11 @@ class SetupPersonViewController: UIViewController {
         var howMuchDayWorkingOfMonth : [CalendarData] = [CalendarData]()
         for perYear in years{
             for perMonth in months{
-                let perDate : String = "\(perYear)\(perMonth)"
+                let perDate : String = "\(perYear) \(perMonth)"
                 for person in calendarDataArray{
                     guard let year = person.year else { return}
                     guard let month = person.month else { return}
-                    let arrayYearAndMonth : String = "\(year)\(month)"
+                    let arrayYearAndMonth : String = "\(year) \(month)"
                     if arrayYearAndMonth == perDate{
                         howMuchDayWorkingOfMonth.append(person)//get all working of month
                     }
@@ -236,38 +254,67 @@ class SetupPersonViewController: UIViewController {
         //Setup calendar space
         showClassOfCalendarView.minimumLineSpacing = 0
         showClassOfCalendarView.minimumInteritemSpacing = 0
-        
         showClassOfCalendarView.visibleDates { visibleDates in
             //Setup labels
             self.setupViewOfCalendar(from: visibleDates)
         }
         
     }
+    func handleShowClassDate( validCell : ShowClassOfMonthCell , cellState : CellState ){
+        formatter.dateFormat = "yyyy MM dd"
+        let dateStr = formatter.string(from: cellState.date)
+//        print("TESTTT:::: \(dateStr)")
+        if everyMonthDictionary.isEmpty{
+            print("everyMonthDictionary.isEmpty")
+            return
+        }
+        ////
+        let monthOfYear = everyMonthDictionary[titleIndex]
+        for (_,value) in monthOfYear{
+            for aMan in value{
+                guard let classType = aMan.typeName else {return }
+                guard let date = aMan.date else {return }
+//                print("Had??  \(date) and \(dateStr)")
+                if date == dateStr{
+                    for typeName in classTypeArray{
+                        if  classType == typeName {
+                            
+                        }
+                    }
+                
+                    validCell.selectedView.isHidden = false
+                    validCell.selectedView.backgroundColor = UIColor.red
+                }
+            }
+//            
+//            formatter.dateFormat = "yyyy MM dd"
+//            guard let thisMonthMiddle = formatter.date(from:"\(key) 15") else {
+//                print("在這出門了")
+//                return }
+            //let it always scroll to the correct month
+//            showClassOfCalendarView.scrollToDate(thisMonthMiddle)
+        }
+        
+        /////
+    }
+    
     func handleCellTextColor(view : JTAppleCell? , cellState : CellState){
         guard let validCell = view as? ShowClassOfMonthCell else{ return }
         if validCell.isSelected{
             //            validCell.dateLabel.textColor = selectedMonthColor //Change date color when selected
         }else{
             if cellState.dateBelongsTo == .thisMonth{
+                handleShowClassDate(validCell: validCell, cellState: cellState)
                 validCell.dateLabel.textColor = monthColor
             }else {
                 validCell.dateLabel.textColor = outsideMonthColor
                 //                validCell.isUserInteractionEnabled = false
             }
-            validCell.selectedView.isHidden = true
+//            validCell.selectedView.isHidden = true
         }
     }
     func handleCellSelected(view : JTAppleCell? , cellState : CellState){
         guard let validCell = view as? ShowClassOfMonthCell else{ return }
-//        let stateDate = currentFormatter.string(from: cellState.date)
-//        let currenteDate = currentFormatter.string(from: currentDate)
-        //                  print("firstShow:\(stateDate) and \(currenteDate)")
-//        if(stateDate == currenteDate){
-//            validCell.currentView.isHidden = false
-//            //            validCell.dateLabel.textColor = selectedMonthColor
-//        }else{
-//            validCell.currentView.isHidden = true
-//        }
         
         if validCell.isSelected{
             validCell.selectedView.isHidden = false
@@ -284,17 +331,18 @@ class SetupPersonViewController: UIViewController {
             validCell.selectedView.isHidden = true
         }
     }
+    //FIXME: - This can be delete
     func setupViewOfCalendar(from visibleDates : DateSegmentInfo){
-        let date = visibleDates.monthDates.first!.date
-        self.formatter.dateFormat = "yyyy"
-//        self.year.text = self.formatter.string(from: date)
-        //To save year and month
-//        BaseSetup.currentCalendarYear = self.year.text
-        self.formatter.dateFormat = "MMMM"
-//        self.month.text = self.formatter.string(from: date)
-        self.formatter.dateFormat = "MM"
-//        BaseSetup.currentCalendarMonth = self.formatter.string(from: date)
-        
+////        let date = visibleDates.monthDates.first!.date
+////        self.formatter.dateFormat = "yyyy"
+////        self.year.text = self.formatter.string(from: date)
+//        //To save year and month
+////        BaseSetup.currentCalendarYear = self.year.text
+////        self.formatter.dateFormat = "MMMM"
+////        self.month.text = self.formatter.string(from: date)
+////        self.formatter.dateFormat = "MM"
+////        BaseSetup.currentCalendarMonth = self.formatter.string(from: date)
+//        
     }
 
     
@@ -391,7 +439,6 @@ extension SetupPersonViewController:JTAppleCalendarViewDelegate{
         
         formatter.dateFormat = "dd"
         cell.dateLabel.text = formatter.string(from: cellState.date)
-        //        cell.selectedView.layer.cornerRadius = cell.selectedView.frame.size.width/2
         handleCellSelected(view: cell, cellState: cellState)
         handleCellTextColor(view: cell, cellState: cellState)
         cell.layer.borderWidth = 1.0
@@ -415,8 +462,8 @@ extension SetupPersonViewController:JTAppleCalendarViewDelegate{
         handleCellSelected(view: cell, cellState: cellState)
         handleCellTextColor(view: cell, cellState: cellState)
     }
-    func calendar(_ calendar: JTAppleCalendarView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
-        setupViewOfCalendar(from: visibleDates)
-    }
+//    func calendar(_ calendar: JTAppleCalendarView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
+//        setupViewOfCalendar(from: visibleDates)
+//    }
 }
 
