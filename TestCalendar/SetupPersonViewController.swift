@@ -9,6 +9,7 @@
 import UIKit
 import JTAppleCalendar
 
+let colorArray = [0x6FB7B7,0xFF44FF,0x2828FF,0x00FFFF,0x28FF28,0xC07AB8,0xFF2D2D]
 
 class SetupPersonViewController: UIViewController {
     var personArray : [PersonData] = [PersonData]()
@@ -202,7 +203,7 @@ class SetupPersonViewController: UIViewController {
                 showClassOfCalendarView.scrollToDate(thisMonthMiddle)
                 
                 showDate.text = key
-                showClassPerMonth.text = allWorkingOfMonthStr
+//                showClassPerMonth.text = allWorkingOfMonthStr
             }
     }
     
@@ -276,14 +277,13 @@ class SetupPersonViewController: UIViewController {
                 guard let date = aMan.date else {return }
 //                print("Had??  \(date) and \(dateStr)")
                 if date == dateStr{
-                    for typeName in classTypeArray{
-                        if  classType == typeName {
-                            
+                    for typeIndex in 0..<classTypeArray.count{
+                        if  classType == classTypeArray[typeIndex] {
+                            validCell.selectedView.isHidden = false
+                            validCell.selectedView.backgroundColor = UIColor(colorWithHexValue:
+                                colorArray[typeIndex])
                         }
                     }
-                
-                    validCell.selectedView.isHidden = false
-                    validCell.selectedView.backgroundColor = UIColor.red
                 }
             }
 //            

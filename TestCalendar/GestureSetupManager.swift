@@ -8,6 +8,10 @@
 
 import UIKit
 import JTAppleCalendar
+
+let snapshotScaleX : CGFloat = 0.7
+let snapshotScaleY : CGFloat = 0.7
+
 class GestureSetupManager: NSObject {
     var perPerson = [PersonDetail]()
     
@@ -74,12 +78,13 @@ class GestureSetupManager: NSObject {
             cellSnapshot.alpha = 0.0
             mainUIView.addSubview(cellSnapshot)
             UIView.animate(withDuration: 0.4, animations: {
-                cellSnapshot.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+                cellSnapshot.transform = CGAffineTransform(scaleX: snapshotScaleX, y: snapshotScaleY)
                 cellSnapshot.alpha = 0.98
                 cell.alpha = 0.0
+                cell.isHidden = true
             }, completion: { finished in
                 if finished{
-                    cell.isHidden = true
+//                    cell.isHidden = true
                     NSLog("Case drap .start")
                 }
             })
@@ -90,7 +95,7 @@ class GestureSetupManager: NSObject {
             }
             
             guard let cellSnapshot = My.cellSnapshot else {return}
-            cellSnapshot.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            cellSnapshot.transform = CGAffineTransform(scaleX: snapshotScaleX, y: snapshotScaleY)
             var center = cellSnapshot.center
             center.y = locationMainView.y
             center.x = locationMainView.x
@@ -109,24 +114,17 @@ class GestureSetupManager: NSObject {
                         calendarCell.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
                     })
                 }else {
-                    UIView.animate(withDuration: 0.1, animations: {
-                        calendarCell.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
-                    }, completion: { (finished) in
-                        if finished {
-                            calendarCell.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                            calendarCell.selectedView.isHidden = true
-                        }
-                    })
+                    calendarCell.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                    calendarCell.selectedView.isHidden = true
                     moveOverLock.unlock()
                     Path.moveOverIndexPath = nil
                 }
             }else {
                 guard let moveOverIndexPath = BaseSetup.moveOverIndexPath else {return}
-                guard let cell = calendarView.cellForItem(at: moveOverIndexPath) as? CustomCell else { return}
-                cell.selectedView.isHidden = true
+                guard let calendarCell = calendarView.cellForItem(at: moveOverIndexPath) as? CustomCell else { return}
+                calendarCell.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                calendarCell.selectedView.isHidden = true
             }
-            
-
         case .ended:
             guard let cellSnapshot = My.cellSnapshot else { return}
             //判斷落下點是在月曆還是人員
@@ -175,7 +173,7 @@ class GestureSetupManager: NSObject {
                 Path.personCellIndexPath = nil
                 cellSnapshot.removeFromSuperview()
                 My.cellSnapshot = nil
-              firstIndexPathLock.unlock()   
+                firstIndexPathLock.unlock()
             }
         default:
             break

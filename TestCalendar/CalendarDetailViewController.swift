@@ -44,7 +44,7 @@ class CalendarDetailViewController: UIViewController {
         guard let currentMonth = BaseSetup.currentCalendarMonth else {
             print("被currentMonth擋下")
             return}
-        let currentDate = "\(currentYear)\(currentMonth)\(selectedDay)"
+        let currentDate = "\(currentYear) \(currentMonth) \(selectedDay)"
         
         
         for i in 0..<calendarCDManager.count(){
@@ -99,6 +99,7 @@ extension CalendarDetailViewController : UITableViewDelegate,UITableViewDataSour
         cell.date.text = itemArray[indexPath.row].date
         cell.title.text = itemArray[indexPath.row].personName
         cell.subTitle.text = itemArray[indexPath.row].typeName
+//        cell.isUserInteractionEnabled = false
         
         
         return cell

@@ -134,6 +134,8 @@ class ViewController: UIViewController{
             }else {
                 validCell.dateLabel.textColor = outsideMonthColor
 //                validCell.isUserInteractionEnabled = false
+//                validCell.selectedView.isUserInteractionEnabled = false
+            
             }
                 validCell.selectedView.isHidden = true
         }
