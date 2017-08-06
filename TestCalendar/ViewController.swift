@@ -69,20 +69,8 @@ class ViewController: UIViewController{
     let currentDateSelectedViewColor = UIColor(colorWithHexValue : 0x4e3f5d)
     override func viewDidLoad() {
         super.viewDidLoad()
-        //Setup all border 
-        year.layer.borderWidth = 1.0
-        year.layer.borderColor = UIColor.gray.cgColor
-        month.layer.borderWidth = 1.0
-        month.layer.borderColor = UIColor.gray.cgColor
-        weekBar.layer.borderWidth = 1.0
-        weekBar.layer.borderColor = UIColor.gray.cgColor
-        classTypeIBOut.layer.borderWidth = 1.0
-        classTypeIBOut.layer.borderColor = UIColor.gray.cgColor
-        personIBOut.layer.borderWidth = 1.0
-        personIBOut.layer.borderColor = UIColor.gray.cgColor
-        settingIBOut.layer.borderWidth = 1.0
-        settingIBOut.layer.borderColor = UIColor.gray.cgColor
         
+        setupMainView()
         setupCalendarView()
         
         personCellView.delegate = personCVCoorinator
@@ -107,11 +95,36 @@ class ViewController: UIViewController{
         //NotificationCenter
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCell(object:)), name: NSNotification.Name(rawValue: "RefreshTheCell"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCellView), name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil )
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshCalendarCell(object:)), name: NSNotification.Name(rawValue: "RefreshCalendarCell"), object: nil)
 
          }//viewDidLoad here
     
     
+    func setupMainView(){
+        //Setup all border
+        year.layer.borderWidth = 1.0
+        year.layer.borderColor = UIColor.gray.cgColor
+        month.layer.borderWidth = 1.0
+        month.layer.borderColor = UIColor.gray.cgColor
+        weekBar.layer.borderWidth = 1.0
+        weekBar.layer.borderColor = UIColor.gray.cgColor
+        classTypeIBOut.layer.borderWidth = 1.0
+        classTypeIBOut.layer.borderColor = UIColor.gray.cgColor
+        personIBOut.layer.borderWidth = 1.0
+        personIBOut.layer.borderColor = UIColor.gray.cgColor
+        settingIBOut.layer.borderWidth = 1.0
+        settingIBOut.layer.borderColor = UIColor.gray.cgColor
+//        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "star.jpg")!)
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        UIImage(named: "background.jpg")?.draw(in: self.view.bounds)
+        
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        
+        UIGraphicsEndImageContext()
+        
+        self.view.backgroundColor = UIColor(patternImage: image)
+        
+    }
     //MARK: - Calender setup start here
     func setupCalendarView(){
         //Setup calendar space
@@ -269,6 +282,10 @@ class ViewController: UIViewController{
         self.personCellView.reloadData()
         
     }
+    func refreshCalendarCell( object : Notification){
+        let indexPath = object.object as! [IndexPath]
+        calendarView.reloadItems(at: indexPath)
+    }
     
 //MARK: - IBAction here
     @IBAction func personDetailButton(_ sender: UIButton) {
@@ -302,6 +319,25 @@ extension ViewController:JTAppleCalendarViewDelegate{
     //Display the cell
     func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
         let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "CustomCell", for: indexPath) as! CustomCell
+        
+        formatter.dateFormat = "yyyy MM dd"
+        let thisDate = formatter.string(from: date)
+        var itemArray = [CalendarData]()
+        for i in 0..<calendarCDManager.count(){
+            let item = calendarCDManager.itemWithIndex(index: i)
+            if item.date == thisDate {
+                itemArray.append(item)
+            }
+        }
+        if itemArray.count > 0 {
+            cell.howManyPerson.text  = String(itemArray.count)
+            cell.howManyPerson.layer.borderWidth = 2
+            cell.howManyPerson.layer.cornerRadius = 5
+            cell.howManyPerson.layer.borderColor = UIColor.white.cgColor
+            cell.howManyPerson.isHidden = false
+        }else if itemArray.count == 0{
+            cell.howManyPerson.isHidden = true
+        }
         
         formatter.dateFormat = "dd"
         cell.dateLabel.text = formatter.string(from: cellState.date)

@@ -126,10 +126,10 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
         guard let firstLongPressIndex = BaseSetup.saveFirstIndexPath else {
              print("被firsLonPressIndex擋下了")
             return }
-//        guard let saveEndIndexPath = BaseSetup.saveEndIndexPath else {
-//            print("被saveEndIndexPath擋下了")
-//            return
-//        }
+        guard let saveEndIndexPath = BaseSetup.saveEndIndexPath else {
+            print("被saveEndIndexPath擋下了")
+            return
+        }
         //這裡之後要簽點選完班別後 由calendarData收集
         let classTypeItem = classTypeCDManager.itemWithIndex(index: indexPath.item)
         let personItem = personCDManager.itemWithIndex(index: firstLongPressIndex.item)
@@ -182,7 +182,8 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
         
         calendarCDManager.saveContexWithCompletion { (success) in
             if success {
-                
+                let saveEndIndexPathArray = [saveEndIndexPath]
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshCalendarCell"), object: saveEndIndexPathArray)
                 print("Calendar Save OK!")
                 
             }

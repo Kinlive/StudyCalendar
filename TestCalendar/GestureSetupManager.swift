@@ -132,7 +132,8 @@ class GestureSetupManager: NSObject {
             //以及第二判斷條件可換乘 calendarLocation.y <0 就不進入  ex:cellSnapshot.center.y >= mainUIView.frame.size.height*1/5
             if personLocation.x < 0,cellSnapshot.center.y >= mainUIView.frame.size.height*1/5{
                 guard let calendarIndexPath = calendarIndexPath else {return}
-                
+                ////==============Save drop.end calendarCell IndexPath
+                BaseSetup.saveEndIndexPath = calendarIndexPath
                 let calendarCell = calendarView.cellForItem(at: calendarIndexPath) as! CustomCell
                 guard let personCellIndexPath = Path.personCellIndexPath else {return}
                 let cell = personCellView.cellForItem(at: personCellIndexPath) as! PersonCell
@@ -206,7 +207,7 @@ class GestureSetupManager: NSObject {
         guard let currentMonth = BaseSetup.currentCalendarMonth else {
             print("被currentMonth擋下")
             return false}
-        let currentDate = "\(currentYear)\(currentMonth)\(dropEndDay)"
+        let currentDate = "\(currentYear) \(currentMonth) \(dropEndDay)"
         var itemArray = [CalendarData]()
         
         for i in 0..<calendarCDManager.count(){

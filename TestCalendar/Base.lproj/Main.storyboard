@@ -19,7 +19,7 @@
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -150,33 +150,44 @@
                                                                 </userDefinedRuntimeAttribute>
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
-                                                        <view hidden="YES" alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N2C-Ab-pXW">
-                                                            <rect key="frame" x="16" y="-0.5" width="225" height="225.5"/>
-                                                            <color key="backgroundColor" red="0.59999999999999998" green="0.80000000000000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7sc-vc-rVu">
                                                             <rect key="frame" x="104.5" y="100.5" width="50.5" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                                             <color key="textColor" red="1" green="0.068192504619999997" blue="0.25572164349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Co-op-Rin" userLabel="HowManyPerson">
+                                                            <rect key="frame" x="206.5" y="180" width="51.5" height="45"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <view hidden="YES" alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N2C-Ab-pXW">
+                                                            <rect key="frame" x="0.0" y="0.0" width="258" height="225"/>
+                                                            <color key="backgroundColor" red="0.59999999999999998" green="0.80000000000000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </view>
                                                     </subviews>
                                                 </view>
                                                 <constraints>
-                                                    <constraint firstItem="N2C-Ab-pXW" firstAttribute="centerX" secondItem="Alc-0N-PIc" secondAttribute="centerX" id="0y9-B0-W50"/>
-                                                    <constraint firstItem="N2C-Ab-pXW" firstAttribute="height" secondItem="Alc-0N-PIc" secondAttribute="height" id="DWj-cp-9Gv"/>
+                                                    <constraint firstItem="N2C-Ab-pXW" firstAttribute="centerY" secondItem="Alc-0N-PIc" secondAttribute="centerY" id="5fp-EE-nr0"/>
+                                                    <constraint firstItem="8Co-op-Rin" firstAttribute="width" secondItem="Alc-0N-PIc" secondAttribute="width" multiplier="1/5" id="8Hv-n5-oSf"/>
+                                                    <constraint firstAttribute="bottom" secondItem="8Co-op-Rin" secondAttribute="bottom" id="PMP-uM-pfO"/>
                                                     <constraint firstItem="76j-vr-MTk" firstAttribute="width" secondItem="Alc-0N-PIc" secondAttribute="width" multiplier="1/2" id="PNn-BO-t8l"/>
                                                     <constraint firstItem="76j-vr-MTk" firstAttribute="centerY" secondItem="Alc-0N-PIc" secondAttribute="centerY" id="Pfg-ep-wBz"/>
+                                                    <constraint firstItem="8Co-op-Rin" firstAttribute="height" secondItem="Alc-0N-PIc" secondAttribute="height" multiplier="1/5" id="QJ9-vh-J0T"/>
                                                     <constraint firstItem="76j-vr-MTk" firstAttribute="height" secondItem="Alc-0N-PIc" secondAttribute="height" multiplier="1/2" id="S0Z-Ap-Cke"/>
+                                                    <constraint firstItem="N2C-Ab-pXW" firstAttribute="height" secondItem="Alc-0N-PIc" secondAttribute="height" id="V3v-53-Fx6"/>
                                                     <constraint firstItem="7sc-vc-rVu" firstAttribute="centerX" secondItem="Alc-0N-PIc" secondAttribute="centerX" id="a7T-Hp-8ha"/>
-                                                    <constraint firstItem="N2C-Ab-pXW" firstAttribute="centerY" secondItem="Alc-0N-PIc" secondAttribute="centerY" id="ghz-o2-K9V"/>
+                                                    <constraint firstItem="N2C-Ab-pXW" firstAttribute="centerX" secondItem="Alc-0N-PIc" secondAttribute="centerX" id="dbs-kq-yEJ"/>
+                                                    <constraint firstItem="N2C-Ab-pXW" firstAttribute="width" secondItem="Alc-0N-PIc" secondAttribute="width" id="iu8-O8-Tj0"/>
+                                                    <constraint firstAttribute="trailing" secondItem="8Co-op-Rin" secondAttribute="trailing" id="jfb-e7-zlo"/>
                                                     <constraint firstItem="7sc-vc-rVu" firstAttribute="centerY" secondItem="Alc-0N-PIc" secondAttribute="centerY" id="ktt-K1-5bX"/>
                                                     <constraint firstItem="76j-vr-MTk" firstAttribute="centerX" secondItem="Alc-0N-PIc" secondAttribute="centerX" id="l7p-Eu-bAm"/>
-                                                    <constraint firstItem="N2C-Ab-pXW" firstAttribute="width" secondItem="Alc-0N-PIc" secondAttribute="height" id="pxc-Pj-4Ag"/>
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="currentView" destination="76j-vr-MTk" id="Hjd-7y-POS"/>
                                                     <outlet property="dateLabel" destination="7sc-vc-rVu" id="3P7-3Y-vaP"/>
+                                                    <outlet property="howManyPerson" destination="8Co-op-Rin" id="UDb-Vi-ooy"/>
                                                     <outlet property="selectedView" destination="N2C-Ab-pXW" id="55L-7W-tuJ"/>
                                                 </connections>
                                             </collectionViewCell>
@@ -317,7 +328,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.10492621527777778" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="YZH-ts-LPo" firstAttribute="top" secondItem="Hcs-Ia-DSt" secondAttribute="bottom" id="41o-Xw-gIt"/>
                             <constraint firstItem="p3t-rP-6C0" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="782-sS-yPt"/>
