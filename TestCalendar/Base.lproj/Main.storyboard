@@ -459,7 +459,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cpb-tl-5o1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="172.66187050359713" y="-506.47482014388493"/>
+            <point key="canvasLocation" x="172" y="-795"/>
         </scene>
         <!--Setup Class Type View Controller-->
         <scene sceneID="LZ7-cs-Ujd">
@@ -550,6 +550,14 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nyu-KZ-GYu">
+                                        <rect key="frame" x="342.5" y="462" width="55" height="42"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                        <state key="normal" title="Save"/>
+                                        <connections>
+                                            <action selector="onEditSave:" destination="w7u-mV-FEG" eventType="touchUpInside" id="LFb-G1-qeY"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -557,6 +565,7 @@
                                     <constraint firstItem="PJk-sr-IcZ" firstAttribute="top" secondItem="uHg-mN-x2T" secondAttribute="bottom" constant="97" id="33t-4y-dd3"/>
                                     <constraint firstItem="Dfe-8P-otx" firstAttribute="height" secondItem="zKj-NC-B5w" secondAttribute="height" id="8IE-wI-xlW"/>
                                     <constraint firstItem="Xw2-cf-AWu" firstAttribute="height" secondItem="INM-9x-RYQ" secondAttribute="height" id="BNs-MP-YEr"/>
+                                    <constraint firstItem="nyu-KZ-GYu" firstAttribute="top" secondItem="INM-9x-RYQ" secondAttribute="bottom" constant="50" id="C2T-q3-kJY"/>
                                     <constraint firstItem="Xw2-cf-AWu" firstAttribute="top" secondItem="INM-9x-RYQ" secondAttribute="top" id="EH3-1q-saw"/>
                                     <constraint firstItem="uHg-mN-x2T" firstAttribute="top" secondItem="CMz-Kg-Qlk" secondAttribute="top" constant="100" id="MTR-Cf-bTd"/>
                                     <constraint firstItem="INM-9x-RYQ" firstAttribute="top" secondItem="zKj-NC-B5w" secondAttribute="bottom" constant="41" id="VR4-3H-pug"/>
@@ -569,69 +578,60 @@
                                     <constraint firstItem="Dfe-8P-otx" firstAttribute="top" secondItem="zKj-NC-B5w" secondAttribute="top" id="qLO-JZ-LeJ"/>
                                     <constraint firstItem="INM-9x-RYQ" firstAttribute="centerX" secondItem="CMz-Kg-Qlk" secondAttribute="centerX" id="tml-5a-bKA"/>
                                     <constraint firstItem="zKj-NC-B5w" firstAttribute="top" secondItem="PJk-sr-IcZ" secondAttribute="bottom" constant="36" id="wnw-Qj-yy1"/>
+                                    <constraint firstItem="nyu-KZ-GYu" firstAttribute="centerX" secondItem="CMz-Kg-Qlk" secondAttribute="centerX" id="xJK-t6-EGH"/>
                                     <constraint firstItem="aXZ-2k-7VO" firstAttribute="height" secondItem="PJk-sr-IcZ" secondAttribute="height" id="xYM-6b-Wa1"/>
                                 </constraints>
                             </view>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uJ9-mo-YhE">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qGO-5v-nqg" userLabel="CoverView">
+                                <rect key="frame" x="371" y="647" width="741" height="127"/>
+                                <color key="backgroundColor" red="0.63921568630000003" green="0.81960784310000001" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XAK-z8-tct">
                                 <rect key="frame" x="0.0" y="0.0" width="1112" height="44"/>
                                 <items>
-                                    <navigationItem title="Add ClassType" id="3ZB-YV-dYE">
-                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="add" id="BXr-Sm-EuZ">
-                                            <connections>
-                                                <action selector="addClassType:" destination="w7u-mV-FEG" id="lXq-GS-myO"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="edit" id="r93-Qn-wmG">
-                                            <connections>
-                                                <action selector="whenOnEdit:" destination="w7u-mV-FEG" id="xqx-ip-lb9"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
+                                    <barButtonItem systemItem="add" id="pvJ-pr-QxG">
+                                        <connections>
+                                            <action selector="addClassType:" destination="w7u-mV-FEG" id="hI9-I9-xTv"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
-                            </navigationBar>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" red="0.63921568627450975" green="0.81960784313725488" blue="0.81960784313725488" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="uJ9-mo-YhE" firstAttribute="leading" secondItem="8ZJ-Ui-S7R" secondAttribute="leading" id="F6n-3B-rHS"/>
+                            <constraint firstItem="qGO-5v-nqg" firstAttribute="width" secondItem="CMz-Kg-Qlk" secondAttribute="width" id="16P-zB-8oN"/>
+                            <constraint firstItem="qGO-5v-nqg" firstAttribute="top" secondItem="XAK-z8-tct" secondAttribute="bottom" id="AvN-gy-oRp"/>
                             <constraint firstItem="btw-Y9-9BC" firstAttribute="width" secondItem="8ZJ-Ui-S7R" secondAttribute="width" multiplier="1/3" id="IcY-VM-vpe"/>
                             <constraint firstAttribute="trailing" secondItem="CMz-Kg-Qlk" secondAttribute="trailing" id="IuQ-Sl-xls"/>
                             <constraint firstItem="0ly-Ym-rdi" firstAttribute="top" secondItem="CMz-Kg-Qlk" secondAttribute="bottom" id="JoU-o5-zoJ"/>
-                            <constraint firstItem="CMz-Kg-Qlk" firstAttribute="top" secondItem="uJ9-mo-YhE" secondAttribute="bottom" constant="60" id="KyD-PZ-ze0"/>
                             <constraint firstItem="btw-Y9-9BC" firstAttribute="leading" secondItem="8ZJ-Ui-S7R" secondAttribute="leading" id="Pag-Ml-YIy"/>
+                            <constraint firstItem="CMz-Kg-Qlk" firstAttribute="top" secondItem="XAK-z8-tct" secondAttribute="bottom" constant="60" id="TDU-Zj-fMh"/>
                             <constraint firstItem="0ly-Ym-rdi" firstAttribute="top" secondItem="btw-Y9-9BC" secondAttribute="bottom" id="Thp-qO-tFr"/>
-                            <constraint firstAttribute="trailing" secondItem="uJ9-mo-YhE" secondAttribute="trailing" id="ZUE-JI-W4Q"/>
-                            <constraint firstItem="uJ9-mo-YhE" firstAttribute="top" secondItem="lBA-oS-o65" secondAttribute="bottom" id="bWC-6Q-xAU"/>
+                            <constraint firstAttribute="trailing" secondItem="qGO-5v-nqg" secondAttribute="trailing" id="YJ7-mz-Fok"/>
+                            <constraint firstItem="XAK-z8-tct" firstAttribute="top" secondItem="lBA-oS-o65" secondAttribute="bottom" id="Yd2-N5-gd2"/>
+                            <constraint firstAttribute="trailing" secondItem="XAK-z8-tct" secondAttribute="trailing" id="ZAu-Zk-cMw"/>
+                            <constraint firstItem="qGO-5v-nqg" firstAttribute="height" secondItem="CMz-Kg-Qlk" secondAttribute="height" id="kge-PR-LAe"/>
+                            <constraint firstItem="btw-Y9-9BC" firstAttribute="top" secondItem="XAK-z8-tct" secondAttribute="bottom" id="swp-HM-o1e"/>
+                            <constraint firstItem="XAK-z8-tct" firstAttribute="leading" secondItem="8ZJ-Ui-S7R" secondAttribute="leading" id="vfl-we-bAD"/>
                             <constraint firstItem="CMz-Kg-Qlk" firstAttribute="leading" secondItem="btw-Y9-9BC" secondAttribute="trailing" id="vn9-Fg-5YO"/>
-                            <constraint firstItem="btw-Y9-9BC" firstAttribute="top" secondItem="uJ9-mo-YhE" secondAttribute="bottom" id="yF2-6y-HeI"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Uc6-Np-gUk">
-                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="add" id="bbz-w5-fpU">
-                            <connections>
-                                <action selector="addClassType:" destination="w7u-mV-FEG" id="DFB-w9-lbn"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="edit" id="SlC-Fh-9aU">
-                            <connections>
-                                <action selector="whenOnEdit:" destination="w7u-mV-FEG" id="6qp-KP-pRx"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="1112" height="834"/>
                     <connections>
                         <outlet property="classTypeTableView" destination="btw-Y9-9BC" id="P8b-nM-z8s"/>
-                        <outlet property="editButton" destination="r93-Qn-wmG" id="sUk-c6-q5s"/>
+                        <outlet property="hideTheSaveBtn" destination="nyu-KZ-GYu" id="Wwx-ID-Dho"/>
                         <outlet property="overtimeKeyIn" destination="INM-9x-RYQ" id="2h1-xU-5Dh"/>
                         <outlet property="showClassType" destination="uHg-mN-x2T" id="rYN-ft-Uft"/>
                         <outlet property="startTimeKeyIn" destination="PJk-sr-IcZ" id="7lx-7A-QcR"/>
+                        <outlet property="theCoverView" destination="qGO-5v-nqg" id="Bvb-Lk-SLE"/>
                         <outlet property="workingHoursKeyIn" destination="zKj-NC-B5w" id="Dau-Xl-p1y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D3L-DB-nbZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="913" y="124"/>
+            <point key="canvasLocation" x="1412" y="71"/>
         </scene>
         <!--Ib Calendar Data Source-->
         <scene sceneID="rDH-qc-2JO">
@@ -645,28 +645,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uXa-zV-aPf">
-                                <rect key="frame" x="0.0" y="0.0" width="1112" height="44"/>
-                                <items>
-                                    <navigationItem title="Add Person" id="pZp-hU-3N4">
-                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="add" id="htD-Rm-xsm">
-                                            <connections>
-                                                <action selector="addPerson:" destination="ro9-Rb-nOK" id="5i8-6J-oSK"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" style="plain" id="cL2-fR-KcS">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4CT-3g-adg">
-                                                <rect key="frame" x="845" y="7" width="247" height="30"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="Reset"/>
-                                                <connections>
-                                                    <action selector="resetOverTimeBtn:" destination="ro9-Rb-nOK" eventType="touchUpInside" id="9gw-pg-ChN"/>
-                                                </connections>
-                                            </button>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ePz-2g-TCc">
                                 <rect key="frame" x="0.0" y="44" width="371" height="790"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -712,12 +690,6 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="15K-iA-79J">
-                                        <rect key="frame" x="92.5" y="250" width="555.5" height="250"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hours" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0FP-Lb-BLR">
                                         <rect key="frame" x="445.5" y="126.5" width="105.5" height="48"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="40"/>
@@ -875,15 +847,11 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="Uyg-gw-B2s" secondAttribute="bottom" constant="50" id="82h-oh-LPV"/>
                                     <constraint firstItem="kh1-O5-pCA" firstAttribute="top" secondItem="e1K-90-JeS" secondAttribute="bottom" constant="20" id="8K9-sS-emM"/>
-                                    <constraint firstItem="15K-iA-79J" firstAttribute="centerX" secondItem="5hQ-Vf-NXn" secondAttribute="centerX" id="AY7-LN-wDR"/>
                                     <constraint firstItem="0FP-Lb-BLR" firstAttribute="leading" secondItem="kh1-O5-pCA" secondAttribute="trailing" constant="10" id="H7b-bJ-dPX"/>
                                     <constraint firstItem="Uyg-gw-B2s" firstAttribute="top" secondItem="kh1-O5-pCA" secondAttribute="bottom" constant="20" id="K8M-p7-fJf"/>
                                     <constraint firstAttribute="trailing" secondItem="e1K-90-JeS" secondAttribute="trailing" constant="100" id="NaS-YX-WnU"/>
                                     <constraint firstItem="Uyg-gw-B2s" firstAttribute="height" secondItem="5hQ-Vf-NXn" secondAttribute="height" multiplier="2/3" id="REQ-um-WAo"/>
-                                    <constraint firstItem="15K-iA-79J" firstAttribute="width" secondItem="5hQ-Vf-NXn" secondAttribute="width" multiplier="3/4" id="Vq8-qB-da4"/>
                                     <constraint firstItem="Uyg-gw-B2s" firstAttribute="centerX" secondItem="5hQ-Vf-NXn" secondAttribute="centerX" id="XaJ-vt-qBU"/>
-                                    <constraint firstItem="15K-iA-79J" firstAttribute="centerY" secondItem="5hQ-Vf-NXn" secondAttribute="centerY" id="ZDv-N4-rKw"/>
-                                    <constraint firstItem="15K-iA-79J" firstAttribute="height" secondItem="5hQ-Vf-NXn" secondAttribute="height" multiplier="1/3" id="dy2-lf-bEa"/>
                                     <constraint firstItem="e1K-90-JeS" firstAttribute="centerX" secondItem="5hQ-Vf-NXn" secondAttribute="centerX" id="ets-AR-atf"/>
                                     <constraint firstItem="0FP-Lb-BLR" firstAttribute="centerY" secondItem="kh1-O5-pCA" secondAttribute="centerY" id="sj4-Jr-A8t"/>
                                     <constraint firstItem="kh1-O5-pCA" firstAttribute="centerX" secondItem="5hQ-Vf-NXn" secondAttribute="centerX" id="zT3-We-FJH"/>
@@ -891,46 +859,67 @@
                                     <constraint firstItem="e1K-90-JeS" firstAttribute="leading" secondItem="5hQ-Vf-NXn" secondAttribute="leading" constant="100" id="zyp-w4-nW5"/>
                                 </constraints>
                             </view>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aVz-yk-IkI">
+                                <rect key="frame" x="0.0" y="0.0" width="1112" height="44"/>
+                                <items>
+                                    <barButtonItem systemItem="add" id="WHf-cH-LhP">
+                                        <connections>
+                                            <action selector="addPerson:" destination="ro9-Rb-nOK" id="fDb-QI-Az9"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="chk-ts-856"/>
+                                    <barButtonItem title="Reset" style="plain" id="JGE-sq-rya">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="SpW-eO-9Ch" userLabel="Reset">
+                                            <rect key="frame" x="1053" y="7" width="39" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Reset"/>
+                                            <connections>
+                                                <action selector="resetOverTimeBtn:" destination="ro9-Rb-nOK" eventType="touchUpInside" id="tSy-a8-Bnb"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cpo-0T-CuO" userLabel="CoverView">
+                                <rect key="frame" x="371" y="44" width="741" height="751"/>
+                                <color key="backgroundColor" red="0.82352941180000006" green="0.63529411759999999" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.82352941176470584" green="0.63529411764705879" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="5hQ-Vf-NXn" firstAttribute="top" secondItem="uXa-zV-aPf" secondAttribute="bottom" constant="39" id="DV6-t0-lJA"/>
-                            <constraint firstItem="ePz-2g-TCc" firstAttribute="top" secondItem="uXa-zV-aPf" secondAttribute="bottom" id="FNB-4V-GmP"/>
+                            <constraint firstItem="aVz-yk-IkI" firstAttribute="top" secondItem="jP7-rM-TiY" secondAttribute="bottom" id="6F5-WO-bTK"/>
+                            <constraint firstItem="Cpo-0T-CuO" firstAttribute="top" secondItem="aVz-yk-IkI" secondAttribute="bottom" id="82t-O0-NXm"/>
+                            <constraint firstItem="ePz-2g-TCc" firstAttribute="top" secondItem="aVz-yk-IkI" secondAttribute="bottom" id="9rU-Mj-rrk"/>
+                            <constraint firstAttribute="trailing" secondItem="Cpo-0T-CuO" secondAttribute="trailing" id="KRR-ID-okb"/>
+                            <constraint firstAttribute="trailing" secondItem="aVz-yk-IkI" secondAttribute="trailing" id="Nbk-lg-UGe"/>
                             <constraint firstAttribute="trailing" secondItem="5hQ-Vf-NXn" secondAttribute="trailing" id="Wlo-nP-2b4"/>
+                            <constraint firstItem="Cpo-0T-CuO" firstAttribute="height" secondItem="5hQ-Vf-NXn" secondAttribute="height" id="YyE-AP-6Ht"/>
                             <constraint firstItem="5hQ-Vf-NXn" firstAttribute="leading" secondItem="ePz-2g-TCc" secondAttribute="trailing" id="ZDg-r8-dki"/>
                             <constraint firstItem="ePz-2g-TCc" firstAttribute="leading" secondItem="wvs-fc-nBX" secondAttribute="leading" id="ZOL-Mp-rS2"/>
-                            <constraint firstItem="uXa-zV-aPf" firstAttribute="top" secondItem="jP7-rM-TiY" secondAttribute="bottom" id="ZTP-mg-omz"/>
                             <constraint firstItem="OVa-0n-BrW" firstAttribute="top" secondItem="ePz-2g-TCc" secondAttribute="bottom" id="b8K-WV-S0e"/>
                             <constraint firstItem="ePz-2g-TCc" firstAttribute="width" secondItem="wvs-fc-nBX" secondAttribute="width" multiplier="1/3" id="c5K-S7-pK6"/>
                             <constraint firstItem="OVa-0n-BrW" firstAttribute="top" secondItem="5hQ-Vf-NXn" secondAttribute="bottom" id="eCY-UZ-POI"/>
-                            <constraint firstAttribute="trailing" secondItem="uXa-zV-aPf" secondAttribute="trailing" id="iuJ-7H-DWb"/>
-                            <constraint firstItem="uXa-zV-aPf" firstAttribute="leading" secondItem="wvs-fc-nBX" secondAttribute="leading" id="t35-Kh-Ck4"/>
+                            <constraint firstItem="5hQ-Vf-NXn" firstAttribute="top" secondItem="aVz-yk-IkI" secondAttribute="bottom" constant="39" id="lFP-9Z-Hed"/>
+                            <constraint firstItem="Cpo-0T-CuO" firstAttribute="width" secondItem="5hQ-Vf-NXn" secondAttribute="width" id="uqK-KR-JBz"/>
+                            <constraint firstItem="aVz-yk-IkI" firstAttribute="leading" secondItem="wvs-fc-nBX" secondAttribute="leading" id="x1Z-g9-daD"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="ueH-Ga-DGI">
-                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="add" id="gIM-jC-1G0">
-                            <connections>
-                                <action selector="addPerson:" destination="ro9-Rb-nOK" id="MPH-1y-i0g"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Edit" style="plain" id="Dnt-5x-M8z"/>
-                    </navigationItem>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="1112" height="834"/>
                     <connections>
                         <outlet property="SetupPersonTableView" destination="ePz-2g-TCc" id="Cdv-MA-VlP"/>
                         <outlet property="showClassOfCalendarView" destination="bVW-xz-res" id="reO-Y0-hgh"/>
-                        <outlet property="showClassPerMonth" destination="15K-iA-79J" id="OY4-kg-j4O"/>
                         <outlet property="showDate" destination="e1K-90-JeS" id="L5P-rp-RqT"/>
                         <outlet property="showDetailOfLabel" destination="kh1-O5-pCA" id="67h-5P-BSb"/>
                         <outlet property="showHoursOfLabel" destination="0FP-Lb-BLR" id="gDq-IX-lgx"/>
                         <outlet property="showPersonDetail" destination="5hQ-Vf-NXn" id="SeG-Hm-cAU"/>
+                        <outlet property="theCoverView" destination="Cpo-0T-CuO" id="mii-bT-22S"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EnB-fp-kuJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="844.96402877697847" y="813.66906474820155"/>
+            <point key="canvasLocation" x="1412" y="971"/>
         </scene>
         <!--Popup Menu View Controller-->
         <scene sceneID="OyZ-Qu-TXL">
@@ -995,7 +984,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zMq-Zg-AgY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="126" y="814"/>
+            <point key="canvasLocation" x="172" y="1115"/>
         </scene>
     </scenes>
 </document>

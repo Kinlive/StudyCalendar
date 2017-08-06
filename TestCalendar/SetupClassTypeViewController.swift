@@ -8,18 +8,19 @@
 
 import UIKit
 
-class SetupClassTypeViewController: UIViewController {
+class SetupClassTypeViewController: UIViewController,UITextFieldDelegate {
     var classTypeArray = [String]()
 //    var classTypeCDManager : CoreDataManager<ClassTypeData>!
     var indexPathOnEdit : IndexPath?
 
-    @IBOutlet weak var editButton: UIBarButtonItem!
+  
+    @IBOutlet weak var theCoverView: UIView!
+    @IBOutlet weak var hideTheSaveBtn: UIButton!
     @IBOutlet weak var classTypeTableView: UITableView!
     @IBOutlet weak var showClassType: UILabel!
     
   
-    @IBOutlet weak var startTimeKeyIn: UITextField!
-    
+    @IBOutlet weak var startTimeKeyIn: UITextField!    
     @IBOutlet weak var workingHoursKeyIn: UITextField!
     
     @IBOutlet weak var overtimeKeyIn: UITextField!
@@ -27,21 +28,21 @@ class SetupClassTypeViewController: UIViewController {
         override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.classTypeTableView.delegate = self
-        self.classTypeTableView.dataSource = self
-//        classTypeCDManager = CoreDataManager(
-//                                                initWithModel: "DataBase",
-//                                                dbFileName: "classTypeData.sqlite",
-//                                                dbPathURL: nil,
-//                                                sortKey: "startTime",
-//                                                entityName: "ClassTypeData")
-        
-        
+            self.classTypeTableView.delegate = self
+            self.classTypeTableView.dataSource = self
+            startTimeKeyIn.delegate = self
+            workingHoursKeyIn.delegate = self
+            overtimeKeyIn.delegate = self
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    //MARK: - TextField Delegate 
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+         hideTheSaveBtn.isHidden = false
+    }
+    
     
     func createAlertView(){
         let alert = UIAlertController.init(title: nil, message: "Please Key In ClassType", preferredStyle: .alert)
@@ -84,7 +85,8 @@ class SetupClassTypeViewController: UIViewController {
     @IBAction func addClassType(_ sender: UIBarButtonItem) {
         createAlertView()
     }
-    @IBAction func whenOnEdit(_ sender: UIBarButtonItem) {
+    
+    @IBAction func onEditSave(_ sender: UIButton) {
         guard let indexPathOnEdit = indexPathOnEdit else { return}
         let item = classTypeCDManager.itemWithIndex(index: indexPathOnEdit.row )
         item.typeName = showClassType.text
@@ -95,17 +97,15 @@ class SetupClassTypeViewController: UIViewController {
             if success {
                 self.indexPathOnEdit = nil
                 self.classTypeTableView.reloadData()
+                sender.isHidden = true
             }
         }
+
+        
+        
     }
-    
-    
- 
-    
-    
-    
-   
-}
+
+}//Class out here
 
 extension SetupClassTypeViewController : UITableViewDelegate,UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -145,6 +145,8 @@ extension SetupClassTypeViewController : UITableViewDelegate,UITableViewDataSour
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //..
+        hideTheSaveBtn.isHidden = true
+        theCoverView.isHidden = true
         indexPathOnEdit = indexPath
         let item = classTypeCDManager.itemWithIndex(index: indexPath.row)
         showClassType.text = item.typeName

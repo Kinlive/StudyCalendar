@@ -45,14 +45,13 @@ class SetupPersonViewController: UIViewController {
             showDate.isMultipleTouchEnabled = true
         }
     }
-    @IBOutlet weak var showClassPerMonth: UITextView!{
-        didSet{
-            showClassPerMonth.isUserInteractionEnabled = true
-        }
-    }
+
   //JTApple Calendar
     
     @IBOutlet weak var showClassOfCalendarView: JTAppleCalendarView!
+    
+    @IBOutlet weak var theCoverView: UIView!
+    
     
        override func viewDidLoad() {
         super.viewDidLoad()
@@ -180,20 +179,10 @@ class SetupPersonViewController: UIViewController {
     func toShowSomeoneWorkingOfMonth(){
         if everyMonthDictionary.isEmpty {
             showDate.text = "Invailid"
-            showClassPerMonth.text = ""
             return
         }
         let monthOfYear = everyMonthDictionary[titleIndex]
-            for (key,value) in monthOfYear{
-                var allWorkingOfMonthStr = String()
-                for aMan in value{
-                    guard let name = aMan.personName else {return }
-                    guard let classType = aMan.typeName else {return }
-                    guard let date = aMan.date else {return }
-                    let oneDays = "\(name)\(classType)\(date)\n"
-                    allWorkingOfMonthStr.append(oneDays)
-                }
-                
+            for (key,_) in monthOfYear{
                 formatter.dateFormat = "yyyy MM dd"
                 guard let thisMonthMiddle = formatter.date(from:"\(key) 15") else {
                     print("在這出門了")
@@ -203,7 +192,6 @@ class SetupPersonViewController: UIViewController {
                 showClassOfCalendarView.scrollToDate(thisMonthMiddle)
                 
                 showDate.text = key
-//                showClassPerMonth.text = allWorkingOfMonthStr
             }
     }
     
@@ -389,7 +377,7 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
         titleIndex = 0
         self.showDetailOfLabel.isHidden = false
         self.showHoursOfLabel.isHidden = false
-        
+        theCoverView.isHidden = true
         self.showDetailOfLabel.text = tableView.cellForRow(at: indexPath)?.textLabel?.text
         self.showHoursOfLabel.text = tableView.cellForRow(at: indexPath)?.detailTextLabel?.text
         personTmpIndex = indexPath
