@@ -96,7 +96,7 @@ class ViewController: UIViewController{
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCell(object:)), name: NSNotification.Name(rawValue: "RefreshTheCell"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCellView), name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil )
         NotificationCenter.default.addObserver(self, selector: #selector(refreshCalendarCell(object:)), name: NSNotification.Name(rawValue: "RefreshCalendarCell"), object: nil)
-
+//        NotificationCenter.default.addObserver(self, selector: #selector(refreshCalendarDate(object:)), name: NSNotification.Name(rawValue: "RefreshCalendarDate"), object: nil)
          }//viewDidLoad here
     
     
@@ -140,6 +140,7 @@ class ViewController: UIViewController{
     func handleCellTextColor(view : JTAppleCell? , cellState : CellState){
         guard let validCell = view as? CustomCell else{ return }
         if validCell.isSelected{
+            
 //            validCell.dateLabel.textColor = selectedMonthColor //Change date color when selected
         }else{
             if cellState.dateBelongsTo == .thisMonth{
@@ -287,6 +288,15 @@ class ViewController: UIViewController{
         let indexPath = object.object as! [IndexPath]
         calendarView.reloadItems(at: indexPath)
     }
+//    func refreshCalendarDate( object : Notification){
+//        let date = object.object as! [Date]
+//        
+//        DispatchQueue.main.async {
+//             self.calendarView.reloadDates(date)
+//        }
+//       
+//        print("refreshCalendarDate 成功?")
+//    }
     
 //MARK: - IBAction here
     @IBAction func personDetailButton(_ sender: UIButton) {
@@ -354,10 +364,14 @@ extension ViewController:JTAppleCalendarViewDelegate{
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
         formatter.dateFormat = "yyyy MM dd"
         BaseSetup.selectedDay = formatter.string(from: cellState.date)
+//        BaseSetup.refreshDate = cellState.date
+        guard let cell = cell else { return }
+        BaseSetup.refreshCellOfIndexPath = calendar.indexPath(for: cell)
+        
         handleCellSelected(view: cell, cellState: cellState)
         handleCellTextColor(view: cell, cellState: cellState)
         showView(whichShow: .calendarDetail)
-        print("Cellstate is \n: \(cellState.row())\n and \(cellState.dateSection().range) \n and other \(cellState.date)\n and \(cellState.text)\n ")
+        print("Cellstate is \n: \(cellState.row())\n and  \n and other \(cellState.date)\n and \(cellState.text)\n ")
         
     }
     func calendar(_ calendar: JTAppleCalendarView, didDeselectDate date: Date, cell: JTAppleCell?, cellState: CellState) {

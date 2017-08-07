@@ -24,6 +24,8 @@ public struct BaseSetup{
     
     static var selectedDay : String? // for calendar selected date
     
+    static var refreshCellOfIndexPath : IndexPath?//refresh calendarCell for calendarDetailVC on delete one person
+    
     static var currentCalendarYear : String?
     
     static var currentCalendarMonth : String?

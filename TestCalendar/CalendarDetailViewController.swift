@@ -25,34 +25,23 @@ class CalendarDetailViewController: UIViewController {
         showScheduleTable.dataSource = self
         guard let date = BaseSetup.selectedDay else { return }
         showDate.text = date
-        
+        fetchCalendarData()
         
         
     }
-    override func viewWillAppear(_ animated: Bool) {
-        fetchCalendarDataWith()
-        
-    }
-    
-    func fetchCalendarDataWith() {
+  
+    func fetchCalendarData() {
+        itemArray.removeAll()
         guard let selectedDay =  BaseSetup.selectedDay else {
             print("被dropEndCalendarDate擋下了")
             return }
-        guard let currentYear = BaseSetup.currentCalendarYear else {
-            print("被currentYear擋下")
-            return }
-        guard let currentMonth = BaseSetup.currentCalendarMonth else {
-            print("被currentMonth擋下")
-            return}
-        let currentDate = "\(currentYear) \(currentMonth) \(selectedDay)"
-        
-        
         for i in 0..<calendarCDManager.count(){
             let item = calendarCDManager.itemWithIndex(index: i)
             if item.date == selectedDay{
                 itemArray.append(item)
             }
         }
+        
     }
     func fetchPersonItemWith( item : CalendarData){
         guard let personName = item.personName else { return }
@@ -63,17 +52,21 @@ class CalendarDetailViewController: UIViewController {
         guard let classTypeItem = classTypeItemArray?.first else { return }
         guard let classTypeOvertime = Double(classTypeItem.overtime!) else {return }
         guard let classTypeWorkingHours = Double(classTypeItem.workingHours!) else { return }
+        
+        guard let refreshCellOfIndexPath = BaseSetup.refreshCellOfIndexPath else { return}
         personItem.overtime += classTypeOvertime
         personItem.workingHours += classTypeWorkingHours
         personCDManager.saveContexWithCompletion { (success) in
             if success {
+                self.showScheduleTable.reloadData()
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil)
+                 let refreshIndexPaths = [refreshCellOfIndexPath]
                 
+                NotificationCenter.default.post(name:Notification.Name(rawValue: "RefreshCalendarCell") , object: refreshIndexPaths)
+                //目前尚無法確保 通知的方法是執行再main thread
+//                print("是在這裡發生轉動的嗎")
             }
         }
-        
-        
-        
     }
     
     
@@ -111,17 +104,10 @@ extension CalendarDetailViewController : UITableViewDelegate,UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //..
         let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleCell", for: indexPath) as! CalendarDetailTableViewCell
-//        cell.textLabel?.text = "Name here"
-//        let item = calendarCDManager.itemWithIndex(index: indexPath.item)
-//        cell.date.text = item.date
-//        cell.title.text = item.personName
-//        cell.subTitle.text = item.typeName
+        
         cell.date.text = itemArray[indexPath.row].date
         cell.title.text = itemArray[indexPath.row].personName
         cell.subTitle.text = itemArray[indexPath.row].typeName
-//        cell.isUserInteractionEnabled = false
-        
-        
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -134,15 +120,12 @@ extension CalendarDetailViewController : UITableViewDelegate,UITableViewDataSour
         if editingStyle == .delete {
             let item = itemArray[indexPath.row]
             calendarCDManager.deleteItem(item: item)
-            
             calendarCDManager.saveContexWithCompletion(completion: { (success) in
                 if success {
-                    print("為什麼沒有刷新??????")
-                    self.showScheduleTable.reloadData()
+                    self.fetchCalendarData()
                     self.fetchPersonItemWith(item: item)
                 }
             })
-            
         }
     }
     
