@@ -9,32 +9,14 @@
 import UIKit
 
 class PopupMenuViewController: UIViewController {
-    var classTypeCDManager : CoreDataManager<ClassTypeData>!
-//    var personCDManager : CoreDataManager<PersonData>!
-    let baseSetup = BaseSetup()
     
     @IBOutlet weak var menuTableView: UITableView!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.preferredContentSize = CGSize(width: 300, height: 400)
         showAnimate()
         menuTableView.delegate = self
         menuTableView.dataSource = self
-       
-        classTypeCDManager = CoreDataManager(
-                                                initWithModel: "DataBase",
-                                                dbFileName: "classTypeData.sqlite",
-                                                dbPathURL: nil,
-                                                sortKey: "typeName",
-                                                entityName: "ClassTypeData")
-//        personCDManager = CoreDataManager(
-//                                                initWithModel: "DataBase",
-//                                                dbFileName: "personData.sqlite",
-//                                                dbPathURL: nil,
-//                                                sortKey: "name",
-//                                                entityName: "PersonData")
         
         
         // Do any additional setup after loading the view.
@@ -44,8 +26,73 @@ class PopupMenuViewController: UIViewController {
         super.didReceiveMemoryWarning()
        
     }
+    //MARK: - Handle the person add classType on CalendarCell 
+    func handleAddClassTypeOnCalendarCell( indexPath : IndexPath){
+        guard let firstLongPressIndex = BaseSetup.saveFirstIndexPath else {
+            print("被firsLonPressIndex擋下了")
+            return }
+        guard let saveEndIndexPath = BaseSetup.saveEndIndexPath else {
+            print("被saveEndIndexPath擋下了")
+            return
+        }
+        //這裡之後要簽點選完班別後 由calendarData收集
+        let classTypeItem = classTypeCDManager.itemWithIndex(index: indexPath.item)
+        let personItem = personCDManager.itemWithIndex(index: firstLongPressIndex.item)
+        guard let classTypeOvertime = Double(classTypeItem.overtime!) else {
+            print("被classTypeOvertime擋下了")
+            return }
+        guard let classTypeWorkingTime = classTypeItem.workingHours else { return}
+        guard let doubleWorkingTime = Double(classTypeWorkingTime) else {return}
+        //To check person's overtime is enough?
+        if (personItem.overtime - classTypeOvertime) < 0{
+            alertViewForHourUnenough()
+            return
+        }else{
+            personItem.overtime -= classTypeOvertime
+        }
+        if (personItem.workingHours - doubleWorkingTime) < 0 {
+            alertViewForHourUnenough()
+            return
+        }else {
+            personItem.workingHours -= doubleWorkingTime //Let personItem get workingHours
+        }
+        //New create calendarDetailItem
+        let calendarDetailItem = calendarCDManager.createItem()
+        calendarDetailItem.date = createDateForCalendarDataSaveWith(dateFormatter: "yyyy MM dd")
+        calendarDetailItem.personName = personItem.name
+        calendarDetailItem.typeName = classTypeItem.typeName
+        calendarDetailItem.year = createDateForCalendarDataSaveWith(dateFormatter: "yyyy")
+        calendarDetailItem.month = createDateForCalendarDataSaveWith(dateFormatter: "MM")
+        calendarDetailItem.day = createDateForCalendarDataSaveWith(dateFormatter: "dd")
+        
+        calendarCDManager.saveContexWithCompletion { (success) in
+            if success {
+                let saveEndIndexPathArray = [saveEndIndexPath]
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshCalendarCell"), object: saveEndIndexPathArray)
+                print("Calendar Save OK!")
+            }
+        }
+        
+        print("Test name : \(String(describing: personItem.name)) and time: \(personItem.overtime)")
+        personCDManager.saveContexWithCompletion { (success) in
+            if success {
+                //...發通知reload
+                let arrayIndexPath = [firstLongPressIndex]
+                NotificationCenter.default.post(name:Notification.Name.init( "RefreshTheCell") , object: arrayIndexPath)
+            }
+        }
+         removeAnimate()
+    }//handle end .
     
-
+    //MARK: - createDateForCalendarDataSaveWith( dateFormatter
+    func createDateForCalendarDataSaveWith( dateFormatter : String ) -> String?{
+        let formatter = DateFormatter()
+        formatter.dateFormat = dateFormatter
+        guard let saveCalendarCellsDate = BaseSetup.saveCalendarCellsDate else { return nil }
+        let date = formatter.string(from: saveCalendarCellsDate)
+        
+        return date
+    }
 
     
     //MARK: - view Animate func
@@ -74,7 +121,7 @@ class PopupMenuViewController: UIViewController {
         }
     }
     func alertViewForHourUnenough() {
-        let alert = UIAlertController(title: nil, message: "The person's overtime isn't enough !!", preferredStyle: .alert)
+        let alert = UIAlertController(title: nil, message: "該人員這月份工作時數不足囉,請進行調整或選擇其他人員!", preferredStyle: .alert)
         let ok = UIAlertAction(title: "Ok", style: .default) { (clicked) in
                 self.dismiss(animated: true, completion: nil)
         }
@@ -96,8 +143,9 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
                 CGRect( x: tableView.frame.width/4, y: 0,
                         width: tableView.frame.width/2,
                         height: tableView.frame.height))
-            displayLabel.text = "It's first to add ClassType"
+            displayLabel.text = "目前尚未有任何班別紀錄,請先至上方班別頁面加入班別種類。"
             displayLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+//            displayLabel.adjustsFontSizeToFitWidth = true
             displayLabel.textAlignment = .center
             displayLabel.numberOfLines = 4
             tableView.backgroundView = displayLabel
@@ -123,82 +171,9 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
          return tableView.frame.height/5
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let firstLongPressIndex = BaseSetup.saveFirstIndexPath else {
-             print("被firsLonPressIndex擋下了")
-            return }
-        guard let saveEndIndexPath = BaseSetup.saveEndIndexPath else {
-            print("被saveEndIndexPath擋下了")
-            return
-        }
-        //這裡之後要簽點選完班別後 由calendarData收集
-        let classTypeItem = classTypeCDManager.itemWithIndex(index: indexPath.item)
-        let personItem = personCDManager.itemWithIndex(index: firstLongPressIndex.item)
-        guard let classTypeOvertime = Double(classTypeItem.overtime!) else {
-            print("被classTypeOvertime擋下了")
-            return }
-        guard let classTypeWorkingTime = classTypeItem.workingHours else { return}
-        guard let doubleWorkingTime = Double(classTypeWorkingTime) else {return}
-        //To check person's overtime is enough?
-        if (personItem.overtime - classTypeOvertime) < 0{
-//            personItem.overtime = 0
-            alertViewForHourUnenough()
-            return
-            
-        }else{
-            personItem.overtime -= classTypeOvertime
-        }
-        if (personItem.workingHours - doubleWorkingTime) < 0 {
-            alertViewForHourUnenough()
-            return
-        }else {
-            personItem.workingHours -= doubleWorkingTime //Let personItem get workingHours
-            
-        }
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy MM dd"
-//        calendarDetailItem.date = formatter.string(from: date)
-        guard let dropEndCalendarDate =  BaseSetup.dropEndCalendarDate else {
-            print("被dropEndCalendarDate擋下了")
-            return }
-        guard let currentYear = BaseSetup.currentCalendarYear else {
-        print("被currentYear擋下")
-        return }
-        guard let currentMonth = BaseSetup.currentCalendarMonth else {
-        print("被currentMonth擋下")
-        return}
-        let toSaveDate = "\(currentYear) \(currentMonth) \(dropEndCalendarDate)"
-        print("Test toSaveDate ::: \(toSaveDate)")
-        
-        
-        //New create calendarDetailItem
-        let calendarDetailItem = calendarCDManager.createItem()
-        calendarDetailItem.date = toSaveDate
-        calendarDetailItem.personName = personItem.name
-        calendarDetailItem.typeName = classTypeItem.typeName
-        calendarDetailItem.year = currentYear
-        calendarDetailItem.month = currentMonth
-        calendarDetailItem.day = dropEndCalendarDate
-        
-        calendarCDManager.saveContexWithCompletion { (success) in
-            if success {
-                let saveEndIndexPathArray = [saveEndIndexPath]
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshCalendarCell"), object: saveEndIndexPathArray)
-                print("Calendar Save OK!")
-                
-            }
-        }
-        
-        print("Test name : \(String(describing: personItem.name)) and time: \(personItem.overtime)")
-        personCDManager.saveContexWithCompletion { (success) in
-            if success {
-                //...發通知reload
-                let arrayIndexPath = [firstLongPressIndex]
-                NotificationCenter.default.post(name:Notification.Name.init( "RefreshTheCell") , object: arrayIndexPath)
-            }
-        }
-//        self.view.removeFromSuperview()
-        self.removeAnimate()
+        handleAddClassTypeOnCalendarCell(indexPath: indexPath)
+       
     }
 
 }
