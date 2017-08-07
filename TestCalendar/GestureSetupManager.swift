@@ -108,6 +108,7 @@ class GestureSetupManager: NSObject {
                     moveOverLock.unlock()
                     print("被calendarCell 擋住了")
                     return }
+                
                 if calendarIndexPath == BaseSetup.moveOverIndexPath {
                     calendarCell.selectedView.isHidden = false
                     UIView.animate(withDuration: 0.1, animations: {
@@ -137,7 +138,8 @@ class GestureSetupManager: NSObject {
                 let calendarCell = calendarView.cellForItem(at: calendarIndexPath) as! CustomCell
                 guard let personCellIndexPath = Path.personCellIndexPath else {return}
                 let cell = personCellView.cellForItem(at: personCellIndexPath) as! PersonCell
-
+                
+                BaseSetup.saveCalendarCellsDate = calendarCell.date
                 BaseSetup.dropEndCalendarDate = calendarCell.dateLabel.text
                 cell.isHidden = false
                 cell.alpha = 0.0
@@ -198,16 +200,12 @@ class GestureSetupManager: NSObject {
     
     func checkIsSamePersonOnCalendar(personIndexPath : IndexPath ) -> Bool{
         let personItem = personCDManager.itemWithIndex(index: personIndexPath.item)
-//        let calendarItem = calendarCDManager.itemWithIndex(index: calendarIndexPath.item)
-        //
-        guard let dropEndDay = BaseSetup.dropEndCalendarDate else { return false}
-        guard let currentYear = BaseSetup.currentCalendarYear else {
-            print("被currentYear擋下")
-            return false}
-        guard let currentMonth = BaseSetup.currentCalendarMonth else {
-            print("被currentMonth擋下")
-            return false}
-        let currentDate = "\(currentYear) \(currentMonth) \(dropEndDay)"
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy MM dd"
+        var currentDate : String?
+        if let saveCalendarCellsDate = BaseSetup.saveCalendarCellsDate {
+            currentDate = formatter.string(from: saveCalendarCellsDate)
+        }
         var itemArray = [CalendarData]()
         
         for i in 0..<calendarCDManager.count(){

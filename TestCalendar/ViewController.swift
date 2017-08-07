@@ -151,6 +151,7 @@ class ViewController: UIViewController{
             
             }
                 validCell.selectedView.isHidden = true
+            
         }
     }
     func handleCellSelected(view : JTAppleCell? , cellState : CellState){
@@ -319,7 +320,7 @@ extension ViewController:JTAppleCalendarViewDelegate{
     //Display the cell
     func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
         let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "CustomCell", for: indexPath) as! CustomCell
-        
+        cell.date = date
         formatter.dateFormat = "yyyy MM dd"
         let thisDate = formatter.string(from: date)
         var itemArray = [CalendarData]()
@@ -351,7 +352,7 @@ extension ViewController:JTAppleCalendarViewDelegate{
     }
     //Didselect
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
-        formatter.dateFormat = "dd"
+        formatter.dateFormat = "yyyy MM dd"
         BaseSetup.selectedDay = formatter.string(from: cellState.date)
         handleCellSelected(view: cell, cellState: cellState)
         handleCellTextColor(view: cell, cellState: cellState)

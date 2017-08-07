@@ -49,12 +49,32 @@ class CalendarDetailViewController: UIViewController {
         
         for i in 0..<calendarCDManager.count(){
             let item = calendarCDManager.itemWithIndex(index: i)
-            if item.date == currentDate{
+            if item.date == selectedDay{
                 itemArray.append(item)
             }
         }
     }
-    
+    func fetchPersonItemWith( item : CalendarData){
+        guard let personName = item.personName else { return }
+        guard let classTypeName = item.typeName else { return }
+        let classTypeItemArray = classTypeCDManager.searchField(field: "typeName", forKeyword: classTypeName) as? [ClassTypeData]
+        let personItemArray = personCDManager.searchField(field: "name", forKeyword: personName) as? [PersonData]
+        guard let personItem = personItemArray?.first else { return }
+        guard let classTypeItem = classTypeItemArray?.first else { return }
+        guard let classTypeOvertime = Double(classTypeItem.overtime!) else {return }
+        guard let classTypeWorkingHours = Double(classTypeItem.workingHours!) else { return }
+        personItem.overtime += classTypeOvertime
+        personItem.workingHours += classTypeWorkingHours
+        personCDManager.saveContexWithCompletion { (success) in
+            if success {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil)
+                
+            }
+        }
+        
+        
+        
+    }
     
     
     override func didReceiveMemoryWarning() {
@@ -114,12 +134,15 @@ extension CalendarDetailViewController : UITableViewDelegate,UITableViewDataSour
         if editingStyle == .delete {
             let item = itemArray[indexPath.row]
             calendarCDManager.deleteItem(item: item)
+            
             calendarCDManager.saveContexWithCompletion(completion: { (success) in
                 if success {
                     print("為什麼沒有刷新??????")
                     self.showScheduleTable.reloadData()
+                    self.fetchPersonItemWith(item: item)
                 }
             })
+            
         }
     }
     

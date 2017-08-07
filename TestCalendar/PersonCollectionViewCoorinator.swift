@@ -80,8 +80,8 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
         cell.personName.text = item.name //item.name
         cell.personHour.text = String(item.overtime)
         cell.layer.cornerRadius = cell.frame.size.width / 2
-        cell.layer.borderWidth = 2
-        cell.layer.borderColor = UIColor.gray.cgColor
+//        cell.layer.borderWidth = 2
+//        cell.layer.borderColor = UIColor.gray.cgColor
         
                
         //person hours setup ,之後要將時數一開始初始化的部分丟在[name : hours],並在建立人員時加入,並能存入資料庫

@@ -9,6 +9,9 @@
 import UIKit
 import JTAppleCalendar
 class CustomCell: JTAppleCell {
+    var date : Date?
+    
+    
     @IBOutlet weak var dateLabel:UILabel!
     @IBOutlet weak var selectedView:UIView!
     @IBOutlet weak var currentView: UIView!

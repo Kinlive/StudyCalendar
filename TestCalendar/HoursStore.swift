@@ -27,6 +27,8 @@ public struct BaseSetup{
     static var currentCalendarYear : String?
     
     static var currentCalendarMonth : String?
+    
+    static var saveCalendarCellsDate : Date?
 //    
 //    static let monthly =
 //        ["January","Fabruary","March","April",
