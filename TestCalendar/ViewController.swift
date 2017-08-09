@@ -254,6 +254,8 @@ class ViewController: UIViewController{
             willShowVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SetupClassType") as? SetupClassTypeViewController
         case .calendarDetail :
             willShowVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CalendarDetailView") as? CalendarDetailViewController
+        case .settingView :
+            willShowVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingViewController") as? SettingViewController
         }
         guard let showVC = willShowVC else { return }
         showVC.modalPresentationStyle = .popover
@@ -305,6 +307,10 @@ class ViewController: UIViewController{
     @IBAction func classTypeDetail(_ sender: UIButton) {
         showView(whichShow: .classType)
     }
+    @IBAction func settingViewBtn(_ sender: UIButton) {
+        showView(whichShow: .settingView)
+    }
+    
 
 
     
@@ -362,8 +368,7 @@ extension ViewController:JTAppleCalendarViewDelegate{
     }
     //Didselect
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
-        formatter.dateFormat = "yyyy MM dd"
-        BaseSetup.selectedDay = formatter.string(from: cellState.date)
+        BaseSetup.selectedDay = date
 //        BaseSetup.refreshDate = cellState.date
         guard let cell = cell else { return }
         BaseSetup.refreshCellOfIndexPath = calendar.indexPath(for: cell)

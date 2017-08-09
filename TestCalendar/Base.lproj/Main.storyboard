@@ -324,6 +324,9 @@
                                                 <integer key="value" value="35"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="settingViewBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nEm-HB-OJQ"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -471,6 +474,77 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cpb-tl-5o1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="172" y="-795"/>
+        </scene>
+        <!--Setting View Controller-->
+        <scene sceneID="jOU-wj-gNj">
+            <objects>
+                <viewController storyboardIdentifier="SettingViewController" id="Hqx-JA-4Sh" customClass="SettingViewController" customModule="TestCalendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wGg-V2-lLf"/>
+                        <viewControllerLayoutGuide type="bottom" id="7YR-Qo-1VX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ony-xF-RwE">
+                        <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cDC-yS-Fpw" userLabel="containerView">
+                                <rect key="frame" x="0.0" y="0.0" width="1112" height="834"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="KNo-WX-xwb">
+                                        <rect key="frame" x="0.0" y="30" width="1112" height="804"/>
+                                        <subviews>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="月份正常工時" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rol-Pz-f0q">
+                                                <rect key="frame" x="502.5" y="0.0" width="107" height="193.5"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="每月加班時數" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="K43-3y-cTR">
+                                                <rect key="frame" x="502.5" y="203.5" width="107" height="193.5"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="點選以備份至iCloud" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yBc-cX-CtY">
+                                                <rect key="frame" x="479.5" y="407" width="153" height="193.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eIp-xa-eWL">
+                                                <rect key="frame" x="534" y="610.5" width="44" height="193.5"/>
+                                                <state key="normal" title="iCloud"/>
+                                                <connections>
+                                                    <action selector="iCloudBtn:" destination="Hqx-JA-4Sh" eventType="touchUpInside" id="htL-ih-EPc"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.6929465132" green="1" blue="0.64010953110000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="KNo-WX-xwb" firstAttribute="top" secondItem="cDC-yS-Fpw" secondAttribute="top" constant="30" id="9df-vl-9jS"/>
+                                    <constraint firstItem="KNo-WX-xwb" firstAttribute="leading" secondItem="cDC-yS-Fpw" secondAttribute="leading" id="NLP-Zb-h1S"/>
+                                    <constraint firstAttribute="bottom" secondItem="KNo-WX-xwb" secondAttribute="bottom" id="nL0-dP-C9y"/>
+                                    <constraint firstAttribute="trailing" secondItem="KNo-WX-xwb" secondAttribute="trailing" id="tku-7w-c3t"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="cDC-yS-Fpw" firstAttribute="top" secondItem="wGg-V2-lLf" secondAttribute="bottom" id="AsZ-e0-vf8"/>
+                            <constraint firstItem="7YR-Qo-1VX" firstAttribute="top" secondItem="cDC-yS-Fpw" secondAttribute="bottom" id="Ueg-Iy-E1N"/>
+                            <constraint firstAttribute="trailing" secondItem="cDC-yS-Fpw" secondAttribute="trailing" id="cMA-UD-Z5f"/>
+                            <constraint firstItem="cDC-yS-Fpw" firstAttribute="leading" secondItem="ony-xF-RwE" secondAttribute="leading" id="mOg-NF-KbJ"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="1112" height="834"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BEi-aT-aQM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="983" y="-697"/>
         </scene>
         <!--Setup Class Type View Controller-->
         <scene sceneID="LZ7-cs-Ujd">
@@ -898,8 +972,20 @@
                                 <color key="barTintColor" red="0.51764705879999995" green="0.61568627450000002" blue="0.75294117650000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </toolbar>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cpo-0T-CuO" userLabel="CoverView">
-                                <rect key="frame" x="371" y="622" width="741" height="212"/>
+                                <rect key="frame" x="371" y="572" width="741" height="262"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="請選擇一名人員" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QgX-2k-XRU">
+                                        <rect key="frame" x="264.5" y="377" width="212.5" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="30"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="QgX-2k-XRU" firstAttribute="centerY" secondItem="Cpo-0T-CuO" secondAttribute="centerY" id="FxS-Rr-gg6"/>
+                                    <constraint firstItem="QgX-2k-XRU" firstAttribute="centerX" secondItem="Cpo-0T-CuO" secondAttribute="centerX" id="h7f-41-Suf"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

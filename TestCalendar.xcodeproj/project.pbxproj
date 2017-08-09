@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		111701481F2338FF00AC0519 /* SetupPersonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111701471F2338FF00AC0519 /* SetupPersonTableViewCell.swift */; };
 		1117014D1F233B6E00AC0519 /* SetupPersonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1117014C1F233B6E00AC0519 /* SetupPersonViewController.swift */; };
-		1117014F1F23559D00AC0519 /* ShowPersonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1117014E1F23559D00AC0519 /* ShowPersonDetailView.swift */; };
 		111701511F23637E00AC0519 /* ClassTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111701501F23637E00AC0519 /* ClassTypeTableViewCell.swift */; };
 		111701531F2363BE00AC0519 /* SetupClassTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111701521F2363BE00AC0519 /* SetupClassTypeViewController.swift */; };
 		111701561F2378DD00AC0519 /* DataBase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 111701541F2378DD00AC0519 /* DataBase.xcdatamodeld */; };
@@ -25,6 +24,7 @@
 		114AAA9C1F0E59F0009B766F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 114AAA9A1F0E59F0009B766F /* LaunchScreen.storyboard */; };
 		116D4DAD1F0E5BCD002CA6D1 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D4DAC1F0E5BCD002CA6D1 /* CustomCell.swift */; };
 		116D4DAF1F111C74002CA6D1 /* PersonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D4DAE1F111C74002CA6D1 /* PersonCell.swift */; };
+		11C1D7161F3B126600E4F7AD /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C1D7151F3B126600E4F7AD /* SettingViewController.swift */; };
 		11DEDE2C1F31D30300D3965B /* ShowClassOfMonthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DEDE2B1F31D30300D3965B /* ShowClassOfMonthCell.swift */; };
 		11E066B21F372AF700EED42D /* star.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 11E066B11F372AF700EED42D /* star.jpg */; };
 		11E066B41F372E3200EED42D /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 11E066B31F372E3200EED42D /* background.jpg */; };
@@ -40,7 +40,6 @@
 /* Begin PBXFileReference section */
 		111701471F2338FF00AC0519 /* SetupPersonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupPersonTableViewCell.swift; sourceTree = "<group>"; };
 		1117014C1F233B6E00AC0519 /* SetupPersonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupPersonViewController.swift; sourceTree = "<group>"; };
-		1117014E1F23559D00AC0519 /* ShowPersonDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowPersonDetailView.swift; sourceTree = "<group>"; };
 		111701501F23637E00AC0519 /* ClassTypeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassTypeTableViewCell.swift; sourceTree = "<group>"; };
 		111701521F2363BE00AC0519 /* SetupClassTypeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupClassTypeViewController.swift; sourceTree = "<group>"; };
 		111701551F2378DD00AC0519 /* DataBase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataBase.xcdatamodel; sourceTree = "<group>"; };
@@ -58,6 +57,7 @@
 		114AAA9D1F0E59F0009B766F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		116D4DAC1F0E5BCD002CA6D1 /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		116D4DAE1F111C74002CA6D1 /* PersonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCell.swift; sourceTree = "<group>"; };
+		11C1D7151F3B126600E4F7AD /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		11DEDE2B1F31D30300D3965B /* ShowClassOfMonthCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowClassOfMonthCell.swift; sourceTree = "<group>"; };
 		11E066B11F372AF700EED42D /* star.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = star.jpg; sourceTree = "<group>"; };
 		11E066B31F372E3200EED42D /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = "<group>"; };
@@ -132,6 +132,7 @@
 			children = (
 				11231FC11F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift */,
 				114AAA931F0E59F0009B766F /* ViewController.swift */,
+				11C1D7151F3B126600E4F7AD /* SettingViewController.swift */,
 				1117014C1F233B6E00AC0519 /* SetupPersonViewController.swift */,
 				11231FB91F1D2B82006D7E55 /* GestureSetupManager.swift */,
 				11185D101F276E5100EFE0D3 /* CalendarDetailViewController.swift */,
@@ -148,7 +149,6 @@
 				114AAA951F0E59F0009B766F /* Main.storyboard */,
 				11E2D1621F1DF65900A2689C /* GradientView.swift */,
 				11185D171F28AC2F00EFE0D3 /* KDCircularProgress.swift */,
-				1117014E1F23559D00AC0519 /* ShowPersonDetailView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -321,6 +321,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				11E2D1651F1F2EEE00A2689C /* PopupMenuViewController.swift in Sources */,
+				11C1D7161F3B126600E4F7AD /* SettingViewController.swift in Sources */,
 				11E2D16F1F1F5B7600A2689C /* HoursStore.swift in Sources */,
 				114AAA941F0E59F0009B766F /* ViewController.swift in Sources */,
 				111701481F2338FF00AC0519 /* SetupPersonTableViewCell.swift in Sources */,
@@ -334,7 +335,6 @@
 				11EFB3EA1F22019A0024CF93 /* CoreDataManager.swift in Sources */,
 				11185D131F27705400EFE0D3 /* CalendarDetailTableViewCell.swift in Sources */,
 				11231FBA1F1D2B82006D7E55 /* GestureSetupManager.swift in Sources */,
-				1117014F1F23559D00AC0519 /* ShowPersonDetailView.swift in Sources */,
 				111701511F23637E00AC0519 /* ClassTypeTableViewCell.swift in Sources */,
 				11E2D1631F1DF65900A2689C /* GradientView.swift in Sources */,
 				11DEDE2C1F31D30300D3965B /* ShowClassOfMonthCell.swift in Sources */,

@@ -109,6 +109,7 @@ class SetupPersonViewController: UIViewController {
         let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         self.view.backgroundColor = UIColor(patternImage: image)
+        self.theCoverView.backgroundColor = UIColor(patternImage: image)
     }
     
     //MARK: - Reset the person hours
@@ -385,7 +386,23 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
         everyMonthDictionary.removeAll() /// when change person reset all dictionary
         titleIndex = 0
         self.showDetailOfLabel.isHidden = false
-        theCoverView.isHidden = true
+        self.theCoverView.backgroundColor = UIColor(colorWithHexValue: 0x3C3C3C)
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.theCoverView.backgroundColor = UIColor(colorWithHexValue: 0x5B5B5B)
+        }) { (finished) in
+            if finished {
+                UIView.animate(withDuration: 0.5, animations: {
+                     self.theCoverView.backgroundColor = UIColor(colorWithHexValue: 0x5B5B5B).withAlphaComponent(0.7)
+                    self.theCoverView.transform = CGAffineTransform(translationX: 0.0, y: self.view.frame.size.height)
+                }, completion: { (finished) in
+                    if finished {
+                        self.theCoverView.isHidden = true
+                    }
+                })
+            }
+        }
+        
         self.showDetailOfLabel.text = tableView.cellForRow(at: indexPath)?.textLabel?.text
         personTmpIndex = indexPath
        

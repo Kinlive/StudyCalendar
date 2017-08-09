@@ -24,7 +24,9 @@ class CalendarDetailViewController: UIViewController {
         showScheduleTable.delegate = self
         showScheduleTable.dataSource = self
         guard let date = BaseSetup.selectedDay else { return }
-        showDate.text = date
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd"
+        showDate.text = formatter.string(from: date)
         fetchCalendarData()
         
         
@@ -33,11 +35,14 @@ class CalendarDetailViewController: UIViewController {
     func fetchCalendarData() {
         itemArray.removeAll()
         guard let selectedDay =  BaseSetup.selectedDay else {
-            print("被dropEndCalendarDate擋下了")
+            print("被selected擋下了")
             return }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy MM dd"
+        let selectDate = formatter.string(from: selectedDay)
         for i in 0..<calendarCDManager.count(){
             let item = calendarCDManager.itemWithIndex(index: i)
-            if item.date == selectedDay{
+            if item.date == selectDate{
                 itemArray.append(item)
             }
         }
