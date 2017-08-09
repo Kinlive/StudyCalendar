@@ -229,6 +229,7 @@
 				TargetAttributes = {
 					114AAA8D1F0E59F0009B766F = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 4HY645WQ48;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -466,12 +467,13 @@
 			baseConfigurationReference = 51B0A8C58964E0FF365709E8 /* Pods-TestCalendar.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4HY645WQ48;
 				INFOPLIST_FILE = TestCalendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Kinlive.TestCalendar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Kinlive.SchedulingClass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -480,12 +482,13 @@
 			baseConfigurationReference = C4F8C38323E85C6D04E4D798 /* Pods-TestCalendar.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4HY645WQ48;
 				INFOPLIST_FILE = TestCalendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Kinlive.TestCalendar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.Kinlive.SchedulingClass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

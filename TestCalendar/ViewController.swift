@@ -96,7 +96,7 @@ class ViewController: UIViewController{
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCell(object:)), name: NSNotification.Name(rawValue: "RefreshTheCell"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCellView), name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil )
         NotificationCenter.default.addObserver(self, selector: #selector(refreshCalendarCell(object:)), name: NSNotification.Name(rawValue: "RefreshCalendarCell"), object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(refreshCalendarDate(object:)), name: NSNotification.Name(rawValue: "RefreshCalendarDate"), object: nil)
+        
          }//viewDidLoad here
     
     

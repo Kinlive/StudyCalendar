@@ -9,7 +9,7 @@
 import UIKit
 import JTAppleCalendar
 
-let colorArray = [0x6FB7B7,0xFF44FF,0x2828FF,0x00FFFF,0x28FF28,0xC07AB8,0xFF2D2D]
+let colorArray = [0x6FB7B7,0xFF44FF,0x2828FF,0x00FFFF,0x28FF28,0xC07AB8,0xFF2D2D,0xFF5809,0xFF44FF,0x984B4B]
 
 class SetupPersonViewController: UIViewController {
     var personArray : [PersonData] = [PersonData]()
@@ -35,7 +35,7 @@ class SetupPersonViewController: UIViewController {
    
     @IBOutlet weak var showDetailOfLabel: UILabel! //person name
     
-    @IBOutlet weak var showHoursOfLabel: UILabel!
+
     
     @IBOutlet weak var SetupPersonTableView: UITableView!
     
@@ -55,15 +55,12 @@ class SetupPersonViewController: UIViewController {
     
        override func viewDidLoad() {
         super.viewDidLoad()
+        setupMainView()
         // Do any additional setup after loading the view.
         SetupPersonTableView.delegate = self
         SetupPersonTableView.dataSource = self
         setupCalendarView()
-//        showClassPerMonth.isHidden = true
-//        showClassOfCalendarView.ibCalendarDelegate = self
-//        showClassOfCalendarView.ibCalendarDataSource = self
         showDetailOfLabel.isHidden = true
-        showHoursOfLabel.isHidden = true
         let leftSwipe = UISwipeGestureRecognizer(target: self,
                                                                                 action: #selector(swipeGestureRecognizer(_:)))
         leftSwipe.direction = .left
@@ -106,6 +103,14 @@ class SetupPersonViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
         
     }
+    func setupMainView(){
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        UIImage(named: "star.jpg")?.draw(in: self.view.bounds)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        self.view.backgroundColor = UIColor(patternImage: image)
+    }
+    
     //MARK: - Reset the person hours
     func resetPersonHours(){
         for index in 0..<personCDManager.count(){
@@ -178,7 +183,8 @@ class SetupPersonViewController: UIViewController {
     }
     func toShowSomeoneWorkingOfMonth(){
         if everyMonthDictionary.isEmpty {
-            showDate.text = "Invailid"
+            showDate.text = "人員尚未有排班紀錄"
+            showClassOfCalendarView.reloadData()
             return
         }
         let monthOfYear = everyMonthDictionary[titleIndex]
@@ -274,16 +280,7 @@ class SetupPersonViewController: UIViewController {
                     }
                 }
             }
-//            
-//            formatter.dateFormat = "yyyy MM dd"
-//            guard let thisMonthMiddle = formatter.date(from:"\(key) 15") else {
-//                print("在這出門了")
-//                return }
-            //let it always scroll to the correct month
-//            showClassOfCalendarView.scrollToDate(thisMonthMiddle)
         }
-        
-        /////
     }
     
     func handleCellTextColor(view : JTAppleCell? , cellState : CellState){
@@ -365,8 +362,20 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "SetupPersonTableViewCell", for: indexPath) as! SetupPersonTableViewCell
         let item = personCDManager.itemWithIndex(index: indexPath.item)
          self.personArray.append(item)
+        cell.layer.borderWidth = 1.0
+        cell.layer.borderColor = UIColor.white.cgColor
+        cell.layer.cornerRadius = 10
+        cell.textLabel?.textColor = UIColor(colorWithHexValue: 0xffffff)
+        cell.detailTextLabel?.textColor = UIColor(colorWithHexValue: 0xffffff)
         cell.textLabel?.text = item.name
         cell.detailTextLabel?.text = String(item.overtime)
+     
+        let customView = UIView()
+        
+        customView.backgroundColor = UIColor(colorWithHexValue: 0x46A3FF).withAlphaComponent(0.3)
+        cell.selectedBackgroundView = customView
+        
+        
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -376,10 +385,8 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
         everyMonthDictionary.removeAll() /// when change person reset all dictionary
         titleIndex = 0
         self.showDetailOfLabel.isHidden = false
-        self.showHoursOfLabel.isHidden = false
         theCoverView.isHidden = true
         self.showDetailOfLabel.text = tableView.cellForRow(at: indexPath)?.textLabel?.text
-        self.showHoursOfLabel.text = tableView.cellForRow(at: indexPath)?.detailTextLabel?.text
         personTmpIndex = indexPath
        
        //////========
@@ -434,15 +441,7 @@ extension SetupPersonViewController:JTAppleCalendarViewDelegate{
         
         return cell
     }
-    //Didselect
-//    func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
-//        formatter.dateFormat = "dd"
-//        BaseSetup.selectedDay = formatter.string(from: cellState.date)
-//        handleCellSelected(view: cell, cellState: cellState)
-//        handleCellTextColor(view: cell, cellState: cellState)
-//        print("Cellstate is \n: \(cellState.row())\n and \(cellState.dateSection().range) \n and other \(cellState.date)\n and \(cellState.text)\n ")
-//        
-//    }
+  
     func calendar(_ calendar: JTAppleCalendarView,
                               didDeselectDate date: Date,
                               cell: JTAppleCell?,
@@ -450,8 +449,6 @@ extension SetupPersonViewController:JTAppleCalendarViewDelegate{
         handleCellSelected(view: cell, cellState: cellState)
         handleCellTextColor(view: cell, cellState: cellState)
     }
-//    func calendar(_ calendar: JTAppleCalendarView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
-//        setupViewOfCalendar(from: visibleDates)
-//    }
+
 }
 

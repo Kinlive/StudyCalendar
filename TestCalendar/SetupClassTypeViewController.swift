@@ -10,7 +10,6 @@ import UIKit
 
 class SetupClassTypeViewController: UIViewController,UITextFieldDelegate {
     var classTypeArray = [String]()
-//    var classTypeCDManager : CoreDataManager<ClassTypeData>!
     var indexPathOnEdit : IndexPath?
 
   
@@ -28,11 +27,19 @@ class SetupClassTypeViewController: UIViewController,UITextFieldDelegate {
         override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+            self.preferredContentSize = CGSize(width: self.view.frame.width/3, height: self.view.frame.height/2)
             self.classTypeTableView.delegate = self
             self.classTypeTableView.dataSource = self
             startTimeKeyIn.delegate = self
             workingHoursKeyIn.delegate = self
             overtimeKeyIn.delegate = self
+            for index in 0..<classTypeCDManager.count(){
+                let item = classTypeCDManager.itemWithIndex(index: index)
+                guard let typeName = item.typeName else {return }
+                classTypeArray.append(typeName)
+            }
+           
+            
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -67,7 +74,6 @@ class SetupClassTypeViewController: UIViewController,UITextFieldDelegate {
             item.overtime = alert.textFields?[3].text
             classTypeCDManager.saveContexWithCompletion(completion: { (success) in
                 if(success){
-                    self.classTypeArray.append((alert.textFields?[0].text)!)
                     self.classTypeTableView.reloadData()
                 }
             })
@@ -136,7 +142,15 @@ extension SetupClassTypeViewController : UITableViewDelegate,UITableViewDataSour
         //..
         let cell = tableView.dequeueReusableCell(withIdentifier: "ClassTypeTableViewCell", for: indexPath) as! ClassTypeTableViewCell
         let item = classTypeCDManager.itemWithIndex(index: indexPath.row)
-        cell.textLabel?.text = item.typeName
+        for i in 0..<classTypeArray.count{
+            if item.typeName == classTypeArray[i]{
+                cell.colorView.backgroundColor = UIColor(colorWithHexValue: colorArray[i]).withAlphaComponent(0.3)
+            }
+        }
+        cell.layer.cornerRadius = cell.layer.frame.size.height/2
+//        cell.layer.borderColor = UIColor.gray.cgColor
+//        cell.layer.borderWidth = 2.0
+        cell.classTypeName.text = item.typeName
         
         return cell
     }
@@ -146,7 +160,22 @@ extension SetupClassTypeViewController : UITableViewDelegate,UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //..
         hideTheSaveBtn.isHidden = true
-        theCoverView.isHidden = true
+        
+        UIView.animate(withDuration: 0.3, animations: { 
+            self.theCoverView.backgroundColor = UIColor(colorWithHexValue: 0x97CBFF)
+        }) { (finished) in
+            if finished{
+                UIView.animate(withDuration: 0.5, animations: {
+                    //            self.theCoverView.transform = CGAffineTransform(scaleX: 1, y: 0.1)
+                    self.theCoverView.transform = CGAffineTransform(translationX: 0.0, y: self.view.frame.size.height)
+                }) { (finish) in
+                    if finish{
+                        self.theCoverView.isHidden = true
+                    }
+                }
+            }
+        }
+        
         indexPathOnEdit = indexPath
         let item = classTypeCDManager.itemWithIndex(index: indexPath.row)
         showClassType.text = item.typeName
