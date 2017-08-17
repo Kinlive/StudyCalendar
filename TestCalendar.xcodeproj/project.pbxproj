@@ -25,6 +25,7 @@
 		116D4DAD1F0E5BCD002CA6D1 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D4DAC1F0E5BCD002CA6D1 /* CustomCell.swift */; };
 		116D4DAF1F111C74002CA6D1 /* PersonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D4DAE1F111C74002CA6D1 /* PersonCell.swift */; };
 		11C1D7161F3B126600E4F7AD /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C1D7151F3B126600E4F7AD /* SettingViewController.swift */; };
+		11C1D7191F3B2F4000E4F7AD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11C1D7181F3B2F4000E4F7AD /* CloudKit.framework */; };
 		11DEDE2C1F31D30300D3965B /* ShowClassOfMonthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DEDE2B1F31D30300D3965B /* ShowClassOfMonthCell.swift */; };
 		11E066B21F372AF700EED42D /* star.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 11E066B11F372AF700EED42D /* star.jpg */; };
 		11E066B41F372E3200EED42D /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 11E066B31F372E3200EED42D /* background.jpg */; };
@@ -58,6 +59,8 @@
 		116D4DAC1F0E5BCD002CA6D1 /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		116D4DAE1F111C74002CA6D1 /* PersonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCell.swift; sourceTree = "<group>"; };
 		11C1D7151F3B126600E4F7AD /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		11C1D7171F3B2F3D00E4F7AD /* TestCalendar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TestCalendar.entitlements; sourceTree = "<group>"; };
+		11C1D7181F3B2F4000E4F7AD /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		11DEDE2B1F31D30300D3965B /* ShowClassOfMonthCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowClassOfMonthCell.swift; sourceTree = "<group>"; };
 		11E066B11F372AF700EED42D /* star.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = star.jpg; sourceTree = "<group>"; };
 		11E066B31F372E3200EED42D /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = "<group>"; };
@@ -78,6 +81,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2F62382C5F8B25C64759DAE /* Pods_TestCalendar.framework in Frameworks */,
+				11C1D7191F3B2F4000E4F7AD /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +123,7 @@
 		114AAA901F0E59F0009B766F /* TestCalendar */ = {
 			isa = PBXGroup;
 			children = (
+				11C1D7171F3B2F3D00E4F7AD /* TestCalendar.entitlements */,
 				11E2D1681F1F4C7500A2689C /* Others */,
 				11E2D1661F1F4C3700A2689C /* Control */,
 				11E2D1671F1F4C5800A2689C /* View */,
@@ -189,6 +194,7 @@
 		E8D891886BA441DABAB85780 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				11C1D7181F3B2F4000E4F7AD /* CloudKit.framework */,
 				E0112674326C5AEE12A5CB3B /* Pods_TestCalendar.framework */,
 			);
 			name = Frameworks;
@@ -231,6 +237,14 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 4HY645WQ48;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -467,6 +481,7 @@
 			baseConfigurationReference = 51B0A8C58964E0FF365709E8 /* Pods-TestCalendar.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TestCalendar/TestCalendar.entitlements;
 				DEVELOPMENT_TEAM = 4HY645WQ48;
 				INFOPLIST_FILE = TestCalendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -482,6 +497,7 @@
 			baseConfigurationReference = C4F8C38323E85C6D04E4D798 /* Pods-TestCalendar.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TestCalendar/TestCalendar.entitlements;
 				DEVELOPMENT_TEAM = 4HY645WQ48;
 				INFOPLIST_FILE = TestCalendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -13,8 +13,7 @@ class PersonCell: UICollectionViewCell {
     var hours : Double?
     var overHours = 0.0
     var personDetail = PersonDetail()
-    
-    
+
     @IBOutlet weak var personName: UILabel!
     
     @IBOutlet weak var personWorkingHour: UILabel!

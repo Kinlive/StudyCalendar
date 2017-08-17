@@ -10,10 +10,10 @@ import UIKit
 import JTAppleCalendar
 import CoreData
 
+//let recordName = DateFormatter().string(from: Date())
 let personCDManager = CoreDataManager<PersonData>(
                                                 initWithModel: "DataBase",
                                                 dbFileName: "personData.sqlite",
-                                                dbPathURL: nil,
                                                 sortKey: "name",
                                                 entityName: "PersonData")
 let classTypeCDManager = CoreDataManager<ClassTypeData>(
@@ -26,7 +26,7 @@ let calendarCDManager = CoreDataManager<CalendarData>(
                                                 initWithModel: "DataBase",
                                                 dbFileName: "calendarData.sqlite",
                                                 dbPathURL: nil,
-                                                sortKey: "typeName",
+                                                sortKey: "date",
                                                 entityName: "CalendarData")
 //formatter yyyy
 let years = ["2017","2018","2019","2020","2021","2022","2023","2024","2025","2026"]
@@ -70,6 +70,7 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        print("測試\(RecordName)")
         setupMainView()
         setupCalendarView()
         
