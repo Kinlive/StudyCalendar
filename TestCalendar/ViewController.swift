@@ -68,10 +68,12 @@ class ViewController: UIViewController{
     let monthColor = UIColor(colorWithHexValue: 0xffffff)
     let selectedMonthColor = UIColor(colorWithHexValue : 0xffffff)
     let currentDateSelectedViewColor = UIColor(colorWithHexValue : 0x4e3f5d)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
          let cloudURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)
-        print("CloudURL: \(cloudURL?.absoluteString)")
+        print("CloudURL: \(String(describing: cloudURL?.absoluteString))")
+        
         
 //        print("測試\(RecordName)")
         setupMainView()
@@ -252,7 +254,7 @@ class ViewController: UIViewController{
             popupVC.modalPresentationStyle = .popover
         
             let popover = popupVC.popoverPresentationController!
-            popover.delegate = self as? UIPopoverPresentationControllerDelegate
+            popover.delegate = self //as? UIPopoverPresentationControllerDelegate
             popover.permittedArrowDirections.remove(.any)
             popover.sourceView = self.view
         
@@ -270,30 +272,110 @@ class ViewController: UIViewController{
 
         }
     //MARK: - Create PersonSetupView
-    func showView( whichShow : WhichViewShow ){
+    func showView( whichShow : WhichViewShow, sender : Any? ){
+        
         var willShowVC : UIViewController?
         switch whichShow {
         case .person:
             
             willShowVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PersonSetupView") as? SetupPersonViewController
+            guard let willShowVC = willShowVC else { return }
+            setupOtherVC(showVC: willShowVC)
             
         case .classType :
             
             willShowVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SetupClassType") as? SetupClassTypeViewController
+            guard let willShowVC = willShowVC else { return }
+            setupTheClassTypeVC(showVC: willShowVC , sender: sender)
             
         case .calendarDetail :
             
             willShowVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CalendarDetailView") as? CalendarDetailViewController
+            guard let willShowVC = willShowVC else { return }
+            setupOtherVC(showVC: willShowVC)
             
         case .settingView :
             
             willShowVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingViewController") as? SettingViewController
+            guard let willShowVC = willShowVC else { return }
+            setupOtherVC(showVC: willShowVC)
             
         }
-        guard let showVC = willShowVC else { return }
+       
+    
+//        self.addChildViewController(showVC) 可將底部透明化的
+//        let testViewFrame = showVC.view.frame
+//        let testView = UIView(frame: testViewFrame)
+//        self.view.addSubview(testView)
+//        testView.addSubview(showVC.view)
+//        showVC.didMove(toParentViewController: self)
+//        self.view.addSubview(testView)
+
+    }
+    
+    
+    
+    //MARK: - Setup Every popup VC 
+    func setupTheClassTypeVC(showVC : UIViewController , sender : Any? ) {
+        
+        guard let sender = sender as? UIButton else { return }
+        let senderRect = sender.bounds
+        
         showVC.modalPresentationStyle = .popover
-        let popover =  showVC.popoverPresentationController!
-        popover.delegate = self as? UIPopoverPresentationControllerDelegate
+        guard let popover =  showVC.popoverPresentationController else { return }
+        popover.delegate = self //as? UIPopoverPresentationControllerDelegate
+        popover.permittedArrowDirections = .up
+        popover.sourceView = self.view
+        popover.sourceRect = senderRect
+        showVC.preferredContentSize = CGSize(width: sender.frame.width, height: sender.frame.width*1.5)
+        
+        let copyView =  snapshopOfView(inputView: showVC.view)
+//        copyView.frame.origin = showVC.view.frame.origin
+        copyView.frame.origin.x = showVC.view.frame.origin.x
+        copyView.frame.origin.y = showVC.view.frame.origin.y + sender.frame.height
+        copyView.frame.size = CGSize(width: sender.frame.width, height: sender.frame.width*1.5)
+        copyView.alpha = 1.0
+        self.view.addSubview(copyView)
+        
+        copyView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+//        copyView.transform = CGAffineTransform(translationX: <#T##CGFloat#>, y: <#T##CGFloat#>)
+        UIView.animate(withDuration: 1, animations: {
+            
+            copyView.transform = CGAffineTransform(scaleX: 1, y: 1)
+            copyView.alpha = 1.0
+            
+        }) { (finished) in
+//            self.present(showVC, animated: true, completion: nil )
+            self.present(showVC, animated: false){
+                copyView.isHidden = true
+            }
+        }
+        
+    
+        
+    }
+    //Snapshop
+    func snapshopOfView(inputView: UIView) -> UIView {
+        
+        UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0.0)
+        inputView.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()! as UIImage
+        UIGraphicsEndImageContext()
+        let cellSnapshot : UIView = UIImageView(image: image)
+        cellSnapshot.layer.masksToBounds = false
+        cellSnapshot.layer.cornerRadius = 5.0
+        cellSnapshot.layer.shadowOffset = CGSize(width: -5.0, height: 0.0)
+        cellSnapshot.layer.shadowRadius = 5.0
+        cellSnapshot.layer.shadowOpacity = 0.3
+        return cellSnapshot
+    }
+
+    func setupOtherVC( showVC : UIViewController ){
+        
+//        guard let showVC = willShowVC else { return }
+        showVC.modalPresentationStyle = .popover
+        guard let popover =  showVC.popoverPresentationController else { return }
+        popover.delegate = self //as? UIPopoverPresentationControllerDelegate
         popover.permittedArrowDirections.remove(.any)
         popover.sourceView = self.view
         let calendarViewX = self.mainUIView.center.x
@@ -304,23 +386,14 @@ class ViewController: UIViewController{
         
         
         popover.sourceRect = CGRect(
-                                                x: calendarViewX-width/2,
-                                                y: calendarViewY-height/2,
-                                                width: width,
-                                                height: height)
+                                                            x: calendarViewX-width/2,
+                                                            y: calendarViewY-height/2,
+                                                            width: width,
+                                                            height: height)
         
         showVC.preferredContentSize = CGSize(width: mainUIView.frame.width*3/4 ,
                                                                             height: mainUIView.frame.height*3/4)
         present(showVC, animated: true, completion: nil)
-    
-//        self.addChildViewController(showVC) 可將底部透明化的
-//        let testViewFrame = showVC.view.frame
-//        let testView = UIView(frame: testViewFrame)
-//        self.view.addSubview(testView)
-//        testView.addSubview(showVC.view)
-//        showVC.didMove(toParentViewController: self)
-//        self.view.addSubview(testView)
-
     }
     
     
@@ -348,8 +421,9 @@ class ViewController: UIViewController{
 //        print("refreshCalendarDate 成功?")
 //    }
     
+    
     //MARK: - Set cell's classType amount
-    func setHowMuchPersonOfTypeClass(with cell : CustomCell ){
+    func setHowMuchPersonOfTypeClass(with cell : CustomCell){
         
         guard let cellsDate = cell.date else { return }
         
@@ -370,43 +444,102 @@ class ViewController: UIViewController{
             classTypeItemArray.append(classTypeItem)
         }//Get all classTypeItem
         
-        var indexArray = [Int?].init(repeating: nil, count: classTypeItemArray.count)
+//        var indexArray = [Int?].init(repeating: nil, count: classTypeItemArray.count)
+        var indexArray = [(String , Int)?].init(repeating: nil, count: classTypeItemArray.count)
         
         for ( index , classTypeItem) in classTypeItemArray.enumerated(){
+            guard let typeName = classTypeItem.typeName else { return }
+            
             var howMuchNumber = 0
             for calendarItem in calendarItemArray {
                 if calendarItem.typeName == classTypeItem.typeName{
                     howMuchNumber += 1
                 }
             }
-             indexArray[index] = howMuchNumber
+             indexArray[index] = ( typeName , howMuchNumber)
         }
 //        print("測試裝一下索引陣列\(indexArray)")//////
         
+        containWhichClassType(cell: cell, indexArray: indexArray)
+//        
+//        if calendarItemArray.count > 0 {
+//            cell.howManyPerson.text  = String(calendarItemArray.count)
+//            cell.howManyPerson.layer.borderWidth = 2
+//            //            cell.howManyPerson.layer.cornerRadius = 5
+//            cell.howManyPerson.layer.borderColor = UIColor.white.cgColor
+//            cell.howManyPerson.isHidden = false
+//        }else if calendarItemArray.count == 0{
+//            cell.howManyPerson.isHidden = true
+//        }
+    }
+    
+//    typealias HandleCompletion = (_ success : Bool ) -> Void
+    //MARK: - To contain Which classType of person amount
+    func containWhichClassType( cell : CustomCell ,
+                                                       indexArray : [(String, Int)?]) {
+        cell.classType1Person.isHidden = true
+        cell.classType2Person.isHidden = true
+        cell.classType3Person.isHidden = true
+        cell.classType4Person.isHidden = true
+        cell.howManyPerson.isHidden = true
+//        let indexCount = indexArray.count
         
-        
-        
-        
-        if calendarItemArray.count > 0 {
-            cell.howManyPerson.text  = String(calendarItemArray.count)
-            cell.howManyPerson.layer.borderWidth = 2
-            //            cell.howManyPerson.layer.cornerRadius = 5
-            cell.howManyPerson.layer.borderColor = UIColor.white.cgColor
-            cell.howManyPerson.isHidden = false
-        }else if calendarItemArray.count == 0{
-            cell.howManyPerson.isHidden = true
+        for (index, element ) in indexArray.enumerated() {  // element : (typeName ,  howManyPerson)
+            
+            guard let element = element else { return }
+            
+            if element.1 != 0 {
+                
+                
+                switch index {
+                case 0:
+                    cell.classType1Person.text = String(element.1)
+                    cell.classType1Person.layer.borderWidth = 1
+                    cell.classType1Person.layer.borderColor = UIColor.white.cgColor
+                    cell.classType1Person.backgroundColor = UIColor.init(colorWithHexValue: colorArray[index])
+                    cell.classType1Person.isHidden = false
+                case 1:
+                    cell.classType2Person.text = String(element.1)
+                    cell.classType2Person.layer.borderWidth = 1
+                    cell.classType2Person.layer.borderColor = UIColor.white.cgColor
+                    cell.classType2Person.backgroundColor = UIColor.init(colorWithHexValue: colorArray[index])
+                    cell.classType2Person.isHidden = false
+                case 2:
+                    cell.classType3Person.text = String(element.1)
+                    cell.classType3Person.layer.borderWidth = 1
+                    cell.classType3Person.layer.borderColor = UIColor.white.cgColor
+                    cell.classType3Person.backgroundColor = UIColor.init(colorWithHexValue: colorArray[index])
+                    cell.classType3Person.isHidden = false
+                case 3:
+                    cell.classType4Person.text = String(element.1)
+                    cell.classType4Person.layer.borderWidth = 1
+                    cell.classType4Person.layer.borderColor = UIColor.white.cgColor
+                    cell.classType4Person.backgroundColor = UIColor.init(colorWithHexValue: colorArray[index])
+                    cell.classType4Person.isHidden = false
+                case 4:
+                    cell.howManyPerson.text = String(element.1)
+                    cell.howManyPerson.layer.borderWidth = 1
+                    cell.howManyPerson.layer.borderColor = UIColor.white.cgColor
+                    cell.howManyPerson.backgroundColor = UIColor.init(colorWithHexValue: colorArray[index])
+                    cell.howManyPerson.isHidden = false
+                default:
+                    break
+                }
+            }else {// Will Fix hidden to opacity 
+            }
         }
+        
     }
     
 //MARK: - IBAction here
     @IBAction func personDetailButton(_ sender: UIButton) {
-        showView(whichShow: .person)
+        showView(whichShow: .person, sender: sender)
     }
     @IBAction func classTypeDetail(_ sender: UIButton) {
-        showView(whichShow: .classType)
+        showView(whichShow: .classType, sender: sender)
     }
     @IBAction func settingViewBtn(_ sender: UIButton) {
-        showView(whichShow: .settingView)
+        showView(whichShow: .settingView, sender: sender)
     }
     
 
@@ -442,18 +575,16 @@ extension ViewController:JTAppleCalendarViewDelegate{
                         
         cell.date = date
         
-        setHowMuchPersonOfTypeClass(with: cell)
-                        
-        
         formatter.dateFormat = "dd"
         cell.dateLabel.text = formatter.string(from: cellState.date)
-//        cell.selectedView.layer.cornerRadius = cell.selectedView.frame.size.width/2
+        //        cell.selectedView.layer.cornerRadius = cell.selectedView.frame.size.width/2
         handleCellSelected(view: cell, cellState: cellState)
         handleCellTextColor(view: cell, cellState: cellState)
         cell.layer.borderWidth = 1.0
         cell.layer.borderColor = UIColor.gray.cgColor
+        setHowMuchPersonOfTypeClass(with: cell)
         
-        return cell
+       return cell
     }
     //Didselect
     func calendar(_ calendar: JTAppleCalendarView,
@@ -468,7 +599,7 @@ extension ViewController:JTAppleCalendarViewDelegate{
         
         handleCellSelected(view: cell, cellState: cellState)
         handleCellTextColor(view: cell, cellState: cellState)
-        showView(whichShow: .calendarDetail)
+        showView(whichShow: .calendarDetail, sender: nil)
         print("Cellstate is \n: \(cellState.row())\n and  \n and other \(cellState.date)\n and \(cellState.text)\n ")
         
     }
@@ -501,3 +632,8 @@ extension UIColor{
     }
 }
 
+//MARK: - Popover delegate methods 
+extension ViewController : UIPopoverPresentationControllerDelegate {
+    
+    
+}

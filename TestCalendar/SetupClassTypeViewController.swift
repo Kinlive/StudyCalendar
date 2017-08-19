@@ -15,7 +15,8 @@ class SetupClassTypeViewController: UIViewController,UITextFieldDelegate {
     var classTypeArray = [String]()
     var indexPathOnEdit : IndexPath?
     let tfCoordinator = TextFieldCoordinator()
-  
+    var btnWidth : CGFloat?
+    
     @IBOutlet weak var theCoverView: UIView!
     @IBOutlet weak var hideTheSaveBtn: UIButton!
     @IBOutlet weak var classTypeTableView: UITableView!
@@ -30,7 +31,7 @@ class SetupClassTypeViewController: UIViewController,UITextFieldDelegate {
         override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-            self.preferredContentSize = CGSize(width: self.view.frame.width/3, height: self.view.frame.height/2)
+//            self.preferredContentSize = CGSize(width: self.view.frame.width/3, height: self.view.frame.height/2)
             self.classTypeTableView.delegate = self
             self.classTypeTableView.dataSource = self
             startTimeKeyIn.delegate = self
@@ -44,6 +45,7 @@ class SetupClassTypeViewController: UIViewController,UITextFieldDelegate {
            
             
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -60,7 +62,7 @@ class SetupClassTypeViewController: UIViewController,UITextFieldDelegate {
     
     
     func limitTextLength(textField : UITextField  ){
-        
+        isOverCount = false
         guard let text = textField.text else { return }
         
         switch textField.tag {
@@ -94,7 +96,7 @@ class SetupClassTypeViewController: UIViewController,UITextFieldDelegate {
 //            classType.delegate = self.tfCoordinator
             classType.placeholder = "Key in ClassType : name"
 //            classType.tag = 16138
-            classType.addTarget(self, action: #selector(self.limitTextLength(textField:)), for: .editingChanged)
+//            classType.addTarget(self, action: #selector(self.limitTextLength(textField:)), for: .editingChanged)
             
         }
         alert.addTextField { (startTime) in
