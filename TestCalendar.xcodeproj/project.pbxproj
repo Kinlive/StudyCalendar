@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1107DB1E1F4809D2006AF3FD /* TextFieldCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1107DB1D1F4809D2006AF3FD /* TextFieldCoordinator.swift */; };
 		111701481F2338FF00AC0519 /* SetupPersonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111701471F2338FF00AC0519 /* SetupPersonTableViewCell.swift */; };
 		1117014D1F233B6E00AC0519 /* SetupPersonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1117014C1F233B6E00AC0519 /* SetupPersonViewController.swift */; };
 		111701511F23637E00AC0519 /* ClassTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111701501F23637E00AC0519 /* ClassTypeTableViewCell.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1107DB1D1F4809D2006AF3FD /* TextFieldCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldCoordinator.swift; sourceTree = "<group>"; };
 		111701471F2338FF00AC0519 /* SetupPersonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupPersonTableViewCell.swift; sourceTree = "<group>"; };
 		1117014C1F233B6E00AC0519 /* SetupPersonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupPersonViewController.swift; sourceTree = "<group>"; };
 		111701501F23637E00AC0519 /* ClassTypeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassTypeTableViewCell.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				11231FC11F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift */,
+				1107DB1D1F4809D2006AF3FD /* TextFieldCoordinator.swift */,
 				114AAA931F0E59F0009B766F /* ViewController.swift */,
 				11C1D7151F3B126600E4F7AD /* SettingViewController.swift */,
 				1117014C1F233B6E00AC0519 /* SetupPersonViewController.swift */,
@@ -351,6 +354,7 @@
 				11231FBA1F1D2B82006D7E55 /* GestureSetupManager.swift in Sources */,
 				111701511F23637E00AC0519 /* ClassTypeTableViewCell.swift in Sources */,
 				11E2D1631F1DF65900A2689C /* GradientView.swift in Sources */,
+				1107DB1E1F4809D2006AF3FD /* TextFieldCoordinator.swift in Sources */,
 				11DEDE2C1F31D30300D3965B /* ShowClassOfMonthCell.swift in Sources */,
 				116D4DAF1F111C74002CA6D1 /* PersonCell.swift in Sources */,
 				111701531F2363BE00AC0519 /* SetupClassTypeViewController.swift in Sources */,

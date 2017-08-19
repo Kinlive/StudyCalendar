@@ -17,21 +17,16 @@ var numberItem : [Int]{
 let spacing :CGFloat = 3
 
 let baseSetup = BaseSetup()
-//let personCDManager = CoreDataManager<PersonData>(
-//    initWithModel: "DataBase",
-//    dbFileName: "personData.sqlite",
-//    dbPathURL: nil,
-//    sortKey: "name",
-//    entityName: "PersonData")
-
-
 
 class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource {
     //when no data the table view display this
     var noDataView : UIView?
     
     //MARK: - UICollectionViewDelegate & DataSource
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                                        layout collectionViewLayout: UICollectionViewLayout,
+                                        sizeForItemAt indexPath: IndexPath)
+                        -> CGSize {
         let itemCount :CGFloat = 2
 //        if personCDManager.count() <= 6{
 //            itemCount = 1
@@ -41,19 +36,27 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
         let size = CGSize(width: width, height: width)
         return size
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                                        layout collectionViewLayout: UICollectionViewLayout,
+                                        minimumLineSpacingForSectionAt section: Int)
+                    -> CGFloat {
         return spacing
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                                        layout collectionViewLayout: UICollectionViewLayout,
+                                        minimumInteritemSpacingForSectionAt section: Int)
+                    -> CGFloat {
         return spacing
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        guard let results = personCDManager.fetchedResultsController.fetchedObjects else { return 0}
+        guard let results = personCDManager.fetchedResultsController.fetchedObjects else { return 0 }
+        
         if results.count == 0 {
-            let displayLabel = UILabel(frame:
-                                                        CGRect( x: collectionView.frame.width/4, y: 0,
+            let displayLabel = UILabel(frame:CGRect(
+                                                                        x: collectionView.frame.width/4,
+                                                                        y: 0,
                                                                         width: collectionView.frame.width/2,
                                                                         height: collectionView.frame.height))
             displayLabel.text = "It's first to person page"
@@ -71,10 +74,13 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //..
 //         let personCDManager = createCoreDataManager()
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PersonCell", for: indexPath) as! PersonCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PersonCell",
+                                                                                      for: indexPath)
+                                                                                      as! PersonCell
 //        let item = personCDManager.itemWithIndex(index: indexPath.item)
 //        personCDManager.managedObjectContext.refreshAllObjects()
-        guard let item = personCDManager.fetchedResultsController.object(at: indexPath) as? PersonData else { return cell}
+        guard let item = personCDManager.fetchedResultsController.object(at: indexPath)
+                                    as? PersonData else { return cell }
         cell.personWorkingHour.text = String(item.workingHours)
         cell.overHours = item.overtime
         cell.personName.text = item.name //item.name

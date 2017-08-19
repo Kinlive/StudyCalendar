@@ -7,10 +7,16 @@
 //
 
 import Foundation
+var howMuchType : Int?
+
 public enum WhichViewShow : Int{
     case person = 0 , classType , calendarDetail , settingView
 }
 
+public enum WhichTypeAddNumber : Int {
+    
+    case type
+}
 
 public struct BaseSetup{
     

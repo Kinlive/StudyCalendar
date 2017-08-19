@@ -17,7 +17,8 @@ var recordName : String  {
     return dateString
 }
 let calendarRecordID = CKRecordID.init(recordName: "201708Test") //不能重複
-var calendarRecord = CKRecord.init(recordType: "SaveCalendar", recordID: calendarRecordID)
+var calendarRecord = CKRecord.init(recordType: "SaveCalendar",
+                                                             recordID: calendarRecordID)
 let calendarContainer = CKContainer.default()
 let calendarDatabase = calendarContainer.publicCloudDatabase
 
@@ -26,7 +27,8 @@ class SettingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.preferredContentSize = CGSize(width: self.view.frame.width/3, height: self.view.frame.height/2)
+        self.preferredContentSize = CGSize(width: self.view.frame.width/3,
+                                                                    height: self.view.frame.height/2)
         //CloudKit use 
 //        calendarRecord["Date"] = "106 08 09" as CKRecordValue
 //        calendarRecord["PersonName"] = "Allen" as CKRecordValue
@@ -43,7 +45,7 @@ class SettingViewController: UIViewController {
 //                }
 //            }
 //        }
-        
+       
         
 //        fetchRecord()
   
@@ -51,24 +53,28 @@ class SettingViewController: UIViewController {
     
  
     
-    typealias HandleCompletion = (_ success : Bool , _ calendarData : [[ String : [CalendarData]]]? ) -> Void
+    typealias HandleCompletion = (_ success : Bool ,
+                                                         _ calendarData : [[ String : [CalendarData]]]? )
+                                                -> Void
 //MARK: - GetCalendarDetailData ( handleCompletion : HandleCompletion)
     func getCalendarDetailData( handleCompletion : @escaping HandleCompletion){
+        
         var calendarData : [[ String : [CalendarData]]] = [[String : [CalendarData]]]()
         var howManyPerson : [CalendarData] = [CalendarData]() //all person in array
         var dateSet : Set<String> = Set<String>() //all the date in set and not repeat
+        
         for index in 0..<calendarCDManager.count(){
             let calendarItem = calendarCDManager.itemWithIndex(index: index)
             guard let date = calendarItem.date else {
                  handleCompletion(false, nil)
-                return }
+                return
+            }
             dateSet.insert(date)
             howManyPerson.append(calendarItem)
         }
 //        print("測試測試\(dateSet)")
         var finalCalendarData = [CalendarData]()
         for (_,dateStr) in dateSet.enumerated(){
-            
             for person in howManyPerson {
                 guard let personDate = person.date else {
                      handleCompletion(false, nil)
@@ -91,11 +97,14 @@ class SettingViewController: UIViewController {
     }
     
     //MARK: - toJson( dict : [[String:[CalendarData]]] ) -> Data?
-    func toJson( dict : [[String:[CalendarData]]] , handleCompletion : @escaping HandleCompletion ) {
+    func toJson( dict : [[String:[CalendarData]]] ,
+                          handleCompletion : @escaping HandleCompletion ) {
+        
         var testDicOfArray : [Dictionary<String, String>] = [Dictionary<String,String>]()
         var testArrayOfDicKey : [String : [Dictionary<String,String>]] = [String : [Dictionary<String,String>]]()
         var finalArray : [[String:[Dictionary<String,String>]]] = [[String:[Dictionary<String,String>]]]()
         var testDic : [String: String] = [:]
+        
         for oneDate in dict {
             for (key,value) in oneDate {
                 for cData in value {
@@ -117,12 +126,14 @@ class SettingViewController: UIViewController {
         guard let data = try? JSONSerialization.data(withJSONObject: finalArray, options: .prettyPrinted) else {
             handleCompletion(false, nil)
             return
-        }
+            }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd"
+        
         guard let dateID : Int64 = Int64(dateFormatter.string(from: Date())) else {
             handleCompletion(false,nil)
-            return }
+            return
+        }
         calendarRecord["AllData"] = data as CKRecordValue
         calendarRecord["DateID"] = dateID as CKRecordValue
 //        calendarRecord["TestItem"] = "test" as CKRecordValue

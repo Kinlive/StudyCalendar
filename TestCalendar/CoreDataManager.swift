@@ -21,7 +21,7 @@ class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
     //    (資料模型, 存成什麼檔名,存到哪裡,排序欄位,模型的名子)
     init(initWithModel modelName:String,
                 dbFileName:String,
-                dbPathURL:URL?  = nil,
+                dbPathURL:URL? ,
                 sortKey:String,
                 entityName:String){
         

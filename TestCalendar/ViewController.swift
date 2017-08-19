@@ -10,10 +10,11 @@ import UIKit
 import JTAppleCalendar
 import CoreData
 
-//let recordName = DateFormatter().string(from: Date())
+
 let personCDManager = CoreDataManager<PersonData>(
                                                 initWithModel: "DataBase",
                                                 dbFileName: "personData.sqlite",
+                                                dbPathURL: nil,
                                                 sortKey: "name",
                                                 entityName: "PersonData")
 let classTypeCDManager = CoreDataManager<ClassTypeData>(
@@ -69,6 +70,8 @@ class ViewController: UIViewController{
     let currentDateSelectedViewColor = UIColor(colorWithHexValue : 0x4e3f5d)
     override func viewDidLoad() {
         super.viewDidLoad()
+         let cloudURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)
+        print("CloudURL: \(cloudURL?.absoluteString)")
         
 //        print("測試\(RecordName)")
         setupMainView()
@@ -83,6 +86,7 @@ class ViewController: UIViewController{
         let thisMonth = formatter.string(from: Date())
         formatter.dateFormat = "yyyy MM dd"
         guard let thisMonthMiddle = formatter.date(from: "\(thisYear) \(thisMonth) 15") else { return }
+        
         //let it always scroll to the correct month
         calendarView.scrollToDate(thisMonthMiddle)
         currentFormatter.dateFormat = "yyyy MM dd"
@@ -93,10 +97,22 @@ class ViewController: UIViewController{
         longPress.addTarget(self, action: #selector(longPressGestureRecognized(_:)))
         longPress.minimumPressDuration = 0.1
         mainUIView.addGestureRecognizer(longPress)
+        
         //NotificationCenter
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCell(object:)), name: NSNotification.Name(rawValue: "RefreshTheCell"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshPersonCellView), name: NSNotification.Name(rawValue: "RefreshAllCell"), object: nil )
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshCalendarCell(object:)), name: NSNotification.Name(rawValue: "RefreshCalendarCell"), object: nil)
+        NotificationCenter.default.addObserver(
+                                                        self,
+                                                        selector: #selector(refreshPersonCell(object:)),
+                                                        name: NSNotification.Name(rawValue: "RefreshTheCell"),
+                                                        object: nil)
+        NotificationCenter.default.addObserver(
+                                                        self,
+                                                        selector: #selector(refreshPersonCellView),
+                                                        name: NSNotification.Name(rawValue: "RefreshAllCell"),
+                                                        object: nil )
+        NotificationCenter.default.addObserver(
+                                                        self, selector: #selector(refreshCalendarCell(object:)),
+                                                        name: NSNotification.Name(rawValue: "RefreshCalendarCell"),
+                                                        object: nil)
         
          }//viewDidLoad here
     
@@ -138,25 +154,25 @@ class ViewController: UIViewController{
         }
       
     }
-    func handleCellTextColor(view : JTAppleCell? , cellState : CellState){
+    func handleCellTextColor(view : JTAppleCell? ,
+                                                cellState : CellState){
+        
         guard let validCell = view as? CustomCell else{ return }
+        
         if validCell.isSelected{
-            
 //            validCell.dateLabel.textColor = selectedMonthColor //Change date color when selected
         }else{
             if cellState.dateBelongsTo == .thisMonth{
                 validCell.dateLabel.textColor = monthColor
             }else {
                 validCell.dateLabel.textColor = outsideMonthColor
-//                validCell.isUserInteractionEnabled = false
-//                validCell.selectedView.isUserInteractionEnabled = false
-            
             }
                 validCell.selectedView.isHidden = true
-            
         }
     }
-    func handleCellSelected(view : JTAppleCell? , cellState : CellState){
+    func handleCellSelected(view : JTAppleCell? ,
+                                              cellState : CellState){
+        
         guard let validCell = view as? CustomCell else{ return }
         let stateDate = currentFormatter.string(from: cellState.date)
         let currenteDate = currentFormatter.string(from: currentDate)
@@ -187,8 +203,8 @@ class ViewController: UIViewController{
             let date = visibleDates.monthDates.first!.date
             self.formatter.dateFormat = "yyyy"
             self.year.text = self.formatter.string(from: date)
-        //To save year and month 
-            BaseSetup.currentCalendarYear = self.year.text
+        
+            BaseSetup.currentCalendarYear = self.year.text //To save year and month
             self.formatter.dateFormat = "MMMM"
             self.month.text = self.formatter.string(from: date)
             self.formatter.dateFormat = "MM"
@@ -216,8 +232,12 @@ class ViewController: UIViewController{
                 guard let item = personCDManager.fetchedResultsController.object(at: indexPath) as? PersonData else { return }
                 print("Test  \(String(describing: item.name)) : overtime \(item.overtime) \n")
             }else{
-                let alert = UIAlertController(title: nil, message: "該人員這天已安排過班別囉!!", preferredStyle: .alert)
-                let ok = UIAlertAction(title: "ok", style: .default, handler: nil)
+                let alert = UIAlertController(title: nil,
+                                                               message: "該人員這天已安排過班別囉!!",
+                                                               preferredStyle: .alert)
+                let ok = UIAlertAction(title: "ok",
+                                                      style: .default,
+                                                      handler: nil)
                 alert.addAction(ok)
                 self.present(alert, animated: true, completion: nil)
             }
@@ -227,16 +247,20 @@ class ViewController: UIViewController{
     
     //MARK: - createPopoverView
     func createPopupView(){
+        
             let popupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PopupMenu") as! PopupMenuViewController
             popupVC.modalPresentationStyle = .popover
+        
             let popover = popupVC.popoverPresentationController!
             popover.delegate = self as? UIPopoverPresentationControllerDelegate
             popover.permittedArrowDirections.remove(.any)
             popover.sourceView = self.view
+        
             let mainViewX = self.mainUIView.center.x
             let mainViewY = self.mainUIView.center.y
             let width = self.view.frame.width/5
             let height = self.view.frame.height/4
+        
             popover.sourceRect = CGRect(
                                                 x: mainViewX-width/2,
                                                 y: mainViewY-height/2,
@@ -250,13 +274,21 @@ class ViewController: UIViewController{
         var willShowVC : UIViewController?
         switch whichShow {
         case .person:
+            
             willShowVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PersonSetupView") as? SetupPersonViewController
+            
         case .classType :
+            
             willShowVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SetupClassType") as? SetupClassTypeViewController
+            
         case .calendarDetail :
+            
             willShowVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CalendarDetailView") as? CalendarDetailViewController
+            
         case .settingView :
+            
             willShowVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingViewController") as? SettingViewController
+            
         }
         guard let showVC = willShowVC else { return }
         showVC.modalPresentationStyle = .popover
@@ -268,14 +300,29 @@ class ViewController: UIViewController{
         let calendarViewY = self.mainUIView.center.y
         let width = self.calendarView.frame.width
         let height = self.calendarView.frame.height
+        
+        
+        
         popover.sourceRect = CGRect(
                                                 x: calendarViewX-width/2,
                                                 y: calendarViewY-height/2,
                                                 width: width,
                                                 height: height)
-        showVC.preferredContentSize = CGSize(width: mainUIView.frame.width*3/4 , height: mainUIView.frame.height*3/4)
+        
+        showVC.preferredContentSize = CGSize(width: mainUIView.frame.width*3/4 ,
+                                                                            height: mainUIView.frame.height*3/4)
         present(showVC, animated: true, completion: nil)
+    
+//        self.addChildViewController(showVC) 可將底部透明化的
+//        let testViewFrame = showVC.view.frame
+//        let testView = UIView(frame: testViewFrame)
+//        self.view.addSubview(testView)
+//        testView.addSubview(showVC.view)
+//        showVC.didMove(toParentViewController: self)
+//        self.view.addSubview(testView)
+
     }
+    
     
    //MARK: - refresh the cell
     func refreshPersonCell( object : Notification){
@@ -300,6 +347,56 @@ class ViewController: UIViewController{
 //       
 //        print("refreshCalendarDate 成功?")
 //    }
+    
+    //MARK: - Set cell's classType amount
+    func setHowMuchPersonOfTypeClass(with cell : CustomCell ){
+        
+        guard let cellsDate = cell.date else { return }
+        
+        formatter.dateFormat = "yyyy MM dd"
+        let thisDate = formatter.string(from: cellsDate)
+        var calendarItemArray = [CalendarData]()
+        var classTypeItemArray = [ClassTypeData]()
+        
+        for i in 0..<calendarCDManager.count(){
+            let item = calendarCDManager.itemWithIndex(index: i)
+            if item.date == thisDate {
+                calendarItemArray.append(item)
+            }
+        }// Get all calendarDataItem
+        
+        for i in 0..<classTypeCDManager.count(){
+            let classTypeItem = classTypeCDManager.itemWithIndex(index: i)
+            classTypeItemArray.append(classTypeItem)
+        }//Get all classTypeItem
+        
+        var indexArray = [Int?].init(repeating: nil, count: classTypeItemArray.count)
+        
+        for ( index , classTypeItem) in classTypeItemArray.enumerated(){
+            var howMuchNumber = 0
+            for calendarItem in calendarItemArray {
+                if calendarItem.typeName == classTypeItem.typeName{
+                    howMuchNumber += 1
+                }
+            }
+             indexArray[index] = howMuchNumber
+        }
+//        print("測試裝一下索引陣列\(indexArray)")//////
+        
+        
+        
+        
+        
+        if calendarItemArray.count > 0 {
+            cell.howManyPerson.text  = String(calendarItemArray.count)
+            cell.howManyPerson.layer.borderWidth = 2
+            //            cell.howManyPerson.layer.cornerRadius = 5
+            cell.howManyPerson.layer.borderColor = UIColor.white.cgColor
+            cell.howManyPerson.isHidden = false
+        }else if calendarItemArray.count == 0{
+            cell.howManyPerson.isHidden = true
+        }
+    }
     
 //MARK: - IBAction here
     @IBAction func personDetailButton(_ sender: UIButton) {
@@ -326,7 +423,8 @@ extension ViewController:JTAppleCalendarViewDataSource{
         formatter.locale = Calendar.current.locale
         let startDate = formatter.date(from: "2017 01 01")!
         let endDate = formatter.date(from: "2019 12 31")!
-        let parameters = ConfigurationParameters(startDate: startDate, endDate: endDate)
+        let parameters = ConfigurationParameters(startDate: startDate,
+                                                                              endDate: endDate)
         
         return parameters
     }
@@ -335,27 +433,17 @@ extension ViewController:JTAppleCalendarViewDataSource{
 // MARK: - JTAppleCalendarViewDelegate
 extension ViewController:JTAppleCalendarViewDelegate{
     //Display the cell
-    func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
-        let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "CustomCell", for: indexPath) as! CustomCell
+    func calendar(_ calendar: JTAppleCalendarView,
+                                           cellForItemAt date: Date,
+                                                    cellState: CellState,
+                                                indexPath: IndexPath) -> JTAppleCell {
+        let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "CustomCell",
+                                                                                         for: indexPath) as! CustomCell
+                        
         cell.date = date
-        formatter.dateFormat = "yyyy MM dd"
-        let thisDate = formatter.string(from: date)
-        var itemArray = [CalendarData]()
-        for i in 0..<calendarCDManager.count(){
-            let item = calendarCDManager.itemWithIndex(index: i)
-            if item.date == thisDate {
-                itemArray.append(item)
-            }
-        }
-        if itemArray.count > 0 {
-            cell.howManyPerson.text  = String(itemArray.count)
-            cell.howManyPerson.layer.borderWidth = 2
-            cell.howManyPerson.layer.cornerRadius = 5
-            cell.howManyPerson.layer.borderColor = UIColor.white.cgColor
-            cell.howManyPerson.isHidden = false
-        }else if itemArray.count == 0{
-            cell.howManyPerson.isHidden = true
-        }
+        
+        setHowMuchPersonOfTypeClass(with: cell)
+                        
         
         formatter.dateFormat = "dd"
         cell.dateLabel.text = formatter.string(from: cellState.date)
@@ -368,7 +456,11 @@ extension ViewController:JTAppleCalendarViewDelegate{
         return cell
     }
     //Didselect
-    func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
+    func calendar(_ calendar: JTAppleCalendarView,
+                            didSelectDate date: Date,
+                            cell: JTAppleCell?,
+                            cellState: CellState) {
+        
         BaseSetup.selectedDay = date
 //        BaseSetup.refreshDate = cellState.date
         guard let cell = cell else { return }
@@ -380,11 +472,18 @@ extension ViewController:JTAppleCalendarViewDelegate{
         print("Cellstate is \n: \(cellState.row())\n and  \n and other \(cellState.date)\n and \(cellState.text)\n ")
         
     }
-    func calendar(_ calendar: JTAppleCalendarView, didDeselectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
+    func calendar(_ calendar: JTAppleCalendarView,
+                            didDeselectDate date: Date,
+                            cell: JTAppleCell?,
+                            cellState: CellState) {
+        
         handleCellSelected(view: cell, cellState: cellState)
         handleCellTextColor(view: cell, cellState: cellState)
     }
-    func calendar(_ calendar: JTAppleCalendarView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
+    
+    func calendar(_ calendar: JTAppleCalendarView,
+                            didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
+        
         setupViewOfCalendar(from: visibleDates)
     }
 }

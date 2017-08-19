@@ -15,6 +15,10 @@ class CustomCell: JTAppleCell {
     @IBOutlet weak var dateLabel:UILabel!
     @IBOutlet weak var selectedView:UIView!
     @IBOutlet weak var currentView: UIView!
+    @IBOutlet weak var classType1Person: UILabel!
+    @IBOutlet weak var classType2Person: UILabel!
+    @IBOutlet weak var classType3Person: UILabel!
+    @IBOutlet weak var classType4Person: UILabel!
     @IBOutlet weak var howManyPerson: UILabel!
     
 }

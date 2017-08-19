@@ -8,10 +8,13 @@
 
 import UIKit
 
+var beforeText : String?
+var isOverCount = false
+
 class SetupClassTypeViewController: UIViewController,UITextFieldDelegate {
     var classTypeArray = [String]()
     var indexPathOnEdit : IndexPath?
-
+    let tfCoordinator = TextFieldCoordinator()
   
     @IBOutlet weak var theCoverView: UIView!
     @IBOutlet weak var hideTheSaveBtn: UIButton!
@@ -50,17 +53,60 @@ class SetupClassTypeViewController: UIViewController,UITextFieldDelegate {
          hideTheSaveBtn.isHidden = false
     }
     
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        beforeText = string
+//        return true
+//    }
+    
+    
+    func limitTextLength(textField : UITextField  ){
+        
+        guard let text = textField.text else { return }
+        
+        switch textField.tag {
+        case 16138:
+            if text.characters.count > 10{
+                textField.text = beforeText
+                isOverCount = true
+            }else {
+                isOverCount = false
+            }
+            
+        case 9527:
+            if text.characters.count > 3{
+                textField.text = beforeText
+                isOverCount = true
+            }else {
+                isOverCount = false
+            }
+            
+        default:
+            break
+        }
+    }
     
     func createAlertView(){
-        let alert = UIAlertController.init(title: nil, message: "Please Key In ClassType", preferredStyle: .alert)
+        let alert = UIAlertController.init(title: nil,
+                                                             message: "Please Key In ClassType",
+                                                             preferredStyle: .alert)
+
         alert.addTextField { (classType) in
+//            classType.delegate = self.tfCoordinator
             classType.placeholder = "Key in ClassType : name"
+//            classType.tag = 16138
+            classType.addTarget(self, action: #selector(self.limitTextLength(textField:)), for: .editingChanged)
+            
         }
         alert.addTextField { (startTime) in
+            startTime.delegate = self.tfCoordinator
             startTime.placeholder = "Key in Start Time : 0730"
+            startTime.tag = 9527
+            startTime.addTarget(self, action: #selector(self.limitTextLength(textField:)), for: .editingChanged)
+            
         }
         alert.addTextField { (workingTime) in
             workingTime.placeholder = "Key in  Working Time : 8"
+            
         }
         alert.addTextField { (overtime) in
             overtime.placeholder = "Key in overtime : 2"
