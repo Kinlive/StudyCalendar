@@ -11,6 +11,8 @@ import UIKit
 class PopupMenuViewController: UIViewController {
     
     @IBOutlet weak var menuTableView: UITableView!
+    var classTypeArray = [String]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +20,12 @@ class PopupMenuViewController: UIViewController {
         menuTableView.delegate = self
         menuTableView.dataSource = self
         
+        
+        for i in 0..<classTypeCDManager.count() {
+            let item = classTypeCDManager.itemWithIndex(index: i)
+            guard let typeName = item.typeName else {return }
+            classTypeArray.append(typeName)
+        }
         
         // Do any additional setup after loading the view.
     }
@@ -161,7 +169,11 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
         //..
         let cell = tableView.dequeueReusableCell(withIdentifier: "ClassTypeCell", for: indexPath) as! MenuOfClassTypeTableViewCell
         let item = classTypeCDManager.itemWithIndex(index: indexPath.item)
-        
+        for i in 0..<classTypeArray.count{
+            if item.typeName == classTypeArray[i]{
+                cell.backgroundColor = UIColor(colorWithHexValue: colorArray[i]).withAlphaComponent(0.3)
+            }
+        }
         cell.layer.cornerRadius = 15
         cell.textLabel?.text = item.typeName
         

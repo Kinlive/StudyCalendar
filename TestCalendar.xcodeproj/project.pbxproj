@@ -35,6 +35,9 @@
 		11E2D16B1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E2D16A1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift */; };
 		11E2D16F1F1F5B7600A2689C /* HoursStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E2D16E1F1F5B7600A2689C /* HoursStore.swift */; };
 		11E2D1711F1FA0D200A2689C /* CreateProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E2D1701F1FA0D200A2689C /* CreateProgressBar.swift */; };
+		11E5AEEF1F49BF0B00A4E186 /* fantasy.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 11E5AEEE1F49BF0B00A4E186 /* fantasy.jpg */; };
+		11E5AEF41F49C97B00A4E186 /* dark.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 11E5AEF21F49C97B00A4E186 /* dark.jpg */; };
+		11E5AEF51F49C97B00A4E186 /* woman.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 11E5AEF31F49C97B00A4E186 /* woman.jpg */; };
 		11EFB3EA1F22019A0024CF93 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11EFB3E91F22019A0024CF93 /* CoreDataManager.swift */; };
 		F2F62382C5F8B25C64759DAE /* Pods_TestCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0112674326C5AEE12A5CB3B /* Pods_TestCalendar.framework */; };
 /* End PBXBuildFile section */
@@ -71,6 +74,9 @@
 		11E2D16A1F1F4CD400A2689C /* MenuOfClassTypeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuOfClassTypeTableViewCell.swift; sourceTree = "<group>"; };
 		11E2D16E1F1F5B7600A2689C /* HoursStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoursStore.swift; sourceTree = "<group>"; };
 		11E2D1701F1FA0D200A2689C /* CreateProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateProgressBar.swift; sourceTree = "<group>"; };
+		11E5AEEE1F49BF0B00A4E186 /* fantasy.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = fantasy.jpg; sourceTree = "<group>"; };
+		11E5AEF21F49C97B00A4E186 /* dark.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dark.jpg; sourceTree = "<group>"; };
+		11E5AEF31F49C97B00A4E186 /* woman.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = woman.jpg; sourceTree = "<group>"; };
 		11EFB3E91F22019A0024CF93 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		51B0A8C58964E0FF365709E8 /* Pods-TestCalendar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestCalendar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TestCalendar/Pods-TestCalendar.debug.xcconfig"; sourceTree = "<group>"; };
 		C4F8C38323E85C6D04E4D798 /* Pods-TestCalendar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestCalendar.release.xcconfig"; path = "Pods/Target Support Files/Pods-TestCalendar/Pods-TestCalendar.release.xcconfig"; sourceTree = "<group>"; };
@@ -168,6 +174,9 @@
 				114AAA981F0E59F0009B766F /* Assets.xcassets */,
 				11E066B11F372AF700EED42D /* star.jpg */,
 				11E066B31F372E3200EED42D /* background.jpg */,
+				11E5AEEE1F49BF0B00A4E186 /* fantasy.jpg */,
+				11E5AEF21F49C97B00A4E186 /* dark.jpg */,
+				11E5AEF31F49C97B00A4E186 /* woman.jpg */,
 				114AAA9A1F0E59F0009B766F /* LaunchScreen.storyboard */,
 				11E2D1701F1FA0D200A2689C /* CreateProgressBar.swift */,
 			);
@@ -276,6 +285,9 @@
 			files = (
 				114AAA9C1F0E59F0009B766F /* LaunchScreen.storyboard in Resources */,
 				11E066B41F372E3200EED42D /* background.jpg in Resources */,
+				11E5AEF51F49C97B00A4E186 /* woman.jpg in Resources */,
+				11E5AEF41F49C97B00A4E186 /* dark.jpg in Resources */,
+				11E5AEEF1F49BF0B00A4E186 /* fantasy.jpg in Resources */,
 				11E066B21F372AF700EED42D /* star.jpg in Resources */,
 				114AAA991F0E59F0009B766F /* Assets.xcassets in Resources */,
 				114AAA971F0E59F0009B766F /* Main.storyboard in Resources */,

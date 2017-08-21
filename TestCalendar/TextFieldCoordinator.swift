@@ -22,11 +22,11 @@ class TextFieldCoordinator: NSObject, UITextFieldDelegate {
         if (isBackSpace == -92) {
             print("Backspace was pressed")
             isOverCount = false
-            beforeText = textField.text
+//            beforeText = textField.text
             return true
         }else{
             if isOverCount  {
-                return false
+                return true
             }else {
                 beforeText?.append(string)
             }

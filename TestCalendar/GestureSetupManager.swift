@@ -55,6 +55,7 @@ class GestureSetupManager: NSObject {
         //indexPath可以得知長按的是第幾個section的第幾個item
         //        guard let indexPath = personCellView.indexPathForItem(at: fakeLocation) else { return }
          let indexPath = personCellView.indexPathForItem(at: personLocation) //這裡要改成使用personLocation
+        
         if (firstIndexPathLock.try() != false){
             BaseSetup.saveFirstIndexPath = indexPath
         }

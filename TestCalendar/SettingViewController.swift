@@ -27,8 +27,8 @@ class SettingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.preferredContentSize = CGSize(width: self.view.frame.width/3,
-                                                                    height: self.view.frame.height/2)
+//        self.preferredContentSize = CGSize(width: self.view.frame.width/3,
+//                                                                    height: self.view.frame.height/2)
         //CloudKit use 
 //        calendarRecord["Date"] = "106 08 09" as CKRecordValue
 //        calendarRecord["PersonName"] = "Allen" as CKRecordValue
@@ -51,6 +51,24 @@ class SettingViewController: UIViewController {
   
     }//viewDidLoad here
     
+    override func viewWillAppear(_ animated: Bool) {
+        animateShowVC()
+    }
+    
+    func animateShowVC() {
+        self.view.transform = CGAffineTransform(translationX: 0, y: -self.view.frame.size.height)
+        self.view.alpha = 0.0
+        UIView.animate(withDuration: 2.0,
+                       delay: 0.05,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 0,
+                       options: .transitionFlipFromTop  ,
+                       animations: {
+                        self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+                        self.view.alpha = 1.0
+        })
+    }
+   
  
     
     typealias HandleCompletion = (_ success : Bool ,

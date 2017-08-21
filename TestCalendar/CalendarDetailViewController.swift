@@ -14,6 +14,7 @@ class CalendarDetailViewController: UIViewController {
     
     @IBOutlet weak var showScheduleTable: UITableView!
 
+    @IBOutlet weak var dateView: UIView!
     
     @IBOutlet weak var showDate: UILabel!
     
@@ -29,7 +30,46 @@ class CalendarDetailViewController: UIViewController {
         showDate.text = formatter.string(from: date)
         fetchCalendarData()
         
+        //Setup background
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        UIImage(named: "dark.jpg")?.draw(in: self.view.bounds)
         
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        
+        UIGraphicsEndImageContext()
+//        dateView.clipsToBounds = true
+        self.view.backgroundColor = UIColor(patternImage: image)
+        self.view.clipsToBounds = true
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        animateCellView()
+    }
+    //MARK: - Animate to show table cell
+    func animateCellView() {
+        showScheduleTable.reloadData()
+        
+        let cells = showScheduleTable.visibleCells
+        let tableHeight: CGFloat = showScheduleTable.bounds.size.height
+        
+        for i in cells {
+            let cell : UITableViewCell = i as UITableViewCell
+            cell.transform = CGAffineTransform(translationX: 0, y: tableHeight)
+        }
+        
+        var index = 0
+        
+        for a in cells {
+            let cell: UITableViewCell = a as UITableViewCell
+            UIView.animate(withDuration: 1.5,
+                           delay: 0.05*Double(index),
+                           usingSpringWithDamping: 0.8,
+                           initialSpringVelocity: 0,
+                           options: .transitionFlipFromBottom  ,
+                           animations: {
+                            cell.transform = CGAffineTransform(translationX: 0, y: 0)
+            }, completion: nil)
+            index += 1
+        }
     }
   
     func fetchCalendarData() {
@@ -101,7 +141,7 @@ extension CalendarDetailViewController : UITableViewDelegate,UITableViewDataSour
             tableView.separatorStyle = .none
         }else {
             tableView.backgroundView = nil
-            tableView.separatorStyle = .singleLine
+            tableView.separatorStyle = .none
 //            tableView.separatorColor = UIColor(colorWithHexValue: 0x3399ff)
         }
         return itemArray.count
@@ -110,9 +150,14 @@ extension CalendarDetailViewController : UITableViewDelegate,UITableViewDataSour
         //..
         let cell = tableView.dequeueReusableCell(withIdentifier: "ScheduleCell", for: indexPath) as! CalendarDetailTableViewCell
         
-        cell.date.text = itemArray[indexPath.row].date
+//        cell.date.text = itemArray[indexPath.row].date
         cell.title.text = itemArray[indexPath.row].personName
         cell.subTitle.text = itemArray[indexPath.row].typeName
+        let customView = UIView()
+        
+        customView.backgroundColor = UIColor.clear
+        cell.selectedBackgroundView = customView
+        
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

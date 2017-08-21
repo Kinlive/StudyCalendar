@@ -115,10 +115,10 @@ class ViewController: UIViewController{
                                                         self, selector: #selector(refreshCalendarCell(object:)),
                                                         name: NSNotification.Name(rawValue: "RefreshCalendarCell"),
                                                         object: nil)
+       
         
          }//viewDidLoad here
-    
-    
+     
     func setupMainView(){
         //Setup all border
         year.layer.borderWidth = 1.0
@@ -275,12 +275,13 @@ class ViewController: UIViewController{
     func showView( whichShow : WhichViewShow, sender : Any? ){
         
         var willShowVC : UIViewController?
+        
         switch whichShow {
         case .person:
             
             willShowVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PersonSetupView") as? SetupPersonViewController
             guard let willShowVC = willShowVC else { return }
-            setupOtherVC(showVC: willShowVC)
+            setupThePersonVC(showVC: willShowVC, sender: sender)
             
         case .classType :
             
@@ -298,7 +299,8 @@ class ViewController: UIViewController{
             
             willShowVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingViewController") as? SettingViewController
             guard let willShowVC = willShowVC else { return }
-            setupOtherVC(showVC: willShowVC)
+//            setupOtherVC(showVC: willShowVC)
+            setupSettingVC(showVC: willShowVC, sender: sender)
             
         }
        
@@ -325,51 +327,44 @@ class ViewController: UIViewController{
         guard let popover =  showVC.popoverPresentationController else { return }
         popover.delegate = self //as? UIPopoverPresentationControllerDelegate
         popover.permittedArrowDirections = .up
-        popover.sourceView = self.view
+        popover.sourceView = classTypeIBOut
         popover.sourceRect = senderRect
         showVC.preferredContentSize = CGSize(width: sender.frame.width, height: sender.frame.width*1.5)
-        
-        let copyView =  snapshopOfView(inputView: showVC.view)
-//        copyView.frame.origin = showVC.view.frame.origin
-        copyView.frame.origin.x = showVC.view.frame.origin.x
-        copyView.frame.origin.y = showVC.view.frame.origin.y + sender.frame.height
-        copyView.frame.size = CGSize(width: sender.frame.width, height: sender.frame.width*1.5)
-        copyView.alpha = 1.0
-        self.view.addSubview(copyView)
-        
-        copyView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-//        copyView.transform = CGAffineTransform(translationX: <#T##CGFloat#>, y: <#T##CGFloat#>)
-        UIView.animate(withDuration: 1, animations: {
-            
-            copyView.transform = CGAffineTransform(scaleX: 1, y: 1)
-            copyView.alpha = 1.0
-            
-        }) { (finished) in
-//            self.present(showVC, animated: true, completion: nil )
-            self.present(showVC, animated: false){
-                copyView.isHidden = true
-            }
-        }
-        
+        self.present(showVC, animated: true, completion: nil)
+    }
     
+    func setupThePersonVC(showVC : UIViewController , sender : Any?){
+        
+        guard let sender = sender as? UIButton else { return }
+        let senderRect = sender.bounds
+        
+        showVC.modalPresentationStyle = .popover
+        guard let popover =  showVC.popoverPresentationController else { return }
+        popover.delegate = self //as? UIPopoverPresentationControllerDelegate
+        popover.permittedArrowDirections = .up
+        popover.sourceView = personIBOut
+        popover.sourceRect = senderRect
+        showVC.preferredContentSize = CGSize(width: mainUIView.frame.width*3/4 ,
+                                                                            height: mainUIView.frame.height*3/4)
+        self.present(showVC, animated: true, completion: nil)
         
     }
-    //Snapshop
-    func snapshopOfView(inputView: UIView) -> UIView {
+    
+    func setupSettingVC(showVC : UIViewController , sender : Any? ){
+        guard let sender = sender as? UIButton else { return }
+        let senderRect = sender.bounds
         
-        UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0.0)
-        inputView.layer.render(in: UIGraphicsGetCurrentContext()!)
-        let image = UIGraphicsGetImageFromCurrentImageContext()! as UIImage
-        UIGraphicsEndImageContext()
-        let cellSnapshot : UIView = UIImageView(image: image)
-        cellSnapshot.layer.masksToBounds = false
-        cellSnapshot.layer.cornerRadius = 5.0
-        cellSnapshot.layer.shadowOffset = CGSize(width: -5.0, height: 0.0)
-        cellSnapshot.layer.shadowRadius = 5.0
-        cellSnapshot.layer.shadowOpacity = 0.3
-        return cellSnapshot
+        showVC.modalPresentationStyle = .popover
+        guard let popover =  showVC.popoverPresentationController else { return }
+        popover.delegate = self //as? UIPopoverPresentationControllerDelegate
+        popover.permittedArrowDirections = .up
+        popover.sourceView = settingIBOut
+        popover.sourceRect = senderRect
+        self.preferredContentSize = CGSize(width: sender.frame.width,
+                                                                    height: sender.frame.width*0.8)
+        self.present(showVC, animated: true, completion: nil)
     }
-
+    
     func setupOtherVC( showVC : UIViewController ){
         
 //        guard let showVC = willShowVC else { return }
@@ -489,7 +484,6 @@ class ViewController: UIViewController{
             guard let element = element else { return }
             
             if element.1 != 0 {
-                
                 
                 switch index {
                 case 0:

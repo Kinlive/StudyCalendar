@@ -80,7 +80,38 @@ class SetupPersonViewController: UIViewController {
         }
         
     }//viewDidLoad Here
- 
+    override func viewWillAppear(_ animated: Bool) {
+        animateCellView()   //暫時先不採用
+    }
+    //MARK: - Tabel Cell animate show
+    func animateCellView() {
+        SetupPersonTableView.reloadData()
+        
+        let cells = SetupPersonTableView.visibleCells
+        let tableHeight: CGFloat = SetupPersonTableView.bounds.size.width
+        
+        for i in cells {
+            let cell : UITableViewCell = i as UITableViewCell
+            cell.transform = CGAffineTransform(translationX: -tableHeight, y: 0)
+        }
+        
+        var index = 0
+        
+        for a in cells {
+            let cell: UITableViewCell = a as UITableViewCell
+            UIView.animate(withDuration: 1.0,
+                           delay: 0.3*Double(index),
+                           usingSpringWithDamping: 0.8,
+                           initialSpringVelocity: 0,
+                           options: .transitionFlipFromLeft  ,
+                           animations: {
+                            cell.transform = CGAffineTransform(translationX: 0, y: 0)
+            }, completion: nil)
+            index += 1
+        }
+    }
+
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

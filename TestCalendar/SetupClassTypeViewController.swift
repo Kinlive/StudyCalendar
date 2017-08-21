@@ -46,6 +46,42 @@ class SetupClassTypeViewController: UIViewController,UITextFieldDelegate {
             
     }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        animateShowVC()
+    }
+    
+    func animateShowVC() {
+        self.view.transform = CGAffineTransform(translationX: 0, y: -self.view.frame.size.height)
+        self.view.alpha = 0.0
+        UIView.animate(withDuration: 1.5,
+                                    delay: 0.05,
+                                    usingSpringWithDamping: 0.8,
+                                    initialSpringVelocity: 0,
+                                    options: .transitionFlipFromTop  ,
+                                animations: {
+            self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+            self.view.alpha = 1.0
+        })
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+//        animateDismissVC()
+    }
+    func animateDismissVC() {
+        self.view.transform = CGAffineTransform(translationX: 0, y: 0)
+        self.view.alpha = 1.0
+        UIView.animate(withDuration: 1.5,
+                       delay: 0.05,
+                       usingSpringWithDamping: 0.8,
+                       initialSpringVelocity: 0,
+                       options: .transitionFlipFromTop  ,
+                       animations: {
+                        self.view.transform = CGAffineTransform(translationX: 0, y: -self.view.frame.size.height)
+                        self.view.alpha = 0.0
+        })
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -103,7 +139,7 @@ class SetupClassTypeViewController: UIViewController,UITextFieldDelegate {
             startTime.delegate = self.tfCoordinator
             startTime.placeholder = "Key in Start Time : 0730"
             startTime.tag = 9527
-            startTime.addTarget(self, action: #selector(self.limitTextLength(textField:)), for: .editingChanged)
+//            startTime.addTarget(self, action: #selector(self.limitTextLength(textField:)), for: .editingChanged)
             
         }
         alert.addTextField { (workingTime) in
