@@ -38,7 +38,7 @@ class SetupClassTypeViewController: UIViewController,UITextFieldDelegate {
             workingHoursKeyIn.delegate = self
             overtimeKeyIn.delegate = self
             for index in 0..<classTypeCDManager.count(){
-                let item = classTypeCDManager.itemWithIndex(index: index)
+                guard let item = classTypeCDManager.itemWithIndex(index: index) else {return }
                 guard let typeName = item.typeName else {return }
                 classTypeArray.append(typeName)
             }
@@ -178,7 +178,7 @@ class SetupClassTypeViewController: UIViewController,UITextFieldDelegate {
     
     @IBAction func onEditSave(_ sender: UIButton) {
         guard let indexPathOnEdit = indexPathOnEdit else { return}
-        let item = classTypeCDManager.itemWithIndex(index: indexPathOnEdit.row )
+        guard let item = classTypeCDManager.itemWithIndex(index: indexPathOnEdit.row ) else {return }
         item.typeName = showClassType.text
         item.startTime =  startTimeKeyIn.text
         item.workingHours = workingHoursKeyIn.text
@@ -225,7 +225,7 @@ extension SetupClassTypeViewController : UITableViewDelegate,UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //..
         let cell = tableView.dequeueReusableCell(withIdentifier: "ClassTypeTableViewCell", for: indexPath) as! ClassTypeTableViewCell
-        let item = classTypeCDManager.itemWithIndex(index: indexPath.row)
+        guard let item = classTypeCDManager.itemWithIndex(index: indexPath.row) else {return cell}
         for i in 0..<classTypeArray.count{
             if item.typeName == classTypeArray[i]{
                 cell.colorView.backgroundColor = UIColor(colorWithHexValue: colorArray[i]).withAlphaComponent(0.3)
@@ -261,7 +261,7 @@ extension SetupClassTypeViewController : UITableViewDelegate,UITableViewDataSour
         }
         
         indexPathOnEdit = indexPath
-        let item = classTypeCDManager.itemWithIndex(index: indexPath.row)
+        guard let item = classTypeCDManager.itemWithIndex(index: indexPath.row) else {return }
         showClassType.text = item.typeName
         startTimeKeyIn.text = item.startTime
         workingHoursKeyIn.text = item.workingHours
@@ -272,7 +272,7 @@ extension SetupClassTypeViewController : UITableViewDelegate,UITableViewDataSour
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let item = classTypeCDManager.itemWithIndex(index: indexPath.item)
+            guard let item = classTypeCDManager.itemWithIndex(index: indexPath.item) else {return }
             classTypeCDManager.deleteItem(item: item)
             classTypeCDManager.saveContexWithCompletion(completion: { (success) in
                 if success {

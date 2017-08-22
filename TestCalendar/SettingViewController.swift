@@ -82,7 +82,7 @@ class SettingViewController: UIViewController {
         var dateSet : Set<String> = Set<String>() //all the date in set and not repeat
         
         for index in 0..<calendarCDManager.count(){
-            let calendarItem = calendarCDManager.itemWithIndex(index: index)
+            guard let calendarItem = calendarCDManager.itemWithIndex(index: index) else { return }
             guard let date = calendarItem.date else {
                  handleCompletion(false, nil)
                 return

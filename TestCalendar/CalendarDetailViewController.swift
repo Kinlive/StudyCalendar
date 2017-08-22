@@ -81,7 +81,7 @@ class CalendarDetailViewController: UIViewController {
         formatter.dateFormat = "yyyy MM dd"
         let selectDate = formatter.string(from: selectedDay)
         for i in 0..<calendarCDManager.count(){
-            let item = calendarCDManager.itemWithIndex(index: i)
+            guard let item = calendarCDManager.itemWithIndex(index: i) else {return }
             if item.date == selectDate{
                 itemArray.append(item)
             }

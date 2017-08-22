@@ -51,12 +51,12 @@ class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
     }
     
     
-    func itemWithIndex(index:NSInteger) -> ItemType {
+    func itemWithIndex(index:NSInteger) -> ItemType? {
         let indexPath = IndexPath(row: index, section: 0)
-        
-        return self.fetchedResultsController.object(at: indexPath) as! ItemType
-        
-        
+        if let datas = self.fetchedResultsController.object(at: indexPath) as? ItemType {
+            return datas
+        }
+        return nil
     }
     
     

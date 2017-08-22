@@ -74,7 +74,7 @@ class SetupPersonViewController: UIViewController {
         
         //                    print("IS date == dateStr ========")
         for i in 0..<classTypeCDManager.count() {
-            let item = classTypeCDManager.itemWithIndex(index: i)
+            guard let item = classTypeCDManager.itemWithIndex(index: i) else {return }
             guard let typeName = item.typeName else {return }
             classTypeArray.append(typeName)
         }
@@ -147,7 +147,7 @@ class SetupPersonViewController: UIViewController {
     //MARK: - Reset the person hours
     func resetPersonHours(){
         for index in 0..<personCDManager.count(){
-            let item = personCDManager.itemWithIndex(index: index)
+            guard let item = personCDManager.itemWithIndex(index: index) else {return }
             item.overtime = BaseSetup.overHoursOfMonth
             item.workingHours = BaseSetup.hoursOfMonth
         }
@@ -189,7 +189,7 @@ class SetupPersonViewController: UIViewController {
     func getCalendarDetailData(){
         calendarDataArray.removeAll()
         for i in 0..<calendarCDManager.count(){
-            let item = calendarCDManager.itemWithIndex(index: i)
+            guard let item = calendarCDManager.itemWithIndex(index: i) else {return }
             guard let personName = item.personName else {return }
             if personName == showDetailOfLabel.text{ //Get All  selected person's class
                 calendarDataArray.append(item)
@@ -393,7 +393,7 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SetupPersonTableViewCell", for: indexPath) as! SetupPersonTableViewCell
-        let item = personCDManager.itemWithIndex(index: indexPath.item)
+        guard let item = personCDManager.itemWithIndex(index: indexPath.item) else {return cell}
          self.personArray.append(item)
         cell.layer.borderWidth = 1.0
         cell.layer.borderColor = UIColor.white.cgColor
@@ -446,7 +446,7 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let item = personCDManager.itemWithIndex(index: indexPath.item)
+            guard let item = personCDManager.itemWithIndex(index: indexPath.item) else {return }
             personCDManager.deleteItem(item: item)
             personCDManager.saveContexWithCompletion(completion: { (success) in
                 if success {

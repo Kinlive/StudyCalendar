@@ -49,7 +49,12 @@ class ViewController: UIViewController{
     let gsManager = GestureSetupManager()
     let personCVCoorinator = PersonCollectionViewCoorinator()
    
+    //test thread 
+    var setQueue = DispatchQueue(label: "com.forCalendarDetail.use")
   
+    //First calendarManager count 
+    var calendarManagerCount = 0
+    
     @IBOutlet weak var weekBar: UIView!
     @IBOutlet var mainUIView: UIView!
     @IBOutlet weak var calendarView: JTAppleCalendarView!
@@ -71,10 +76,19 @@ class ViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-         let cloudURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)
-        print("CloudURL: \(String(describing: cloudURL?.absoluteString))")
+        calendarManagerCount = calendarCDManager.count()
         
+        let homeDir = NSHomeDirectory()///
+        print("HomeDirectionary : \(homeDir)")///
         
+        if isICloudExist() {
+            let backgroundQueue = DispatchQueue(label: "com.testCalendar.first")
+            backgroundQueue.async {
+            let iCloudURL = self.getCloudURL()
+            self.copyTheFileToCloud(iCloudURL: iCloudURL)
+            }
+        }
+       
 //        print("測試\(RecordName)")
         setupMainView()
         setupCalendarView()
@@ -118,7 +132,49 @@ class ViewController: UIViewController{
        
         
          }//viewDidLoad here
-     
+    //Test For icloud save 
+    func isICloudExist() -> Bool {
+        let identityToken = FileManager.default.ubiquityIdentityToken
+        if let identityToken = identityToken {
+            print("iCloud access Exist , identityToken : \(identityToken.description)")
+            return true
+        }else{
+            print("No iCloud access")
+            return false
+        }
+    }
+    func getCloudURL() -> URL?{
+       
+            let cloudURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)
+            if let cloudURL = cloudURL{
+                
+                print("iCloud access at \(cloudURL.appendingPathComponent("Documents"))")
+                return cloudURL.appendingPathComponent("Documents")
+            }else {
+                print("No iCloud access")
+                return nil
+            }
+    }
+    func copyTheFileToCloud( iCloudURL : URL?){
+        
+        guard let iCloudURL = iCloudURL else { return }
+        guard let sourceURL = Bundle.main.url(forResource: "star", withExtension: "jpg") else { return }
+        print("Source URL show : \(sourceURL)  ======= ")
+        
+        let fileName = Date().description
+        let targetURL = iCloudURL.appendingPathComponent(fileName)
+        print("Target URL show : \(targetURL)======")
+
+//        do{
+        
+//            try FileManager.default.copyItem(at: sourceURL, to: targetURL)
+//            print("Copy file success !! ")
+//        }catch {
+//            print("Copy file fail \(error)")
+//        }
+        
+    }
+    //MARK: - SetupMainView
     func setupMainView(){
         //Setup all border
         year.layer.borderWidth = 1.0
@@ -417,10 +473,10 @@ class ViewController: UIViewController{
 //    }
     
     
-    //MARK: - Set cell's classType amount
-    func setHowMuchPersonOfTypeClass(with cell : CustomCell){
-        
-        guard let cellsDate = cell.date else { return }
+    //MARK: - Set cell's classType amount //cell : CustomCell
+    func setHowMuchPersonOfTypeClass(with date : Date? , completion : HandleCompletion){
+  
+        guard let cellsDate = date else { return }
         
         formatter.dateFormat = "yyyy MM dd"
         let thisDate = formatter.string(from: cellsDate)
@@ -428,14 +484,14 @@ class ViewController: UIViewController{
         var classTypeItemArray = [ClassTypeData]()
         
         for i in 0..<calendarCDManager.count(){
-            let item = calendarCDManager.itemWithIndex(index: i)
+            guard let item = calendarCDManager.itemWithIndex(index: i) else {return }
             if item.date == thisDate {
                 calendarItemArray.append(item)
             }
         }// Get all calendarDataItem
         
         for i in 0..<classTypeCDManager.count(){
-            let classTypeItem = classTypeCDManager.itemWithIndex(index: i)
+            guard let classTypeItem = classTypeCDManager.itemWithIndex(index: i) else {return }
             classTypeItemArray.append(classTypeItem)
         }//Get all classTypeItem
         
@@ -453,9 +509,17 @@ class ViewController: UIViewController{
             }
              indexArray[index] = ( typeName , howMuchNumber)
         }
+        completion( true, indexArray )
 //        print("測試裝一下索引陣列\(indexArray)")//////
         
-        containWhichClassType(cell: cell, indexArray: indexArray)
+//        DispatchQueue.main.async {
+//            self.containWhichClassType(cell: cell, indexArray: indexArray) { (finished) in
+//                if finished {
+//                    // Nothing to do ...
+//                }
+//            }
+//        }
+       
 //        
 //        if calendarItemArray.count > 0 {
 //            cell.howManyPerson.text  = String(calendarItemArray.count)
@@ -468,10 +532,11 @@ class ViewController: UIViewController{
 //        }
     }
     
-//    typealias HandleCompletion = (_ success : Bool ) -> Void
+    typealias HandleCompletion = (_ finished : Bool , _ result : Any? ) -> Void
     //MARK: - To contain Which classType of person amount
     func containWhichClassType( cell : CustomCell ,
-                                                       indexArray : [(String, Int)?]) {
+                                                       indexArray : [(String, Int)?],
+                                                       completion : HandleCompletion) {
         cell.classType1Person.isHidden = true
         cell.classType2Person.isHidden = true
         cell.classType3Person.isHidden = true
@@ -485,41 +550,47 @@ class ViewController: UIViewController{
             
             if element.1 != 0 {
                 
-                switch index {
-                case 0:
-                    cell.classType1Person.text = String(element.1)
-                    cell.classType1Person.layer.borderWidth = 1
-                    cell.classType1Person.layer.borderColor = UIColor.white.cgColor
-                    cell.classType1Person.backgroundColor = UIColor.init(colorWithHexValue: colorArray[index])
-                    cell.classType1Person.isHidden = false
-                case 1:
-                    cell.classType2Person.text = String(element.1)
-                    cell.classType2Person.layer.borderWidth = 1
-                    cell.classType2Person.layer.borderColor = UIColor.white.cgColor
-                    cell.classType2Person.backgroundColor = UIColor.init(colorWithHexValue: colorArray[index])
-                    cell.classType2Person.isHidden = false
-                case 2:
-                    cell.classType3Person.text = String(element.1)
-                    cell.classType3Person.layer.borderWidth = 1
-                    cell.classType3Person.layer.borderColor = UIColor.white.cgColor
-                    cell.classType3Person.backgroundColor = UIColor.init(colorWithHexValue: colorArray[index])
-                    cell.classType3Person.isHidden = false
-                case 3:
-                    cell.classType4Person.text = String(element.1)
-                    cell.classType4Person.layer.borderWidth = 1
-                    cell.classType4Person.layer.borderColor = UIColor.white.cgColor
-                    cell.classType4Person.backgroundColor = UIColor.init(colorWithHexValue: colorArray[index])
-                    cell.classType4Person.isHidden = false
-                case 4:
-                    cell.howManyPerson.text = String(element.1)
-                    cell.howManyPerson.layer.borderWidth = 1
-                    cell.howManyPerson.layer.borderColor = UIColor.white.cgColor
-                    cell.howManyPerson.backgroundColor = UIColor.init(colorWithHexValue: colorArray[index])
-                    cell.howManyPerson.isHidden = false
-                default:
-                    break
-                }
-            }else {// Will Fix hidden to opacity 
+                    switch index {
+                    case 0:
+                        cell.classType1Person.text = String(element.1)
+                        cell.classType1Person.layer.borderWidth = 1
+                        cell.classType1Person.layer.borderColor = UIColor.white.cgColor
+                        cell.classType1Person.backgroundColor = UIColor.init(colorWithHexValue: colorArray[index])
+                        cell.classType1Person.isHidden = false
+                        completion(true , nil)
+                    case 1:
+                        cell.classType2Person.text = String(element.1)
+                        cell.classType2Person.layer.borderWidth = 1
+                        cell.classType2Person.layer.borderColor = UIColor.white.cgColor
+                        cell.classType2Person.backgroundColor = UIColor.init(colorWithHexValue: colorArray[index])
+                        cell.classType2Person.isHidden = false
+                        completion(true , nil)
+                    case 2:
+                        cell.classType3Person.text = String(element.1)
+                        cell.classType3Person.layer.borderWidth = 1
+                        cell.classType3Person.layer.borderColor = UIColor.white.cgColor
+                        cell.classType3Person.backgroundColor = UIColor.init(colorWithHexValue: colorArray[index])
+                        cell.classType3Person.isHidden = false
+                        completion(true , nil )
+                    case 3:
+                        cell.classType4Person.text = String(element.1)
+                        cell.classType4Person.layer.borderWidth = 1
+                        cell.classType4Person.layer.borderColor = UIColor.white.cgColor
+                        cell.classType4Person.backgroundColor = UIColor.init(colorWithHexValue: colorArray[index])
+                        cell.classType4Person.isHidden = false
+                        completion(true , nil )
+                    case 4:
+                        cell.howManyPerson.text = String(element.1)
+                        cell.howManyPerson.layer.borderWidth = 1
+                        cell.howManyPerson.layer.borderColor = UIColor.white.cgColor
+                        cell.howManyPerson.backgroundColor = UIColor.init(colorWithHexValue: colorArray[index])
+                        cell.howManyPerson.isHidden = false
+                        completion(true , nil)
+                    default:
+                        break
+                    }//switch  end here
+//                    cell.reloadInputViews()
+                
             }
         }
         
@@ -564,10 +635,10 @@ extension ViewController:JTAppleCalendarViewDelegate{
                                            cellForItemAt date: Date,
                                                     cellState: CellState,
                                                 indexPath: IndexPath) -> JTAppleCell {
+        
         let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "CustomCell",
-                                                                                         for: indexPath) as! CustomCell
-                        
-        cell.date = date
+                                                       for: indexPath) as! CustomCell
+        cell.date = date // FIXME: - cell.date
         
         formatter.dateFormat = "dd"
         cell.dateLabel.text = formatter.string(from: cellState.date)
@@ -576,9 +647,42 @@ extension ViewController:JTAppleCalendarViewDelegate{
         handleCellTextColor(view: cell, cellState: cellState)
         cell.layer.borderWidth = 1.0
         cell.layer.borderColor = UIColor.gray.cgColor
-        setHowMuchPersonOfTypeClass(with: cell)
         
-       return cell
+        
+        let hashDate = date.hashValue.description as NSString
+//        let cellCache = cellCache.object(forKey: hashDate) as? [(String , Int)]
+        
+        if  calendarManagerCount == calendarCDManager.count(),
+            let cellCache = cellCache.object(forKey: hashDate) as? [(String , Int)]{
+            self.containWhichClassType(cell: cell, indexArray: cellCache, completion: { (finished, _) in
+                if finished {
+                    cell.reloadInputViews()
+                }
+            })
+//        if  let cellCache = cellCache.object(forKey: hashDate) {
+            print("有用到cacheCell 嗎??????")
+//            return cellCache  //have a cache cell and use it
+        }else {
+            setQueue.async { //Background thread
+                self.setHowMuchPersonOfTypeClass(with: date, completion: { (finished , indexArray) in
+                    if finished {
+                        if let indexArray = indexArray as? [(String , Int)] {
+                            cellCache.setObject(indexArray as AnyObject, forKey: hashDate)
+                            DispatchQueue.main.async { /////Main thread
+                                self.containWhichClassType(cell: cell, indexArray: indexArray, completion: { (finished, _) in
+                                    if finished{
+                                        cell.reloadInputViews()
+                                    }
+                                })
+                            }/////Main thread
+                        }
+                    }
+                }) //setHowMuchPersonOfTypeClass method .
+            } //Background thread
+//         cellCache.setObject(cell, forKey: thisDate)
+//         return cell
+        }
+        return cell
     }
     //Didselect
     func calendar(_ calendar: JTAppleCalendarView,

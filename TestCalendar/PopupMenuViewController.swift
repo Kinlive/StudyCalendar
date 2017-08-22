@@ -22,7 +22,7 @@ class PopupMenuViewController: UIViewController {
         
         
         for i in 0..<classTypeCDManager.count() {
-            let item = classTypeCDManager.itemWithIndex(index: i)
+            guard let item = classTypeCDManager.itemWithIndex(index: i) else { return }
             guard let typeName = item.typeName else {return }
             classTypeArray.append(typeName)
         }
@@ -44,8 +44,10 @@ class PopupMenuViewController: UIViewController {
             return
         }
         //這裡之後要簽點選完班別後 由calendarData收集
-        let classTypeItem = classTypeCDManager.itemWithIndex(index: indexPath.item)
-        let personItem = personCDManager.itemWithIndex(index: firstLongPressIndex.item)
+        guard let classTypeItem = classTypeCDManager.itemWithIndex(index: indexPath.item),
+                   let personItem = personCDManager.itemWithIndex(index: firstLongPressIndex.item)
+                   else {return }
+        
         guard let classTypeOvertime = Double(classTypeItem.overtime!) else {
             print("被classTypeOvertime擋下了")
             return }
@@ -168,7 +170,7 @@ extension PopupMenuViewController: UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //..
         let cell = tableView.dequeueReusableCell(withIdentifier: "ClassTypeCell", for: indexPath) as! MenuOfClassTypeTableViewCell
-        let item = classTypeCDManager.itemWithIndex(index: indexPath.item)
+        guard let item = classTypeCDManager.itemWithIndex(index: indexPath.item) else { return cell }
         for i in 0..<classTypeArray.count{
             if item.typeName == classTypeArray[i]{
                 cell.backgroundColor = UIColor(colorWithHexValue: colorArray[i]).withAlphaComponent(0.3)

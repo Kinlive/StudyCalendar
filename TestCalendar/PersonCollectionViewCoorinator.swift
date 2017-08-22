@@ -114,7 +114,7 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
         cell.hourBar.glowMode = .forward
         cell.hourBar.glowAmount = 0.9
         cell.hourBar.trackColor = .clear
-        let colorOne = UIColor(colorWithHexValue: 0xFF8040, alpha: 0.5)
+        let colorOne = UIColor(colorWithHexValue: 0x809B8B, alpha: 0.5)
         cell.hourBar.set(colors:  colorOne, UIColor.white)
 //        cell.hourBar.animate(fromAngle: 50.0 , toAngle: (Double(cell.overHours)/46.0)*360.0, duration: 1.5, completion: nil)
         cell.hourBar.animate(toAngle: (item.overtime/BaseSetup.overHoursOfMonth)*180.0, duration: 1.5, completion: nil)
@@ -129,7 +129,7 @@ class PersonCollectionViewCoorinator: NSObject,UICollectionViewDelegateFlowLayou
         cell.workingBar.glowMode = .forward
         cell.workingBar.glowAmount = 0.9
         cell.workingBar.trackColor = .clear
-        let colorTwo = UIColor(colorWithHexValue: 0x9AFF02, alpha: 0.5)
+        let colorTwo = UIColor(colorWithHexValue: 0x6DC3FC, alpha: 0.5)
         cell.workingBar.set(colors:  colorTwo , UIColor.white)
         //        cell.hourBar.animate(fromAngle: 50.0 , toAngle: (Double(cell.overHours)/46.0)*360.0, duration: 1.5, completion: nil)
         cell.workingBar.animate(toAngle: (item.workingHours/BaseSetup.hoursOfMonth*180), duration: 1.5, completion: nil)

@@ -200,7 +200,7 @@ class GestureSetupManager: NSObject {
     }
     
     func checkIsSamePersonOnCalendar(personIndexPath : IndexPath ) -> Bool{
-        let personItem = personCDManager.itemWithIndex(index: personIndexPath.item)
+        guard let personItem = personCDManager.itemWithIndex(index: personIndexPath.item) else {return false }
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy MM dd"
         var currentDate : String?
@@ -210,12 +210,13 @@ class GestureSetupManager: NSObject {
         var itemArray = [CalendarData]()
         
         for i in 0..<calendarCDManager.count(){
-            let item = calendarCDManager.itemWithIndex(index: i)
+            guard let item = calendarCDManager.itemWithIndex(index: i) else {return false}
             if item.date == currentDate{
                 itemArray.append(item)
             }
         }
             for calendarItem in itemArray{
+//                guard let calendarItem = calendarItem else { return false }
                 if personItem.name == calendarItem.personName {
                     return true
                 }

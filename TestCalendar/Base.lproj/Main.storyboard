@@ -159,37 +159,37 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="bS8-sE-8w6" userLabel="ShowPersonOfType">
                                                             <rect key="frame" x="0.0" y="169" width="258" height="56"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="2Qz-uz-Qf8" userLabel="ClassType1Person">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="51.5" height="56"/>
-                                                                    <color key="backgroundColor" red="1" green="0.60238224730000001" blue="0.58632336220000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="2Qz-uz-Qf8" userLabel="ClassType1Person">
+                                                                    <rect key="frame" x="0.0" y="-169" width="0.0" height="24"/>
+                                                                    <color key="backgroundColor" red="0.51910765250000002" green="0.61748106999999997" blue="0.75235961289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="MqM-kx-e8e" userLabel="ClassType2Person">
-                                                                    <rect key="frame" x="51.5" y="0.0" width="51.5" height="56"/>
-                                                                    <color key="backgroundColor" red="1" green="0.60238224730000001" blue="0.58632336220000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="MqM-kx-e8e" userLabel="ClassType2Person">
+                                                                    <rect key="frame" x="0.0" y="-169" width="0.0" height="24"/>
+                                                                    <color key="backgroundColor" red="0.51910765250000002" green="0.61748106999999997" blue="0.75235961289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="uak-dD-j9h" userLabel="ClassType3Person">
-                                                                    <rect key="frame" x="103" y="0.0" width="52" height="56"/>
-                                                                    <color key="backgroundColor" red="1" green="0.60238224730000001" blue="0.58632336220000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="uak-dD-j9h" userLabel="ClassType3Person">
+                                                                    <rect key="frame" x="0.0" y="-169" width="0.0" height="24"/>
+                                                                    <color key="backgroundColor" red="0.51910765250000002" green="0.61748106999999997" blue="0.75235961289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="v91-BE-ful" userLabel="ClassType4Person">
-                                                                    <rect key="frame" x="155" y="0.0" width="51.5" height="56"/>
-                                                                    <color key="backgroundColor" red="1" green="0.60238224730000001" blue="0.58632336220000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="v91-BE-ful" userLabel="ClassType4Person">
+                                                                    <rect key="frame" x="0.0" y="-169" width="0.0" height="24"/>
+                                                                    <color key="backgroundColor" red="0.51910765250000002" green="0.61748106999999997" blue="0.75235961289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="8Co-op-Rin" userLabel="ClassType5Person">
-                                                                    <rect key="frame" x="206.5" y="0.0" width="51.5" height="56"/>
-                                                                    <color key="backgroundColor" red="1" green="0.60238224730000001" blue="0.58632336220000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="8Co-op-Rin" userLabel="ClassType5Person">
+                                                                    <rect key="frame" x="0.0" y="-169" width="0.0" height="24"/>
+                                                                    <color key="backgroundColor" red="0.51910765250000002" green="0.61748106999999997" blue="0.75235961289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <nil key="highlightedColor"/>
@@ -432,13 +432,13 @@
                                                     <rect key="frame" x="185.5" y="0.0" width="370.5" height="129.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Subtitle" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XoS-mg-aMD">
-                                                            <rect key="frame" x="0.0" y="0.0" width="185" height="129.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="185.5" height="129.5"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="25"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gPF-0s-O6G">
-                                                            <rect key="frame" x="185" y="0.0" width="185.5" height="129.5"/>
+                                                            <rect key="frame" x="185.5" y="0.0" width="185" height="129.5"/>
                                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="25"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -546,6 +546,13 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hTA-vN-I2a">
+                                <rect key="frame" x="842" y="652" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
