@@ -10,7 +10,7 @@ import UIKit
 import JTAppleCalendar
 import CoreData
 
-
+let cloudDataManager = CloudDataManager.sharedInstance
 let personCDManager = CoreDataManager<PersonData>(
                                                 initWithModel: "DataBase",
                                                 dbFileName: "personData.sqlite",
@@ -34,6 +34,7 @@ let years = ["2017","2018","2019","2020","2021","2022","2023","2024","2025","202
 let months = ["01","02","03","04","05","06","07","08","09","10","11","12"]
 //For save endIndexPath 
 let endIndexPathLock = NSLock()
+//For cloudManager
 
 
 class ViewController: UIViewController{
@@ -76,20 +77,18 @@ class ViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        calendarManagerCount = calendarCDManager.count()
         
-        let homeDir = NSHomeDirectory()///
-        print("HomeDirectionary : \(homeDir)")///
+        calendarManagerCount = calendarCDManager.count() //for calendarCell cache compare
         
+        //Check iCloud
         if isICloudExist() {
             let backgroundQueue = DispatchQueue(label: "com.testCalendar.first")
             backgroundQueue.async {
-            let iCloudURL = self.getCloudURL()
-            self.copyTheFileToCloud(iCloudURL: iCloudURL)
+//                        self.copyFileToLocal()
+                cloudDataManager.moveFileToCloud()
             }
         }
        
-//        print("測試\(RecordName)")
         setupMainView()
         setupCalendarView()
         
@@ -132,7 +131,9 @@ class ViewController: UIViewController{
        
         
          }//viewDidLoad here
-    //Test For icloud save 
+       
+    
+    //MARK: -Check icloud exist
     func isICloudExist() -> Bool {
         let identityToken = FileManager.default.ubiquityIdentityToken
         if let identityToken = identityToken {
@@ -143,37 +144,8 @@ class ViewController: UIViewController{
             return false
         }
     }
-    func getCloudURL() -> URL?{
-       
-            let cloudURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)
-            if let cloudURL = cloudURL{
-                
-                print("iCloud access at \(cloudURL.appendingPathComponent("Documents"))")
-                return cloudURL.appendingPathComponent("Documents")
-            }else {
-                print("No iCloud access")
-                return nil
-            }
-    }
-    func copyTheFileToCloud( iCloudURL : URL?){
-        
-        guard let iCloudURL = iCloudURL else { return }
-        guard let sourceURL = Bundle.main.url(forResource: "star", withExtension: "jpg") else { return }
-        print("Source URL show : \(sourceURL)  ======= ")
-        
-        let fileName = Date().description
-        let targetURL = iCloudURL.appendingPathComponent(fileName)
-        print("Target URL show : \(targetURL)======")
-
-//        do{
-        
-//            try FileManager.default.copyItem(at: sourceURL, to: targetURL)
-//            print("Copy file success !! ")
-//        }catch {
-//            print("Copy file fail \(error)")
-//        }
-        
-    }
+    
+    
     //MARK: - SetupMainView
     func setupMainView(){
         //Setup all border
@@ -650,24 +622,20 @@ extension ViewController:JTAppleCalendarViewDelegate{
         
         
         let hashDate = date.hashValue.description as NSString
-//        let cellCache = cellCache.object(forKey: hashDate) as? [(String , Int)]
         
         if  calendarManagerCount == calendarCDManager.count(),
-            let cellCache = cellCache.object(forKey: hashDate) as? [(String , Int)]{
-            self.containWhichClassType(cell: cell, indexArray: cellCache, completion: { (finished, _) in
+            let indexArrayCache = indexArrayCache.object(forKey: hashDate) as? [(String , Int)]{
+            self.containWhichClassType(cell: cell, indexArray: indexArrayCache, completion: { (finished, _) in
                 if finished {
                     cell.reloadInputViews()
                 }
             })
-//        if  let cellCache = cellCache.object(forKey: hashDate) {
-            print("有用到cacheCell 嗎??????")
-//            return cellCache  //have a cache cell and use it
         }else {
             setQueue.async { //Background thread
                 self.setHowMuchPersonOfTypeClass(with: date, completion: { (finished , indexArray) in
                     if finished {
                         if let indexArray = indexArray as? [(String , Int)] {
-                            cellCache.setObject(indexArray as AnyObject, forKey: hashDate)
+                            indexArrayCache.setObject(indexArray as AnyObject, forKey: hashDate)
                             DispatchQueue.main.async { /////Main thread
                                 self.containWhichClassType(cell: cell, indexArray: indexArray, completion: { (finished, _) in
                                     if finished{
@@ -679,8 +647,6 @@ extension ViewController:JTAppleCalendarViewDelegate{
                     }
                 }) //setHowMuchPersonOfTypeClass method .
             } //Background thread
-//         cellCache.setObject(cell, forKey: thisDate)
-//         return cell
         }
         return cell
     }
@@ -735,3 +701,4 @@ extension ViewController : UIPopoverPresentationControllerDelegate {
     
     
 }
+

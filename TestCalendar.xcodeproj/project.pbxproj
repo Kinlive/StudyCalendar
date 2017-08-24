@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1107DB1E1F4809D2006AF3FD /* TextFieldCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1107DB1D1F4809D2006AF3FD /* TextFieldCoordinator.swift */; };
+		11150FB21F4F0B1E0047427D /* CloudDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11150FB11F4F0B1E0047427D /* CloudDataManager.swift */; };
 		111701481F2338FF00AC0519 /* SetupPersonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111701471F2338FF00AC0519 /* SetupPersonTableViewCell.swift */; };
 		1117014D1F233B6E00AC0519 /* SetupPersonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1117014C1F233B6E00AC0519 /* SetupPersonViewController.swift */; };
 		111701511F23637E00AC0519 /* ClassTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111701501F23637E00AC0519 /* ClassTypeTableViewCell.swift */; };
@@ -25,7 +26,6 @@
 		114AAA9C1F0E59F0009B766F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 114AAA9A1F0E59F0009B766F /* LaunchScreen.storyboard */; };
 		116D4DAD1F0E5BCD002CA6D1 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D4DAC1F0E5BCD002CA6D1 /* CustomCell.swift */; };
 		116D4DAF1F111C74002CA6D1 /* PersonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116D4DAE1F111C74002CA6D1 /* PersonCell.swift */; };
-		11BB21001F4B09A100F79FED /* CloudDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11BB20FF1F4B09A100F79FED /* CloudDataManager.swift */; };
 		11C1D7161F3B126600E4F7AD /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11C1D7151F3B126600E4F7AD /* SettingViewController.swift */; };
 		11C1D7191F3B2F4000E4F7AD /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11C1D7181F3B2F4000E4F7AD /* CloudKit.framework */; };
 		11DEDE2C1F31D30300D3965B /* ShowClassOfMonthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DEDE2B1F31D30300D3965B /* ShowClassOfMonthCell.swift */; };
@@ -45,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		1107DB1D1F4809D2006AF3FD /* TextFieldCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldCoordinator.swift; sourceTree = "<group>"; };
+		11150FB11F4F0B1E0047427D /* CloudDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudDataManager.swift; sourceTree = "<group>"; };
 		111701471F2338FF00AC0519 /* SetupPersonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupPersonTableViewCell.swift; sourceTree = "<group>"; };
 		1117014C1F233B6E00AC0519 /* SetupPersonViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupPersonViewController.swift; sourceTree = "<group>"; };
 		111701501F23637E00AC0519 /* ClassTypeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassTypeTableViewCell.swift; sourceTree = "<group>"; };
@@ -64,7 +65,6 @@
 		114AAA9D1F0E59F0009B766F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		116D4DAC1F0E5BCD002CA6D1 /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		116D4DAE1F111C74002CA6D1 /* PersonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCell.swift; sourceTree = "<group>"; };
-		11BB20FF1F4B09A100F79FED /* CloudDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudDataManager.swift; sourceTree = "<group>"; };
 		11C1D7151F3B126600E4F7AD /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		11C1D7171F3B2F3D00E4F7AD /* TestCalendar.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TestCalendar.entitlements; sourceTree = "<group>"; };
 		11C1D7181F3B2F4000E4F7AD /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -191,7 +191,7 @@
 				114AAA9D1F0E59F0009B766F /* Info.plist */,
 				111701541F2378DD00AC0519 /* DataBase.xcdatamodeld */,
 				11EFB3E91F22019A0024CF93 /* CoreDataManager.swift */,
-				11BB20FF1F4B09A100F79FED /* CloudDataManager.swift */,
+				11150FB11F4F0B1E0047427D /* CloudDataManager.swift */,
 				11E2D16E1F1F5B7600A2689C /* HoursStore.swift */,
 			);
 			name = Model;
@@ -365,7 +365,7 @@
 				11E2D1711F1FA0D200A2689C /* CreateProgressBar.swift in Sources */,
 				111701561F2378DD00AC0519 /* DataBase.xcdatamodeld in Sources */,
 				11EFB3EA1F22019A0024CF93 /* CoreDataManager.swift in Sources */,
-				11BB21001F4B09A100F79FED /* CloudDataManager.swift in Sources */,
+				11150FB21F4F0B1E0047427D /* CloudDataManager.swift in Sources */,
 				11185D131F27705400EFE0D3 /* CalendarDetailTableViewCell.swift in Sources */,
 				11231FBA1F1D2B82006D7E55 /* GestureSetupManager.swift in Sources */,
 				111701511F23637E00AC0519 /* ClassTypeTableViewCell.swift in Sources */,
@@ -508,7 +508,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Kinlive.SchedulingClass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -524,7 +524,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Kinlive.SchedulingClass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

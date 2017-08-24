@@ -9,7 +9,7 @@
 import Foundation
 var howMuchType : Int?
 
-let cellCache = NSCache<NSString, AnyObject>()
+let indexArrayCache = NSCache<NSString, AnyObject>()
 
 public enum WhichViewShow : Int{
     case person = 0 , classType , calendarDetail , settingView
