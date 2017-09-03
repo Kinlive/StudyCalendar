@@ -22,14 +22,18 @@ var calendarRecord = CKRecord.init(recordType: "SaveCalendar",
 let calendarContainer = CKContainer.default()
 let calendarDatabase = calendarContainer.publicCloudDatabase
 
+
+
 class SettingViewController: UIViewController {
+    @IBOutlet weak var tfWorkingTime: UITextField!
     
+    @IBOutlet weak var tfOvertime: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.preferredContentSize = CGSize(width: self.view.frame.width/3,
-//                                                                    height: self.view.frame.height/2)
-        //CloudKit use 
+        self.preferredContentSize = CGSize(width: self.view.frame.width/4,
+                                                                    height: self.view.frame.height/3)
+        //CloudKit use
 //        calendarRecord["Date"] = "106 08 09" as CKRecordValue
 //        calendarRecord["PersonName"] = "Allen" as CKRecordValue
 //        calendarRecord["ClassType"] = "常日班" as CKRecordValue
@@ -54,6 +58,12 @@ class SettingViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         animateShowVC()
     }
+    //MARK: -IBAction here 
+    
+    @IBAction func saveBtn(_ sender: UIButton) {
+        
+    }
+    
     
     func animateShowVC() {
         self.view.transform = CGAffineTransform(translationX: 0, y: -self.view.frame.size.height)

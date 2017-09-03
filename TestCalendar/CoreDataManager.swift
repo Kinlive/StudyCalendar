@@ -110,6 +110,7 @@ class CoreDataManager<ItemType>: NSObject ,NSFetchedResultsControllerDelegate{
         //Error setting
         var failureReason = "There was an error creating or loading the application's saved data."
         do {
+            
             try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: storeURL, options: nil)
         } catch {
             // Report any error we got.

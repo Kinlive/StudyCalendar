@@ -39,6 +39,8 @@ class SetupPersonViewController: UIViewController {
 
     
     @IBOutlet weak var SetupPersonTableView: UITableView!
+    @IBOutlet weak var colorTableView: UITableView!
+    
     
     @IBOutlet weak var showDate: UILabel!{
         didSet{
@@ -46,6 +48,8 @@ class SetupPersonViewController: UIViewController {
             showDate.isMultipleTouchEnabled = true
         }
     }
+    
+    @IBOutlet weak var showOverTime: UILabel!
 
   //JTApple Calendar
     
@@ -60,6 +64,8 @@ class SetupPersonViewController: UIViewController {
         // Do any additional setup after loading the view.
         SetupPersonTableView.delegate = self
         SetupPersonTableView.dataSource = self
+        colorTableView.delegate = self
+        colorTableView.dataSource = self
         setupCalendarView()
         showDetailOfLabel.isHidden = true
         let leftSwipe = UISwipeGestureRecognizer(target: self,
@@ -81,7 +87,7 @@ class SetupPersonViewController: UIViewController {
         
     }//viewDidLoad Here
     override func viewWillAppear(_ animated: Bool) {
-        animateCellView()   //暫時先不採用
+        animateCellView()
     }
     //MARK: - Tabel Cell animate show
     func animateCellView() {
@@ -214,18 +220,37 @@ class SetupPersonViewController: UIViewController {
             }
         }
     }
+ 
+    
     func toShowSomeoneWorkingOfMonth(){
         if everyMonthDictionary.isEmpty {
             showDate.text = "人員尚未有排班紀錄"
+            showOverTime.text = "0"
             showClassOfCalendarView.reloadData()
             return
         }
         let monthOfYear = everyMonthDictionary[titleIndex]
-            for (key,_) in monthOfYear{
+            for (key,value) in monthOfYear{
                 formatter.dateFormat = "yyyy MM dd"
                 guard let thisMonthMiddle = formatter.date(from:"\(key) 15") else {
                     print("在這出門了")
                     return }
+                //Sum all overtime 
+                var totalOverTime : Double = 0
+                var totalClassTypeItem = [ClassTypeData]()
+                for i in 0..<classTypeCDManager.count(){
+                    guard let item = classTypeCDManager.itemWithIndex(index: i) else {return }
+                    totalClassTypeItem.append(item)
+                }
+                for one in value {
+                    for type in totalClassTypeItem{
+                        if one.typeName == type.typeName {
+                            guard let overtime = Double(type.overtime!) else {return }
+                            totalOverTime += overtime
+                        }
+                    }
+                }
+                showOverTime.text = String("\(totalOverTime)hr")
                 //let it always scroll to the correct month
                 showClassOfCalendarView.reloadData()
                 showClassOfCalendarView.scrollToDate(thisMonthMiddle)
@@ -372,44 +397,68 @@ extension SetupPersonViewController : UITableViewDelegate,UITableViewDataSource{
     return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var count : Int?
         
-        if personCDManager.count() == 0{
-            let displayLabel = UILabel(frame:
-                                                            CGRect( x: tableView.frame.width/4, y: 0,
-                                                                           width: tableView.frame.width/2,
-                                                                           height: tableView.frame.height))
-            displayLabel.text = "Tap plus to add person list"
-            displayLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-            displayLabel.textAlignment = .center
-            displayLabel.numberOfLines = 4
-            tableView.backgroundView = displayLabel
+        if tableView == self.SetupPersonTableView{
+            if personCDManager.count() == 0{
+                let displayLabel = UILabel(frame:
+                    CGRect( x: tableView.frame.width/4, y: 0,
+                            width: tableView.frame.width/2,
+                            height: tableView.frame.height))
+                displayLabel.text = "Tap plus to add person list"
+                displayLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+                displayLabel.textAlignment = .center
+                displayLabel.numberOfLines = 4
+                tableView.backgroundView = displayLabel
+                tableView.separatorStyle = .none
+            }else {
+                tableView.backgroundView = nil
+                tableView.separatorStyle = .none
+                //            tableView.separatorColor = UIColor(colorWithHexValue: 0x3399ff)
+            }
+            count =  personCDManager.count()
+            
+        }else if tableView == colorTableView {
             tableView.separatorStyle = .none
-        }else {
-            tableView.backgroundView = nil
-            tableView.separatorStyle = .none
-//            tableView.separatorColor = UIColor(colorWithHexValue: 0x3399ff)
+            count = classTypeCDManager.count()
         }
-        return personCDManager.count()
+       return count!
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SetupPersonTableViewCell", for: indexPath) as! SetupPersonTableViewCell
-        guard let item = personCDManager.itemWithIndex(index: indexPath.item) else {return cell}
-         self.personArray.append(item)
-        cell.layer.borderWidth = 1.0
-        cell.layer.borderColor = UIColor.white.cgColor
-        cell.layer.cornerRadius = 10
-        cell.textLabel?.textColor = UIColor(colorWithHexValue: 0xffffff)
-        cell.detailTextLabel?.textColor = UIColor(colorWithHexValue: 0xffffff)
-        cell.textLabel?.text = item.name
-        cell.detailTextLabel?.text = String(item.overtime)
-     
-        let customView = UIView()
         
-        customView.backgroundColor = UIColor(colorWithHexValue: 0x46A3FF).withAlphaComponent(0.3)
-        cell.selectedBackgroundView = customView
+        var cell : UITableViewCell?
+        
+        if tableView == self.SetupPersonTableView{
+             cell = tableView.dequeueReusableCell(withIdentifier: "SetupPersonTableViewCell", for: indexPath)
+            if let cell = cell as? SetupPersonTableViewCell {
+                guard let item = personCDManager.itemWithIndex(index: indexPath.item) else {return cell }
+                self.personArray.append(item)
+                cell.layer.borderWidth = 1.0
+                cell.layer.borderColor = UIColor.white.cgColor
+                cell.layer.cornerRadius = 10
+                cell.textLabel?.textColor = UIColor(colorWithHexValue: 0xffffff)
+                cell.detailTextLabel?.textColor = UIColor(colorWithHexValue: 0xffffff)
+                cell.textLabel?.text = item.name
+                cell.detailTextLabel?.text = String(item.overtime)
+                
+                let customView = UIView()
+                
+                customView.backgroundColor = UIColor(colorWithHexValue: 0x46A3FF).withAlphaComponent(0.3)
+                cell.selectedBackgroundView = customView
+            }
+        }else if tableView == self.colorTableView {
+            cell = tableView.dequeueReusableCell(withIdentifier: "ColorCell", for: indexPath)
+            if let cell = cell  as? ColorOfClassTypeTableViewCell {
+                guard let item = classTypeCDManager.itemWithIndex(index: indexPath.item) else {return cell }
+                cell.isUserInteractionEnabled = false
+                cell.colorBackgroundView.backgroundColor = UIColor(colorWithHexValue: colorArray[indexPath.item])
+                cell.colorTitleLabel.text = item.typeName
+            }
+        }
         
         
-        return cell
+        
+        return cell!
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView.frame.height/7

@@ -19,6 +19,7 @@
 		11185D181F28AC2F00EFE0D3 /* KDCircularProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11185D171F28AC2F00EFE0D3 /* KDCircularProgress.swift */; };
 		11231FBA1F1D2B82006D7E55 /* GestureSetupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11231FB91F1D2B82006D7E55 /* GestureSetupManager.swift */; };
 		11231FC21F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11231FC11F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift */; };
+		1125B4EB1F5AC781002BC3A2 /* ColorOfClassTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1125B4EA1F5AC781002BC3A2 /* ColorOfClassTypeTableViewCell.swift */; };
 		114AAA921F0E59F0009B766F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114AAA911F0E59F0009B766F /* AppDelegate.swift */; };
 		114AAA941F0E59F0009B766F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114AAA931F0E59F0009B766F /* ViewController.swift */; };
 		114AAA971F0E59F0009B766F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 114AAA951F0E59F0009B766F /* Main.storyboard */; };
@@ -56,6 +57,7 @@
 		11185D171F28AC2F00EFE0D3 /* KDCircularProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDCircularProgress.swift; sourceTree = "<group>"; };
 		11231FB91F1D2B82006D7E55 /* GestureSetupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GestureSetupManager.swift; sourceTree = "<group>"; };
 		11231FC11F1DA121006D7E55 /* PersonCollectionViewCoorinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonCollectionViewCoorinator.swift; sourceTree = "<group>"; };
+		1125B4EA1F5AC781002BC3A2 /* ColorOfClassTypeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorOfClassTypeTableViewCell.swift; sourceTree = "<group>"; };
 		114AAA8E1F0E59F0009B766F /* TestCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		114AAA911F0E59F0009B766F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		114AAA931F0E59F0009B766F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 			children = (
 				116D4DAE1F111C74002CA6D1 /* PersonCell.swift */,
 				11DEDE2B1F31D30300D3965B /* ShowClassOfMonthCell.swift */,
+				1125B4EA1F5AC781002BC3A2 /* ColorOfClassTypeTableViewCell.swift */,
 				111701471F2338FF00AC0519 /* SetupPersonTableViewCell.swift */,
 				116D4DAC1F0E5BCD002CA6D1 /* CustomCell.swift */,
 				11185D121F27705400EFE0D3 /* CalendarDetailTableViewCell.swift */,
@@ -354,6 +357,7 @@
 			files = (
 				11E2D1651F1F2EEE00A2689C /* PopupMenuViewController.swift in Sources */,
 				11C1D7161F3B126600E4F7AD /* SettingViewController.swift in Sources */,
+				1125B4EB1F5AC781002BC3A2 /* ColorOfClassTypeTableViewCell.swift in Sources */,
 				11E2D16F1F1F5B7600A2689C /* HoursStore.swift in Sources */,
 				114AAA941F0E59F0009B766F /* ViewController.swift in Sources */,
 				111701481F2338FF00AC0519 /* SetupPersonTableViewCell.swift in Sources */,
@@ -508,7 +512,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Kinlive.SchedulingClass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -524,7 +528,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Kinlive.SchedulingClass;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

@@ -78,16 +78,19 @@ class ViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+//       cloudDataManager.copyFileToLocal { (finished) in
+//            if finished{
+//            print("Copy end ")
+//            }
+//        }
+        
+        
         calendarManagerCount = calendarCDManager.count() //for calendarCell cache compare
         
-        //Check iCloud
-        if isICloudExist() {
-            let backgroundQueue = DispatchQueue(label: "com.testCalendar.first")
-            backgroundQueue.async {
-//                        self.copyFileToLocal()
-                cloudDataManager.moveFileToCloud()
-            }
-        }
+        guard let localDocumentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else{return }
+//       cloudDataManager.deleteFilesInDirectory(url: localDocumentsURL)
+        print("Test for local\(localDocumentsURL)")
        
         setupMainView()
         setupCalendarView()
@@ -125,13 +128,33 @@ class ViewController: UIViewController{
                                                         name: NSNotification.Name(rawValue: "RefreshAllCell"),
                                                         object: nil )
         NotificationCenter.default.addObserver(
-                                                        self, selector: #selector(refreshCalendarCell(object:)),
+                                                        self,
+                                                        selector: #selector(refreshCalendarCell(object:)),
                                                         name: NSNotification.Name(rawValue: "RefreshCalendarCell"),
                                                         object: nil)
-       
-        
+//        NSNotification.Name.UIApplicationDidBecomeActive
          }//viewDidLoad here
        
+    override func viewDidAppear(_ animated: Bool) {
+        if (UserDefaults.standard.bool(forKey: "HasLaunchedOnce")) {
+            // App already launched
+            print("App already launched")
+            
+        } else {
+            print("This is the first launch ever")
+//            if cloudDataManager.isICloudExist() {
+//                // This is the first launch ever
+//                let alert = UIAlertController(title: nil, message: "iCloud上有原先備份的檔案,是否進行下載並重新載入畫面?", preferredStyle: .alert)
+//                let ok = UIAlertAction(title: "Ok", style: .default) { (_) in
+//                    self.checkedFirstRunApp()
+//                }
+//                let cancel = UIAlertAction(title: "cancel", style: .cancel, handler: nil)
+//                alert.addAction(ok)
+//                alert.addAction(cancel)
+//                self.present(alert, animated: true, completion: nil)
+//            }
+        }
+    }
     
     //MARK: -Check icloud exist
     func isICloudExist() -> Bool {
@@ -145,6 +168,24 @@ class ViewController: UIViewController{
         }
     }
     
+    //MARK: - Check is first run the app
+    func checkedFirstRunApp(){
+            //...
+            if cloudDataManager.checkLocalDocumentContentIsEmpty(){
+                let backgroundQueue = DispatchQueue(label: "com.first.downloadFromCloud")
+                backgroundQueue.async {
+                    cloudDataManager.copyFileToLocal(completion: { (finished) in
+                        if finished{
+                            print("Call the calendarView refresh!!")
+                            UserDefaults.standard.set(true, forKey: "HasLaunchedOnce")
+                            UserDefaults.standard.synchronize()
+                            self.reloadInputViews()
+                        }
+                    })
+                }
+            }
+        
+    }
     
     //MARK: - SetupMainView
     func setupMainView(){
@@ -296,6 +337,7 @@ class ViewController: UIViewController{
                                                 y: mainViewY-height/2,
                                                 width: width,
                                                 height: height)
+        popupVC.preferredContentSize = CGSize(width: width*1.5, height: height*2)
             present(popupVC, animated: true, completion: nil)
 
         }
@@ -389,7 +431,7 @@ class ViewController: UIViewController{
         popover.sourceView = settingIBOut
         popover.sourceRect = senderRect
         self.preferredContentSize = CGSize(width: sender.frame.width,
-                                                                    height: sender.frame.width*0.8)
+                                                                    height: sender.frame.width*0.5)
         self.present(showVC, animated: true, completion: nil)
     }
     
@@ -433,6 +475,14 @@ class ViewController: UIViewController{
     func refreshCalendarCell( object : Notification){
         let indexPath = object.object as! [IndexPath]
         calendarView.reloadItems(at: indexPath)
+    }
+    func refreshAllCalendarCell (){
+        calendarView.reloadData {
+            DispatchQueue.main.async {
+                  self.calendarView.reloadInputViews()
+                print("Test 555555555")
+            }
+        }
     }
 //    func refreshCalendarDate( object : Notification){
 //        let date = object.object as! [Date]

@@ -43,15 +43,17 @@ static let sharedInstance = CloudDataManager()
         while let file = enumerator?.nextObject() as? String {
             do {
                 try fileManager.removeItem(at: url!.appendingPathComponent(file))
-                print("Files deleted")
+                print("Files deleted::\(file)")
             } catch let error as NSError {
                 print("Failed deleting files : \(error)")
             }
         }
     }
-    func copyFileToLocal() {
+    typealias  DownloadCompletion = (_ success: Bool) -> ()
+    func copyFileToLocal(completion : DownloadCompletion) {
         guard let localDocumentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else{return }
         guard let iCloudDocumentsURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") else {return }
+        print("\(iCloudDocumentsURL)")
         deleteFilesInDirectory(url: localDocumentsURL)
         let fileManager = FileManager.default
         let enumerator = fileManager.enumerator(atPath: iCloudDocumentsURL.path)
@@ -65,8 +67,10 @@ static let sharedInstance = CloudDataManager()
                 print("Moved to local dir")
             } catch let error as NSError {
                 print("Failed to move file to local dir : \(error)")
+                completion(false)
             }
         }
+        completion(true)
         
     }
     
@@ -87,6 +91,30 @@ static let sharedInstance = CloudDataManager()
             }
         }
         
+    }
+    
+    //MARK: - GetDocumentContent
+    func checkLocalDocumentContentIsEmpty() -> Bool{
+        
+        guard let documentsURL = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) else { return  false}
+        do {
+            // Get the directory contents urls (including subfolders urls)
+            let directoryContents = try FileManager.default.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: nil, options: [])
+            for url in directoryContents{
+                print("Test URL ::: \(url)")
+            }
+            //Check contens is empty?
+            if directoryContents.count < 5{
+                print("The dir is empty...\(directoryContents.count)")
+//                copyFileToLocal()
+                return true
+            }
+        }catch{
+            print("Catch fail \(error.localizedDescription)")
+        }
+        
+        print("The dir has some data ")
+        return false
     }
     
 
